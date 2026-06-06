@@ -16,8 +16,8 @@
         body {
             background: #121214;
             color: #ffffff;
-            overflow: hidden;
-            height: 100vh;
+            overflow-x: hidden;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -62,19 +62,19 @@
             animation: fadeInUp 1s ease forwards 0.6s;
         }
 
-        /* --- 2. Main Content Screen --- */
-        .main-content {
+        /* --- 2. Main Layout Framework --- */
+        .page-section {
+            display: none;
             opacity: 0;
             transform: scale(0.95);
-            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
             text-align: center;
             width: 100%;
-            max-width: 800px;
-            padding: 20px;
-            display: none; /* Hidden initially */
+            max-width: 1000px;
+            padding: 40px 20px;
         }
 
-        .main-content.reveal {
+        .page-section.active {
             display: block;
             opacity: 1;
             transform: scale(1);
@@ -91,10 +91,10 @@
             margin-bottom: 40px;
         }
 
-        /* --- 3. Material Selection Cards --- */
+        /* --- 3. Grid & Cards Design --- */
         .card-container {
             display: flex;
-            gap: 30px;
+            gap: 25px;
             justify-content: center;
             flex-wrap: wrap;
         }
@@ -103,8 +103,8 @@
             background: #1e1e24;
             border: 2px solid #2e2e38;
             border-radius: 16px;
-            width: 260px;
-            padding: 40px 30px;
+            width: 280px;
+            padding: 35px 25px;
             cursor: pointer;
             position: relative;
             overflow: hidden;
@@ -112,44 +112,68 @@
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
 
-        /* Hover Effects */
         .card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-8px);
             border-color: #ff7b00;
-            box-shadow: 0 15px 30px rgba(255, 123, 0, 0.2);
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, transparent, rgba(255, 123, 0, 0.1));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .card:hover::before {
-            opacity: 1;
+            box-shadow: 0 15px 30px rgba(255, 123, 0, 0.15);
         }
 
         .card-icon {
-            font-size: 3rem;
+            font-size: 2.5rem;
             margin-bottom: 15px;
         }
 
         .card h3 {
-            font-size: 1.8rem;
+            font-size: 1.4rem;
             margin-bottom: 10px;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
         }
 
         .card p {
             font-size: 0.9rem;
             color: #94a3b8;
             line-height: 1.4;
+        }
+
+        /* Subject Badges (Inside CBSE sub-folders) */
+        .subject-list {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .subject-badge {
+            background: #2e2e38;
+            color: #ffae00;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        /* --- 4. Utility Components --- */
+        .back-btn {
+            background: transparent;
+            color: #ff7b00;
+            border: 2px solid #ff7b00;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-btn:hover {
+            background: #ff7b00;
+            color: #ffffff;
+            box-shadow: 0 0 15px rgba(255, 123, 0, 0.4);
         }
 
         /* --- Keyframe Animations --- */
@@ -160,7 +184,6 @@
             }
         }
 
-        /* Screen Exit Animation */
         .slide-up {
             transform: translateY(-100vh);
             opacity: 0;
@@ -169,59 +192,130 @@
 </head>
 <body>
 
-    <!-- Welcome Screen -->
     <div class="welcome-screen" id="welcomeScreen">
         <h1 class="welcome-title">Punny's Study Hub</h1>
         <p class="welcome-subtitle">Learn • Excel • Succeed</p>
     </div>
 
-    <!-- Main Materials Dashboard -->
-    <div class="main-content" id="mainContent">
+    <div class="page-section" id="homeHub">
         <div class="main-header">
             <h2>Select Your Stream</h2>
             <p>Choose the type of study materials you want to access</p>
         </div>
-        
         <div class="card-container">
-            <!-- CBSE Card -->
-            <div class="card" onclick="selectMaterial('CBSE')">
+            <div class="card" onclick="switchSection('cbseHub')">
                 <div class="card-icon">📚</div>
-                <h3>CBSE</h3>
-                <p>School curriculum, NCERT solutions, notes, and board exam papers.</p>
+                <h3>CBSE Materials</h3>
+                <p>Access board exam preparation files, sample guides, and class papers.</p>
             </div>
-
-            <!-- JEE Card -->
-            <div class="card" onclick="selectMaterial('JEE')">
+            <div class="card" onclick="switchSection('jeeHub')">
                 <div class="card-icon">🚀</div>
-                <h3>JEE</h3>
-                <p>IIT JEE Main & Advanced prep, mock tests, and advanced physics, chemistry, & math notes.</p>
+                <h3>JEE Prep</h3>
+                <p>Crack IIT JEE with engineering notes, advanced problem banks, and papers.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-section" id="cbseHub">
+        <button class="back-btn" onclick="switchSection('homeHub')">← Back to Main Streams</button>
+        <div class="main-header">
+            <h2>CBSE Class 12 Portal</h2>
+            <p>Pick a category to view individual subject papers</p>
+        </div>
+        <div class="card-container">
+            <div class="card" onclick="alert('Opening Maths, English, Physics, Chemistry, CS, and Bio for CBSE Class 12 Previous Year Papers!')">
+                <div class="card-icon">📝</div>
+                <h3>Class 12 Previous Year Papers</h3>
+                <p>Official annual board question banks.</p>
+                <div class="subject-list">
+                    <span class="subject-badge">Maths</span>
+                    <span class="subject-badge">English</span>
+                    <span class="subject-badge">Phy</span>
+                    <span class="subject-badge">Chem</span>
+                    <span class="subject-badge">CS</span>
+                    <span class="subject-badge">Bio</span>
+                </div>
+            </div>
+            <div class="card" onclick="alert('Opening Maths, English, Physics, Chemistry, CS, and Bio for CBSE Improvement Exam Papers!')">
+                <div class="card-icon">🔄</div>
+                <h3>Improvement Exam Previous Papers</h3>
+                <p>Compartment and upgrade exam archives.</p>
+                <div class="subject-list">
+                    <span class="subject-badge">Maths</span>
+                    <span class="subject-badge">English</span>
+                    <span class="subject-badge">Phy</span>
+                    <span class="subject-badge">Chem</span>
+                    <span class="subject-badge">CS</span>
+                    <span class="subject-badge">Bio</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-section" id="jeeHub">
+        <button class="back-btn" onclick="switchSection('homeHub')">← Back to Main Streams</button>
+        <div class="main-header">
+            <h2>JEE Prep Hub</h2>
+            <p>High-yield study tools curated specifically for Main & Advanced</p>
+        </div>
+        <div class="card-container">
+            <div class="card" onclick="alert('Loading JEE Previous Year Questions (PYQs)...')">
+                <div class="card-icon">⏱️</div>
+                <h3>PYQ Section</h3>
+                <p>Chapter-wise and year-wise past questions with complete solutions.</p>
+            </div>
+            <div class="card" onclick="alert('Opening Brilliant Study Material Portal...')">
+                <div class="card-icon">🎯</div>
+                <h3>Brilliant Study Material</h3>
+                <p>Elite-level question banks and targeted test series modules.</p>
+            </div>
+            <div class="card" onclick="alert('Opening Kota Classroom Notes...')">
+                <div class="card-icon">👑</div>
+                <h3>Kota Notes Section</h3>
+                <p>Handwritten premium notes straight from premier coaching classrooms.</p>
             </div>
         </div>
     </div>
 
     <script>
+        // Splash Transition
         document.addEventListener("DOMContentLoaded", () => {
-            const welcomeScreen = document.getElementById("welcomeScreen");
-            const mainContent = document.getElementById("mainContent");
-
-            // Wait 2.5 seconds for welcome animations to finish, then transition
             setTimeout(() => {
-                // Slide up and fade out the welcome screen
+                const welcomeScreen = document.getElementById("welcomeScreen");
                 welcomeScreen.classList.add("slide-up");
                 
-                // Show the main content with a delay so it syncs perfectly
                 setTimeout(() => {
-                    mainContent.classList.add("reveal");
+                    switchSection('homeHub');
                 }, 300);
-                
             }, 2500);
         });
 
-        // Function to handle card selection
-        function selectMaterial(type) {
-            alert(`You selected ${type} materials! Redirecting...`);
-            // You can replace the alert with actual navigation later, like:
-            // window.location.href = `/${type.toLowerCase()}-dashboard.html`;
+        // Dynamic Section Switching Animation Handler
+        function switchSection(targetSectionId) {
+            const activeSection = document.querySelector('.page-section.active');
+            const targetSection = document.getElementById(targetSectionId);
+            
+            if (activeSection) {
+                // Fade out current section smoothly
+                activeSection.style.opacity = '0';
+                activeSection.style.transform = 'scale(0.95)';
+                
+                setTimeout(() => {
+                    activeSection.classList.remove('active');
+                    revealTarget(targetSection);
+                }, 400); // sync with style transition durations
+            } else {
+                revealTarget(targetSection);
+            }
+        }
+
+        function revealTarget(element) {
+            element.classList.add('active');
+            // Allow display block to render first, then trigger CSS transition triggers
+            setTimeout(() => {
+                element.style.opacity = '1';
+                element.style.transform = 'scale(1)';
+            }, 50);
         }
     </script>
 </body>
