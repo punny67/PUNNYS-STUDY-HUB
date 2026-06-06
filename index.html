@@ -16,7 +16,7 @@
             --accent-secondary: #ffae00;
             --shadow: rgba(0, 0, 0, 0.4);
             --glow: cubic-bezier(0.15, 0.85, 0.45, 1);
-            --watermark-color: rgba(255, 255, 255, 0.35);
+            --watermark-color: rgba(255, 255, 255, 0.25);
         }
 
         [data-theme="light"] {
@@ -26,7 +26,7 @@
             --text-main: #1e1e24;
             --text-muted: #64748b;
             --shadow: rgba(0, 0, 0, 0.08);
-            --watermark-color: rgba(30, 30, 36, 0.45);
+            --watermark-color: rgba(30, 30, 36, 0.3);
         }
 
         * {
@@ -63,18 +63,18 @@
         body::after { bottom: -10%; right: -10%; }
         [data-theme="light"]::before, [data-theme="light"]::after { display: none; }
 
-        /* --- Top Left Brand Watermark (Slightly Bigger Adjustment) --- */
+        /* --- Top Left Brand Watermark --- */
         .brand-watermark {
             position: fixed;
-            top: 26px;
+            top: 28px;
             left: 40px;
             z-index: 90;
-            font-size: 1.15rem;
-            font-weight: 800;
-            letter-spacing: 0.8px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
             color: var(--watermark-color);
             text-transform: uppercase;
-            pointer-events: none;
+            pointer-events: none; /* Keeps it from interfering with layout clicks */
             user-select: none;
         }
 
@@ -146,7 +146,7 @@
         .page-container {
             width: 100%;
             max-width: 1200px;
-            padding: 80px 24px 60px 24px;
+            padding: 60px 24px;
             text-align: center;
         }
 
@@ -228,20 +228,9 @@
         .card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; }
 
         /* --- Footer Context Panels --- */
-        .footer-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; margin-top: 40px; border-top: 1px solid var(--border-color); padding-top: 40px; }
+        .footer-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-top: 40px; border-top: 1px solid var(--border-color); padding-top: 40px; }
         .footer-panel { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 24px; box-shadow: 0 10px 25px var(--shadow); text-align: left; }
         .footer-panel h4 { font-size: 1.1rem; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
-
-        /* --- Detailed Progress Section Adjustments --- */
-        .progress-meta-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; font-size: 0.85rem; color: var(--text-muted); font-weight: 600; }
-        .tracker-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 15px; }
-        .tracker-item { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; background: rgba(0,0,0,0.12); padding: 8px 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.02); }
-        .tracker-item input { accent-color: var(--accent-primary); width: 15px; height: 15px; cursor: pointer; }
-        .mini-tag { font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; font-weight: 800; text-transform: uppercase; margin-left: auto;}
-        .tag-phy { background: rgba(0,180,216,0.15); color: #00b4d8; }
-        .tag-chm { background: rgba(0,204,153,0.15); color: #00cc99; }
-        .tag-mth { background: rgba(255,123,0,0.15); color: #ff7b00; }
-        .tag-other { background: rgba(162,89,255,0.15); color: #a259ff; }
 
         /* --- Advanced Customizable Pomodoro View --- */
         .timer-view, .flashcard-view {
@@ -251,6 +240,7 @@
 
         .timer-clock { font-size: 4.5rem; font-weight: 800; color: var(--accent-secondary); margin: 15px 0; font-variant-numeric: tabular-nums; }
         
+        /* Time Setup Controls Block */
         .config-row {
             display: flex; justify-content: center; gap: 30px; margin-bottom: 25px;
             background: rgba(0, 0, 0, 0.15); padding: 15px; border-radius: 14px; border: 1px solid var(--border-color);
@@ -265,6 +255,7 @@
         .adjust-btn:hover { background: var(--accent-primary); border-color: var(--accent-primary); color: #fff; }
         .time-val { font-size: 1.2rem; font-weight: 700; min-width: 25px; }
 
+        /* Audio Matrix Engine Selector Styles */
         .audio-selector-wrapper {
             margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.05); text-align: left;
         }
@@ -289,26 +280,12 @@
         .face.front { background: var(--panel-bg); }
         .face.back { background: linear-gradient(135deg, #221c16 0%, #120e0a 100%); color: var(--accent-secondary); transform: rotateY(180deg); }
 
-        /* --- Enlarged Go Back Button Structural Layout --- */
-        .back-btn { 
-            background: rgba(255, 255, 255, 0.04); 
-            color: var(--text-main); 
-            border: 1px solid rgba(255, 255, 255, 0.15); 
-            padding: 14px 28px; 
-            border-radius: 14px; 
-            cursor: pointer; 
-            font-weight: 700; 
-            font-size: 1.05rem;
-            margin-bottom: 35px; 
-            display: inline-flex; 
-            align-items: center; 
-            gap: 10px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-        }
-        .back-btn:hover { color: var(--accent-primary); border-color: var(--accent-primary); background: rgba(255, 123, 0, 0.05); transform: translateY(-2px); }
+        .back-btn { background: transparent; color: var(--text-muted); border: 1px solid var(--border-color); padding: 10px 20px; border-radius: 12px; cursor: pointer; font-weight: 600; margin-bottom: 30px; display: inline-flex; align-items: center; gap: 8px; }
+        .back-btn:hover { color: var(--accent-primary); border-color: var(--accent-primary); }
 
-        .progress-track { background: rgba(0,0,0,0.2); height: 10px; border-radius: 6px; overflow: hidden; margin-top: 18px; border: 1px solid rgba(255,255,255,0.03); }
-        .progress-fill { background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary)); width: 0%; height: 100%; transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .tracker-item { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 0.95rem; }
+        .progress-track { background: rgba(0,0,0,0.1); height: 8px; border-radius: 4px; overflow: hidden; margin-top: 15px; }
+        .progress-fill { background: var(--accent-primary); width: 0%; height: 100%; transition: width 0.3s; }
         .subject-list { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; margin-top: 15px; }
         .subject-badge { background: rgba(255,123,0,0.1); color: var(--accent-secondary); padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; }
 
@@ -322,14 +299,17 @@
 </head>
 <body>
 
+    <!-- Small Visible Watermark Brand Text on Top Left Corner -->
     <div class="brand-watermark">Punny's Study Hub</div>
 
+    <!-- Theme Switch Toggle -->
     <div class="theme-toggle-container">
         <button class="theme-btn" onclick="toggleTheme()">
             <span id="themeIcon">☀️</span> <span id="themeText">Light Mode</span>
         </button>
     </div>
 
+    <!-- Entrance Welcoming Animation Screen -->
     <div class="welcome-screen" id="welcomeScreen">
         <h1 class="welcome-title">Punny's Study Hub</h1>
         <p class="welcome-subtitle">Learn • Excel • Succeed</p>
@@ -337,6 +317,7 @@
 
     <div class="page-container">
 
+        <!-- MAIN DASHBOARD SELECTION GRID -->
         <div class="page-section" id="homeHub">
             <div class="main-header">
                 <h2>Select Your Target</h2>
@@ -378,24 +359,15 @@
                 </div>
             </div>
 
+            <!-- Context Footer Elements -->
             <div class="footer-row">
                 <div class="footer-panel">
-                    <h4>📈 Syllabus Coverage Tracker</h4>
-                    <div class="progress-meta-info">
-                        <span>Completion Rate</span>
-                        <span id="progressPercent">0% Completed</span>
-                    </div>
-                    <div class="tracker-grid">
-                        <div class="tracker-item"><input type="checkbox" onchange="calculateProgress()"><span>Physics Core</span><span class="mini-tag tag-phy">Phy</span></div>
-                        <div class="tracker-item"><input type="checkbox" onchange="calculateProgress()"><span>Organic Chem</span><span class="mini-tag tag-chm">Chm</span></div>
-                        <div class="tracker-item"><input type="checkbox" onchange="calculateProgress()"><span>Calculus Unit</span><span class="mini-tag tag-mth">Mth</span></div>
-                        <div class="tracker-item"><input type="checkbox" onchange="calculateProgress()"><span>Inorganic Chem</span><span class="mini-tag tag-chm">Chm</span></div>
-                        <div class="tracker-item"><input type="checkbox" onchange="calculateProgress()"><span>Algebra Module</span><span class="mini-tag tag-mth">Mth</span></div>
-                        <div class="tracker-item"><input type="checkbox" onchange="calculateProgress()"><span>Electrodynamics</span><span class="mini-tag tag-phy">Phy</span></div>
-                    </div>
+                    <h4>📈 Quick Progress Matrix</h4>
+                    <div class="tracker-item"><input type="checkbox" onchange="calculateProgress()"> Physics Preparation Core</div>
+                    <div class="tracker-item"><input type="checkbox" onchange="calculateProgress()"> Chemistry Structural Module</div>
+                    <div class="tracker-item"><input type="checkbox" onchange="calculateProgress()"> Advanced Mathematics Review</div>
                     <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
                 </div>
-                
                 <div class="footer-panel" style="display: flex; flex-direction: column; justify-content: center;">
                     <h4>💡 Pun of the Session</h4>
                     <p id="dailyPunSlot" style="font-style: italic; color: var(--text-muted); line-height: 1.4;"></p>
@@ -403,6 +375,7 @@
             </div>
         </div>
 
+        <!-- CBSE MATERIAL PORTAL -->
         <div class="page-section" id="cbseHub">
             <button class="back-btn" onclick="switchSection('homeHub')">← Back to Dashboard</button>
             <div class="main-header">
@@ -436,6 +409,7 @@
             </div>
         </div>
 
+        <!-- JEE PREPARATION VAULT -->
         <div class="page-section" id="jeeHub">
             <button class="back-btn" onclick="switchSection('homeHub')">← Back to Dashboard</button>
             <div class="main-header">
@@ -470,6 +444,7 @@
             </div>
         </div>
 
+        <!-- RE-ENGINEERED IMMERSIVE POMODORO SYSTEM -->
         <div class="page-section" id="pomodoroHub">
             <button class="back-btn" onclick="switchSection('homeHub')">← Back to Dashboard</button>
             <div class="timer-view">
@@ -478,6 +453,7 @@
                 
                 <div class="timer-clock" id="timerClock">25:00</div>
 
+                <!-- Custom Duration Interval Modulators -->
                 <div class="config-row">
                     <div class="config-group">
                         <span>Study Block</span>
@@ -500,6 +476,7 @@
                 <button class="action-btn" id="timerControlBtn" onclick="toggleTimer()">Start Session</button>
                 <button class="action-btn" onclick="resetTimer()" style="background:transparent; border-color:transparent;">Reset</button>
 
+                <!-- Custom Sound Architecture Dropdown Select Matrix -->
                 <div class="audio-selector-wrapper">
                     <label for="audioWaveEngine">🧠 Ambient Background Matrix</label>
                     <select id="audioWaveEngine" class="audio-select" onchange="handleAudioEngineChange()">
@@ -512,6 +489,7 @@
             </div>
         </div>
 
+        <!-- FLASHCARD HUB -->
         <div class="page-section" id="flashcardHub">
             <button class="back-btn" onclick="switchSection('homeHub')">← Back to Dashboard</button>
             <div class="flashcard-view">
@@ -533,6 +511,7 @@
 
     </div>
 
+    <!-- Web Audio Node Noise Matrix Engine System -->
     <script>
         let audioCtx = null;
         let noiseNode = null; 
@@ -606,6 +585,7 @@
         }
     </script>
 
+    <!-- UI State, Search Filter Algorithms, and Tracker Scripts -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             setTimeout(() => {
@@ -699,14 +679,10 @@
             document.getElementById("timerClock").textContent = `${Math.floor(sec/60).toString().padStart(2,'0')}:${(sec%60).toString().padStart(2,'0')}`;
         }
 
-        // Expanded Granular Calculation Logic
         function calculateProgress() {
             const boxes = document.querySelectorAll(".tracker-item input");
             let checked = 0; boxes.forEach(b => { if(b.checked) checked++; });
-            const calculatedPercentage = Math.round((checked / boxes.length) * 100);
-            
-            document.getElementById("progressFill").style.width = `${calculatedPercentage}%`;
-            document.getElementById("progressPercent").textContent = `${calculatedPercentage}% Completed`;
+            document.getElementById("progressFill").style.width = `${(checked / boxes.length) * 100}%`;
         }
 
         const puns = ["Why did the triangle say to the circle? You're completely pointless!", "Parallel lines have so much in common. It’s a shame they’ll never meet.", "Organic chemistry is difficult. Those structures can be completely carbon-copied."];
