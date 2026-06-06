@@ -88,16 +88,23 @@
             animation: fadeInUp 1.2s var(--glow) forwards 0.5s;
         }
 
-        /* --- 2. Structural Component Hubs --- */
+        /* --- 2. Structural Layout & Utilities Menu --- */
+        .page-container {
+            display: flex;
+            width: 100%;
+            max-width: 1400px;
+            padding: 40px;
+            gap: 40px;
+            align-items: flex-start;
+        }
+
         .page-section {
             display: none;
             opacity: 0;
             transform: translateY(20px) scale(0.98);
             transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
             text-align: center;
-            width: 100%;
-            max-width: 1100px;
-            padding: 60px 24px;
+            flex-grow: 1;
         }
 
         .page-section.active {
@@ -119,7 +126,7 @@
         .main-header p {
             color: var(--text-muted);
             font-size: 1.1rem;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
 
         /* Beta Notice Banner Styling */
@@ -135,7 +142,7 @@
             font-size: 0.85rem;
             font-weight: 600;
             letter-spacing: 0.5px;
-            margin-bottom: 40px;
+            margin-bottom: 35px;
             box-shadow: 0 4px 12px rgba(255, 123, 0, 0.05);
         }
 
@@ -148,10 +155,37 @@
             animation: pulse-glow 2s infinite;
         }
 
+        /* Smart Search Engine Input */
+        .search-container {
+            margin-bottom: 40px;
+            position: relative;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 14px 20px;
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .search-bar:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 20px rgba(255, 123, 0, 0.15);
+        }
+
         /* --- 3. Glassmorphic Card Engine --- */
         .card-container {
             display: flex;
-            gap: 30px;
+            gap: 25px;
             justify-content: center;
             flex-wrap: wrap;
         }
@@ -162,7 +196,7 @@
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid var(--border-color);
             border-radius: 24px;
-            width: 320px;
+            width: 300px;
             padding: 45px 30px;
             cursor: pointer;
             position: relative;
@@ -170,7 +204,6 @@
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         }
 
-        /* Glowing interactive border logic */
         .card::before {
             content: '';
             position: absolute;
@@ -192,9 +225,7 @@
             box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(255, 123, 0, 0.05);
         }
 
-        .card:hover::before {
-            opacity: 1;
-        }
+        .card:hover::before { opacity: 1; }
 
         .card-icon {
             font-size: 2.8rem;
@@ -203,22 +234,9 @@
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .card:hover .card-icon {
-            transform: scale(1.15) rotate(5deg);
-        }
-
-        .card h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: #ffffff;
-        }
-
-        .card p {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            line-height: 1.5;
-        }
+        .card:hover .card-icon { transform: scale(1.15) rotate(5deg); }
+        .card h3 { font-size: 1.5rem; font-weight: 700; margin-bottom: 12px; color: #ffffff; }
+        .card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; }
 
         /* Premium Subject Pill Badges */
         .subject-list {
@@ -243,13 +261,187 @@
             transition: all 0.3s ease;
         }
 
-        .card:hover .subject-badge {
-            background: rgba(255, 123, 0, 0.15);
-            color: #ffffff;
-            border-color: rgba(255, 123, 0, 0.3);
+        /* --- 4. Sidebar Panels (Timer, Puns, Progress) --- */
+        .utility-sidebar {
+            width: 320px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            flex-shrink: 0;
+            opacity: 0;
+            transform: translateX(30px);
+            transition: all 0.8s ease 0.5s;
         }
 
-        /* --- 4. Premium Interactive Buttons --- */
+        .utility-sidebar.reveal {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .side-panel {
+            background: var(--panel-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .side-panel h4 {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 8px;
+        }
+
+        /* Pomodoro Engine Configuration */
+        .timer-display {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin: 10px 0;
+            font-variant-numeric: tabular-nums;
+            color: var(--accent-secondary);
+            text-shadow: 0 0 15px rgba(255, 174, 0, 0.2);
+        }
+
+        .timer-btn {
+            background: rgba(255, 123, 0, 0.15);
+            border: 1px solid rgba(255, 123, 0, 0.3);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .timer-btn:hover {
+            background: var(--accent-primary);
+            box-shadow: 0 0 12px rgba(255, 123, 0, 0.4);
+        }
+
+        .lofi-toggle {
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        /* Syllabus Checkboxes Tracker */
+        .tracker-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .tracker-item input {
+            accent-color: var(--accent-primary);
+            cursor: pointer;
+        }
+
+        .progress-bar-container {
+            background: rgba(255,255,255,0.05);
+            height: 6px;
+            border-radius: 10px;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary));
+            width: 0%;
+            height: 100%;
+            transition: width 0.4s ease;
+        }
+
+        /* Pun Card Layout */
+        .pun-text {
+            font-style: italic;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        /* --- 5. Active Recall Flashcards Section --- */
+        .flashcard-section {
+            margin-top: 50px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 40px;
+        }
+
+        .flashcard-section h3 {
+            margin-bottom: 20px;
+            font-size: 1.6rem;
+        }
+
+        .flashcard-box {
+            perspective: 1000px;
+            width: 340px;
+            height: 180px;
+            margin: 0 auto;
+            cursor: pointer;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .flashcard-box.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .card-front {
+            background: rgba(40, 40, 50, 0.7);
+            color: #fff;
+        }
+
+        .card-back {
+            background: linear-gradient(135deg, #221c16 0%, #120e0a 100%);
+            color: var(--accent-secondary);
+            transform: rotateY(180deg);
+            border-color: rgba(255, 174, 0, 0.2);
+        }
+
+        .flashcard-nav {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        /* --- 6. Navigation Controls --- */
         .back-btn {
             background: rgba(255, 255, 255, 0.03);
             color: var(--text-muted);
@@ -259,7 +451,7 @@
             cursor: pointer;
             font-weight: 600;
             font-size: 0.95rem;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
@@ -275,132 +467,217 @@
         }
 
         /* --- Animations Configurations --- */
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
         @keyframes pulse-glow {
             0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 123, 0, 0.7); }
             70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(255, 123, 0, 0); }
             100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 123, 0, 0); }
         }
-
-        .slide-up {
-            transform: translateY(-100vh);
-            opacity: 0;
-        }
+        .slide-up { transform: translateY(-100vh); opacity: 0; }
     </style>
 </head>
 <body>
 
+    <!-- Splash Intro Grid -->
     <div class="welcome-screen" id="welcomeScreen">
         <h1 class="welcome-title">Punny's Study Hub</h1>
         <p class="welcome-subtitle">Learn • Excel • Succeed</p>
     </div>
 
-    <div class="page-section" id="homeHub">
-        <div class="main-header">
-            <h2>Select Your Needs</h2>
-            <p>Your portal into premium academic resource archives</p>
-            <div class="beta-status">
-                <span class="beta-pulse"></span>
-                Currently beta testing. Full materials will come soon!
+    <div class="page-container">
+        
+        <!-- MAIN INTERACTION AREA -->
+        <main style="flex-grow: 1;">
+            
+            <!-- SEARCH CONTROL PANEL -->
+            <div class="search-container" id="searchWrapper" style="display:none;">
+                <input type="text" class="search-bar" id="hubSearch" placeholder="Search materials (e.g., Maths, Kota, PYQ)..." oninput="executeSearch()">
             </div>
-        </div>
-        <div class="card-container">
-            <div class="card" onclick="switchSection('cbseHub')">
-                <div class="card-icon">📚</div>
-                <h3>CBSE Materials</h3>
-                <p>Comprehensive class notes, curated boards analysis, and structure files.</p>
-            </div>
-            <div class="card" onclick="switchSection('jeeHub')">
-                <div class="card-icon">🚀</div>
-                <h3>JEE Prep</h3>
-                <p>High-yield toolkits explicitly engineered to clear Main & Advanced tiers.</p>
-            </div>
-        </div>
-    </div>
 
-    <div class="page-section" id="cbseHub">
-        <button class="back-btn" onclick="switchSection('homeHub')">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-            Back to Streams
-        </button>
-        <div class="main-header">
-            <h2>CBSE Class 12 Portal</h2>
-            <p>Access focused curriculum archives by program selection</p>
-            <div class="beta-status">
-                <span class="beta-pulse"></span>
-                Currently beta testing. Full materials will come soon!
-            </div>
-        </div>
-        <div class="card-container">
-            <div class="card">
-                <div class="card-icon">📁</div>
-                <h3>Class 12 Previous Year Papers</h3>
-                <p>Core system annual examination data and answers.</p>
-                <div class="subject-list">
-                    <span class="subject-badge">Maths</span>
-                    <span class="subject-badge">English</span>
-                    <span class="subject-badge">Phy</span>
-                    <span class="subject-badge">Chem</span>
-                    <span class="subject-badge">CS</span>
-                    <span class="subject-badge">Bio</span>
+            <!-- MAIN DASHBOARD HUB -->
+            <div class="page-section" id="homeHub">
+                <div class="main-header">
+                    <h2>Select Your Stream</h2>
+                    <p>Your portal into premium academic resource archives</p>
+                    <div class="beta-status">
+                        <span class="beta-pulse"></span>
+                        Currently beta testing. Full materials will come soon!
+                    </div>
+                </div>
+                <div class="card-container">
+                    <div class="card" onclick="switchSection('cbseHub')">
+                        <div class="card-icon">📚</div>
+                        <h3>CBSE Materials</h3>
+                        <p>Comprehensive class notes, curated boards analysis, and structure files.</p>
+                    </div>
+                    <div class="card" onclick="switchSection('jeeHub')">
+                        <div class="card-icon">🚀</div>
+                        <h3>JEE Prep</h3>
+                        <p>High-yield toolkits explicitly engineered to clear Main & Advanced tiers.</p>
+                    </div>
                 </div>
             </div>
-            <div class="card">
-                <div class="card-icon">🔄</div>
-                <h3>Improvement Papers</h3>
-                <p>Compartment vaults and design upgrade frameworks.</p>
-                <div class="subject-list">
-                    <span class="subject-badge">Maths</span>
-                    <span class="subject-badge">English</span>
-                    <span class="subject-badge">Phy</span>
-                    <span class="subject-badge">Chem</span>
-                    <span class="subject-badge">CS</span>
-                    <span class="subject-badge">Bio</span>
+
+            <!-- CBSE INNER HUB -->
+            <div class="page-section" id="cbseHub">
+                <button class="back-btn" onclick="switchSection('homeHub')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                    Back to Streams
+                </button>
+                <div class="main-header">
+                    <h2>CBSE Class 12 Portal</h2>
+                    <p>Access focused curriculum archives by program selection</p>
+                </div>
+                <div class="card-container">
+                    <div class="card">
+                        <div class="card-icon">📁</div>
+                        <h3>Class 12 Previous Year Papers</h3>
+                        <p>Core system annual examination data and answers.</p>
+                        <div class="subject-list">
+                            <span class="subject-badge">Maths</span>
+                            <span class="subject-badge">English</span>
+                            <span class="subject-badge">Phy</span>
+                            <span class="subject-badge">Chem</span>
+                            <span class="subject-badge">CS</span>
+                            <span class="subject-badge">Bio</span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">🔄</div>
+                        <h3>Improvement Papers</h3>
+                        <p>Compartment vaults and design upgrade frameworks.</p>
+                        <div class="subject-list">
+                            <span class="subject-badge">Maths</span>
+                            <span class="subject-badge">English</span>
+                            <span class="subject-badge">Phy</span>
+                            <span class="subject-badge">Chem</span>
+                            <span class="subject-badge">CS</span>
+                            <span class="subject-badge">Bio</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+
+            <!-- JEE INNER HUB -->
+            <div class="page-section" id="jeeHub">
+                <button class="back-btn" onclick="switchSection('homeHub')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                    Back to Streams
+                </button>
+                <div class="main-header">
+                    <h2>JEE Preparation Vault</h2>
+                    <p>Premium modules sourced from elite training centers</p>
+                </div>
+                <div class="card-container">
+                    <div class="card">
+                        <div class="card-icon">⏱️</div>
+                        <h3>PYQ Section</h3>
+                        <p>Chapter-sorted past questions structured alongside granular evaluation metrics.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">🎯</div>
+                        <h3>Brilliant Study Material</h3>
+                        <p>Advanced algorithmic question sets and predictive testing structures.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">👑</div>
+                        <h3>Kota Notes Section</h3>
+                        <p>Hand-written blueprint insights extracted directly from prime class lectures.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ACTIVE RECALL FLASHCARDS BOX -->
+            <div class="flashcard-section" id="flashcardBox" style="display:none;">
+                <h3>⚡ Daily Quick Recall Flashcards</h3>
+                <div class="flashcard-box" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="card-front">
+                            <p id="flashQuestion">Loading flashcard challenge...</p>
+                            <span style="font-size:0.75rem; color:var(--text-muted); margin-top:20px;">Click card to flip</span>
+                        </div>
+                        <div class="card-back">
+                            <p id="flashAnswer">Loading verification framework...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="flashcard-nav">
+                    <button class="timer-btn" onclick="event.stopPropagation(); changeFlashcard(-1)">Previous</button>
+                    <button class="timer-btn" onclick="event.stopPropagation(); changeFlashcard(1)">Next Card</button>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- FLOATING SIDEBAR UTILITIES MODULE -->
+        <aside class="utility-sidebar" id="sidebarPanel">
+            
+            <!-- POMODORO TIMER PANEL -->
+            <div class="side-panel">
+                <h4>⏱️ Focus Pomodoro</h4>
+                <div class="timer-display" id="timerClock">25:00</div>
+                <button class="timer-btn" id="timerControlBtn" onclick="toggleTimer()">Start Focus</button>
+                <label class="lofi-toggle">
+                    <input type="checkbox" id="lofiAudioCheck" onchange="toggleLofiBackground()"> Play Ambient Study Track
+                </label>
+            </div>
+
+            <!-- SYLLABUS STEP PROGRESS PANEL -->
+            <div class="side-panel">
+                <h4>📈 Syllabus Progress</h4>
+                <div class="tracker-item"><input type="checkbox" onchange="calculateProgress()"> Physics Unit 1</div>
+                <div class="tracker-item"><input type="checkbox" onchange="calculateProgress()"> Chemistry Unit 1</div>
+                <div class="tracker-item"><input type="checkbox" onchange="calculateProgress()"> Mathematics Unit 1</div>
+                <div class="tracker-item"><input type="checkbox" onchange="calculateProgress()"> Computer Science / Bio</div>
+                <div class="progress-bar-container">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+
+            <!-- PUNNY WINNER CARD GENERATOR -->
+            <div class="side-panel">
+                <h4>💡 Daily Study Pun</h4>
+                <p class="pun-text" id="dailyPunSlot">"Why can't you trust atoms? Because they make up everything!"</p>
+            </div>
+
+        </aside>
     </div>
 
-    <div class="page-section" id="jeeHub">
-        <button class="back-btn" onclick="switchSection('homeHub')">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-            Back to Streams
-        </button>
-        <div class="main-header">
-            <h2>JEE Preparation Vault</h2>
-            <p>Premium modules sourced from elite training centers</p>
-            <div class="beta-status">
-                <span class="beta-pulse"></span>
-                Currently beta testing. Full materials will come soon!
-            </div>
-        </div>
-        <div class="card-container">
-            <div class="card">
-                <div class="card-icon">⏱️</div>
-                <h3>PYQ Section</h3>
-                <p>Chapter-sorted past questions structured alongside granular evaluation metrics.</p>
-            </div>
-            <div class="card">
-                <div class="card-icon">🎯</div>
-                <h3>Brilliant Study Material</h3>
-                <p>Advanced algorithmic question sets and predictive testing structures.</p>
-            </div>
-            <div class="card">
-                <div class="card-icon">👑</div>
-                <h3>Kota Notes Section</h3>
-                <p>Hand-written blueprint insights extracted directly from prime class lectures.</p>
-            </div>
-        </div>
-    </div>
-
+    <!-- Web Audio API Synth Engine for Background Study Track (No External Assets Required) -->
     <script>
-        // Init Sequence & Smooth Slide
+        let audioCtx = null;
+        let lofiOsc = null;
+        let lofiGain = null;
+
+        function toggleLofiBackground() {
+            const isChecked = document.getElementById('lofiAudioCheck').checked;
+            if (isChecked) {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                
+                // Setup low low-frequency sound oscillator node to simulate deep binaural background study waves
+                lofiOsc = audioCtx.createOscillator();
+                lofiGain = audioCtx.createGain();
+                
+                lofiOsc.type = 'sine';
+                lofiOsc.frequency.setValueAtTime(90, audioCtx.currentTime); // Deep focusing tone
+                lofiGain.gain.setValueAtTime(0.04, audioCtx.currentTime); // Low non-intrusive volume
+                
+                lofiOsc.connect(lofiGain);
+                lofiGain.connect(audioCtx.destination);
+                lofiOsc.start();
+            } else {
+                if (lofiOsc) {
+                    lofiOsc.stop();
+                    lofiOsc.disconnect();
+                    lofiOsc = null;
+                }
+            }
+        }
+    </script>
+
+    <!-- UI State, Search Engine, Flashcards, and Time Track Scripts -->
+    <script>
+        // Splash Transition Hook
         document.addEventListener("DOMContentLoaded", () => {
             setTimeout(() => {
                 const welcomeScreen = document.getElementById("welcomeScreen");
@@ -408,11 +685,16 @@
                 
                 setTimeout(() => {
                     switchSection('homeHub');
+                    document.getElementById("sidebarPanel").classList.add("reveal");
+                    document.getElementById("searchWrapper").style.display = "block";
+                    document.getElementById("flashcardBox").style.display = "block";
+                    renderRandomPun();
+                    renderFlashcard();
                 }, 400);
             }, 2200);
         });
 
-        // Interactive Screen Transitions Handling Engine
+        // Dynamic Section Layout Switcher
         function switchSection(targetSectionId) {
             const activeSection = document.querySelector('.page-section.active');
             const targetSection = document.getElementById(targetSectionId);
@@ -436,6 +718,102 @@
                 element.style.opacity = '1';
                 element.style.transform = 'translateY(0) scale(1)';
             }, 40);
+        }
+
+        // Live Search Engine Filtering
+        function executeSearch() {
+            const query = document.getElementById("hubSearch").value.toLowerCase();
+            const cards = document.querySelectorAll(".card");
+            
+            cards.forEach(card => {
+                const contentText = card.textContent.toLowerCase();
+                if (contentText.includes(query)) {
+                    card.style.display = "block";
+                    card.style.opacity = "1";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+
+        // Pomodoro Clock Logic
+        let timerInterval = null;
+        let secondsLeft = 1500; // 25 Minutes Default
+        let isRunning = false;
+
+        function toggleTimer() {
+            const btn = document.getElementById("timerControlBtn");
+            if (isRunning) {
+                clearInterval(timerInterval);
+                btn.textContent = "Resume Focus";
+                isRunning = false;
+            } else {
+                isRunning = true;
+                btn.textContent = "Pause Timer";
+                timerInterval = setInterval(() => {
+                    if (secondsLeft <= 0) {
+                        clearInterval(timerInterval);
+                        alert("Session complete! Time for a well-deserved short break.");
+                        secondsLeft = 300; // 5 min break transition auto
+                        isRunning = false;
+                        btn.textContent = "Start Break";
+                    } else {
+                        secondsLeft--;
+                    }
+                    updateTimerUI();
+                }, 1000);
+            }
+        }
+
+        function updateTimerUI() {
+            const mins = Math.floor(secondsLeft / 60).toString().padStart(2, '0');
+            const secs = (secondsLeft % 60).toString().padStart(2, '0');
+            document.getElementById("timerClock").textContent = `${mins}:${secs}`;
+        }
+
+        // Syllabus Tracker Calculation Engine
+        function calculateProgress() {
+            const checkboxes = document.querySelectorAll(".tracker-item input");
+            let checkedCount = 0;
+            checkboxes.forEach(box => { if(box.checked) checkedCount++; });
+            const finalPercentage = (checkedCount / checkboxes.length) * 100;
+            document.getElementById("progressFill").style.width = `${finalPercentage}%`;
+        }
+
+        // Pun Database
+        const studyPuns = [
+            "Why did the computer go to school? To get a byte to eat!",
+            "Have you heard the one about the chemical reaction? It blew everyone away.",
+            "Parallel lines have so much in common. It’s a shame they’ll never meet.",
+            "What did the triangle say to the circle? 'You're pointless!'"
+        ];
+        function renderRandomPun() {
+            const randomIdx = Math.floor(Math.random() * studyPuns.length);
+            document.getElementById("dailyPunSlot").textContent = `"${studyPuns[randomIdx]}"`;
+        }
+
+        // Flashcards Database
+        const flashcards = [
+            { q: "What is the derivative of sin(x)?", a: "cos(x)" },
+            { q: "Which functional group represents an Alcohol in organic chem?", a: "-OH Group" },
+            { q: "State Ohm's Law formula structure.", a: "V = IR" },
+            { q: "What is the time complexity of a Binary Search operation?", a: "O(log n)" }
+        ];
+        let currentFlashIdx = 0;
+
+        function renderFlashcard() {
+            document.getElementById("flashcardBox").classList.remove('flipped');
+            setTimeout(() => {
+                document.getElementById("flashQuestion").textContent = flashcards[currentFlashIdx].q;
+                document.getElementById("flashAnswer").textContent = flashcards[currentFlashIdx].a;
+            }, 150);
+        }
+
+        function changeFlashcard(direction) {
+            currentFlashIdx += direction;
+            if (currentFlashIdx >= flashcards.length) currentFlashIdx = 0;
+            if (currentFlashIdx < 0) currentFlashIdx = flashcards.length - 1;
+            renderFlashcard();
         }
     </script>
 </body>
