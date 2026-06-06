@@ -5,183 +5,287 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Punny's Study Hub</title>
     <style>
-        /* --- Global Resets & Fonts --- */
+        /* --- Core System Styles & Variables --- */
+        :root {
+            --bg-dark: #0b0b0f;
+            --panel-bg: rgba(30, 30, 38, 0.6);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --accent-primary: #ff7b00;
+            --accent-secondary: #ffae00;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --glow: cubic-bezier(0.15, 0.85, 0.45, 1);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
 
         body {
-            background: #121214;
-            color: #ffffff;
+            background: var(--bg-dark);
+            color: var(--text-main);
             overflow-x: hidden;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
         }
 
-        /* --- 1. Welcome / Splash Screen --- */
+        /* Ambient Dynamic Background Glows */
+        body::before, body::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 123, 0, 0.08) 0%, transparent 70%);
+            z-index: -1;
+            filter: blur(40px);
+        }
+        body::before { top: -10%; left: -10%; }
+        body::after { bottom: -10%; right: -10%; }
+
+        /* --- 1. Premium Splash Screen --- */
         .welcome-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100vh;
-            background: linear-gradient(135deg, #1e1e24 0%, #0a0a0c 100%);
+            background: #09090d;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 10;
-            transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.8s ease;
+            z-index: 100;
+            transition: transform 0.9s cubic-bezier(0.85, 0, 0.15, 1), opacity 0.8s ease;
         }
 
         .welcome-title {
-            font-size: 3.5rem;
-            font-weight: 800;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
+            font-size: 4rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+            margin-bottom: 12px;
             opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 1s ease forwards 0.3s;
-            background: linear-gradient(45deg, #ff7b00, #ffae00);
+            transform: translateY(40px);
+            animation: fadeInUp 1.2s var(--glow) forwards 0.2s;
+            background: linear-gradient(135deg, #ffffff 30%, #ffae00 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .welcome-subtitle {
-            font-size: 1.2rem;
-            color: #a0a0ab;
-            letter-spacing: 4px;
+            font-size: 1rem;
+            color: var(--text-muted);
+            letter-spacing: 6px;
             text-transform: uppercase;
             opacity: 0;
             transform: translateY(20px);
-            animation: fadeInUp 1s ease forwards 0.6s;
+            animation: fadeInUp 1.2s var(--glow) forwards 0.5s;
         }
 
-        /* --- 2. Main Layout Framework --- */
+        /* --- 2. Structural Component Hubs --- */
         .page-section {
             display: none;
             opacity: 0;
-            transform: scale(0.95);
-            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform: translateY(20px) scale(0.98);
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
             text-align: center;
             width: 100%;
-            max-width: 1000px;
-            padding: 40px 20px;
+            max-width: 1100px;
+            padding: 60px 24px;
         }
 
         .page-section.active {
             display: block;
             opacity: 1;
-            transform: scale(1);
+            transform: translateY(0) scale(1);
         }
 
         .main-header h2 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            color: #ffffff;
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 12px;
+            background: linear-gradient(to right, #ffffff, #cbd5e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .main-header p {
-            color: #94a3b8;
-            margin-bottom: 40px;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
         }
 
-        /* --- 3. Grid & Cards Design --- */
+        /* Beta Notice Banner Styling */
+        .beta-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 123, 0, 0.1);
+            border: 1px solid rgba(255, 123, 0, 0.25);
+            color: #ffae00;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 12px rgba(255, 123, 0, 0.05);
+        }
+
+        .beta-pulse {
+            width: 8px;
+            height: 8px;
+            background: #ff7b00;
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse-glow 2s infinite;
+        }
+
+        /* --- 3. Glassmorphic Card Engine --- */
         .card-container {
             display: flex;
-            gap: 25px;
+            gap: 30px;
             justify-content: center;
             flex-wrap: wrap;
         }
 
         .card {
-            background: #1e1e24;
-            border: 2px solid #2e2e38;
-            border-radius: 16px;
-            width: 280px;
-            padding: 35px 25px;
+            background: var(--panel-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            width: 320px;
+            padding: 45px 30px;
             cursor: pointer;
             position: relative;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Glowing interactive border logic */
+        .card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 24px;
+            padding: 1.5px;
+            background: linear-gradient(135deg, rgba(255,123,0,0.4), transparent 60%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.4s ease;
         }
 
         .card:hover {
-            transform: translateY(-8px);
-            border-color: #ff7b00;
-            box-shadow: 0 15px 30px rgba(255, 123, 0, 0.15);
+            transform: translateY(-10px);
+            background: rgba(38, 38, 48, 0.8);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(255, 123, 0, 0.05);
+        }
+
+        .card:hover::before {
+            opacity: 1;
         }
 
         .card-icon {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            display: inline-block;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .card:hover .card-icon {
+            transform: scale(1.15) rotate(5deg);
         }
 
         .card h3 {
-            font-size: 1.4rem;
-            margin-bottom: 10px;
-            letter-spacing: 0.5px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #ffffff;
         }
 
         .card p {
-            font-size: 0.9rem;
-            color: #94a3b8;
-            line-height: 1.4;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.5;
         }
 
-        /* Subject Badges (Inside CBSE sub-folders) */
+        /* Premium Subject Pill Badges */
         .subject-list {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             flex-wrap: wrap;
             justify-content: center;
-            margin-top: 15px;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .subject-badge {
-            background: #2e2e38;
-            color: #ffae00;
-            padding: 4px 10px;
-            border-radius: 6px;
+            background: rgba(255, 174, 0, 0.08);
+            color: var(--accent-secondary);
+            border: 1px solid rgba(255, 174, 0, 0.15);
+            padding: 6px 14px;
+            border-radius: 12px;
             font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
         }
 
-        /* --- 4. Utility Components --- */
+        .card:hover .subject-badge {
+            background: rgba(255, 123, 0, 0.15);
+            color: #ffffff;
+            border-color: rgba(255, 123, 0, 0.3);
+        }
+
+        /* --- 4. Premium Interactive Buttons --- */
         .back-btn {
-            background: transparent;
-            color: #ff7b00;
-            border: 2px solid #ff7b00;
-            padding: 10px 20px;
-            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+            padding: 12px 24px;
+            border-radius: 14px;
             cursor: pointer;
             font-weight: 600;
-            margin-bottom: 30px;
+            font-size: 0.95rem;
+            margin-bottom: 40px;
             transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            backdrop-filter: blur(5px);
         }
 
         .back-btn:hover {
-            background: #ff7b00;
-            color: #ffffff;
-            box-shadow: 0 0 15px rgba(255, 123, 0, 0.4);
+            background: rgba(255, 123, 0, 0.1);
+            color: var(--accent-secondary);
+            border-color: rgba(255, 123, 0, 0.3);
+            transform: translateX(-4px);
         }
 
-        /* --- Keyframe Animations --- */
+        /* --- Animations Configurations --- */
         @keyframes fadeInUp {
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
+        }
+
+        @keyframes pulse-glow {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 123, 0, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(255, 123, 0, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 123, 0, 0); }
         }
 
         .slide-up {
@@ -200,33 +304,44 @@
     <div class="page-section" id="homeHub">
         <div class="main-header">
             <h2>Select Your Stream</h2>
-            <p>Choose the type of study materials you want to access</p>
+            <p>Your portal into premium academic resource archives</p>
+            <div class="beta-status">
+                <span class="beta-pulse"></span>
+                Currently beta testing. Full materials will come soon!
+            </div>
         </div>
         <div class="card-container">
             <div class="card" onclick="switchSection('cbseHub')">
                 <div class="card-icon">📚</div>
                 <h3>CBSE Materials</h3>
-                <p>Access board exam preparation files, sample guides, and class papers.</p>
+                <p>Comprehensive class notes, curated boards analysis, and structure files.</p>
             </div>
             <div class="card" onclick="switchSection('jeeHub')">
                 <div class="card-icon">🚀</div>
                 <h3>JEE Prep</h3>
-                <p>Crack IIT JEE with engineering notes, advanced problem banks, and papers.</p>
+                <p>High-yield toolkits explicitly engineered to clear Main & Advanced tiers.</p>
             </div>
         </div>
     </div>
 
     <div class="page-section" id="cbseHub">
-        <button class="back-btn" onclick="switchSection('homeHub')">← Back to Main Streams</button>
+        <button class="back-btn" onclick="switchSection('homeHub')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            Back to Streams
+        </button>
         <div class="main-header">
             <h2>CBSE Class 12 Portal</h2>
-            <p>Pick a category to view individual subject papers</p>
+            <p>Access focused curriculum archives by program selection</p>
+            <div class="beta-status">
+                <span class="beta-pulse"></span>
+                Currently beta testing. Full materials will come soon!
+            </div>
         </div>
         <div class="card-container">
-            <div class="card" onclick="alert('Opening Maths, English, Physics, Chemistry, CS, and Bio for CBSE Class 12 Previous Year Papers!')">
-                <div class="card-icon">📝</div>
+            <div class="card">
+                <div class="card-icon">📁</div>
                 <h3>Class 12 Previous Year Papers</h3>
-                <p>Official annual board question banks.</p>
+                <p>Core system annual examination data and answers.</p>
                 <div class="subject-list">
                     <span class="subject-badge">Maths</span>
                     <span class="subject-badge">English</span>
@@ -236,10 +351,10 @@
                     <span class="subject-badge">Bio</span>
                 </div>
             </div>
-            <div class="card" onclick="alert('Opening Maths, English, Physics, Chemistry, CS, and Bio for CBSE Improvement Exam Papers!')">
+            <div class="card">
                 <div class="card-icon">🔄</div>
-                <h3>Improvement Exam Previous Papers</h3>
-                <p>Compartment and upgrade exam archives.</p>
+                <h3>Improvement Papers</h3>
+                <p>Compartment vaults and design upgrade frameworks.</p>
                 <div class="subject-list">
                     <span class="subject-badge">Maths</span>
                     <span class="subject-badge">English</span>
@@ -253,32 +368,39 @@
     </div>
 
     <div class="page-section" id="jeeHub">
-        <button class="back-btn" onclick="switchSection('homeHub')">← Back to Main Streams</button>
+        <button class="back-btn" onclick="switchSection('homeHub')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            Back to Streams
+        </button>
         <div class="main-header">
-            <h2>JEE Prep Hub</h2>
-            <p>High-yield study tools curated specifically for Main & Advanced</p>
+            <h2>JEE Preparation Vault</h2>
+            <p>Premium modules sourced from elite training centers</p>
+            <div class="beta-status">
+                <span class="beta-pulse"></span>
+                Currently beta testing. Full materials will come soon!
+            </div>
         </div>
         <div class="card-container">
-            <div class="card" onclick="alert('Loading JEE Previous Year Questions (PYQs)...')">
+            <div class="card">
                 <div class="card-icon">⏱️</div>
                 <h3>PYQ Section</h3>
-                <p>Chapter-wise and year-wise past questions with complete solutions.</p>
+                <p>Chapter-sorted past questions structured alongside granular evaluation metrics.</p>
             </div>
-            <div class="card" onclick="alert('Opening Brilliant Study Material Portal...')">
+            <div class="card">
                 <div class="card-icon">🎯</div>
                 <h3>Brilliant Study Material</h3>
-                <p>Elite-level question banks and targeted test series modules.</p>
+                <p>Advanced algorithmic question sets and predictive testing structures.</p>
             </div>
-            <div class="card" onclick="alert('Opening Kota Classroom Notes...')">
+            <div class="card">
                 <div class="card-icon">👑</div>
                 <h3>Kota Notes Section</h3>
-                <p>Handwritten premium notes straight from premier coaching classrooms.</p>
+                <p>Hand-written blueprint insights extracted directly from prime class lectures.</p>
             </div>
         </div>
     </div>
 
     <script>
-        // Splash Transition
+        // Init Sequence & Smooth Slide
         document.addEventListener("DOMContentLoaded", () => {
             setTimeout(() => {
                 const welcomeScreen = document.getElementById("welcomeScreen");
@@ -286,36 +408,34 @@
                 
                 setTimeout(() => {
                     switchSection('homeHub');
-                }, 300);
-            }, 2500);
+                }, 400);
+            }, 2200);
         });
 
-        // Dynamic Section Switching Animation Handler
+        // Interactive Screen Transitions Handling Engine
         function switchSection(targetSectionId) {
             const activeSection = document.querySelector('.page-section.active');
             const targetSection = document.getElementById(targetSectionId);
             
             if (activeSection) {
-                // Fade out current section smoothly
                 activeSection.style.opacity = '0';
-                activeSection.style.transform = 'scale(0.95)';
+                activeSection.style.transform = 'translateY(15px) scale(0.98)';
                 
                 setTimeout(() => {
                     activeSection.classList.remove('active');
-                    revealTarget(targetSection);
-                }, 400); // sync with style transition durations
+                    engageTarget(targetSection);
+                }, 400);
             } else {
-                revealTarget(targetSection);
+                engageTarget(targetSection);
             }
         }
 
-        function revealTarget(element) {
+        function engageTarget(element) {
             element.classList.add('active');
-            // Allow display block to render first, then trigger CSS transition triggers
             setTimeout(() => {
                 element.style.opacity = '1';
-                element.style.transform = 'scale(1)';
-            }, 50);
+                element.style.transform = 'translateY(0) scale(1)';
+            }, 40);
         }
     </script>
 </body>
