@@ -67,16 +67,20 @@
         /* --- Top Left Brand Watermark --- */
         .brand-watermark {
             position: fixed;
-            top: 28px;
+            top: 20px;
             left: 40px;
             z-index: 90;
-            font-size: 0.95rem;
-            font-weight: 700;
-            letter-spacing: 1.5px;
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: 1.2px;
             color: var(--watermark-color);
-            text-transform: uppercase;
+            text-transform: capitalize;
             pointer-events: none;
             user-select: none;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         /* --- Global Control Panel Rig --- */
@@ -439,7 +443,7 @@
 </head>
 <body>
 
-    <div class="brand-watermark">Study Hub</div>
+    <div class="brand-watermark">Punnys Study Hub</div>
 
     <!-- UI Notification Engine -->
     <div id="toastContainer"></div>
@@ -452,7 +456,7 @@
     <!-- IDENTITY CAPTURE OVERLAY -->
     <div class="identity-modal-overlay" id="identityCaptureModalWrapper">
         <div class="identity-modal-box">
-            <h3>Welcome to Study Hub</h3>
+            <h3>Welcome to Punnys Study Hub</h3>
             <p>Enter your profile name to initialize your local tracker storage.</p>
             <input type="text" class="calendar-text-field" id="onboardingIdentityInputField" placeholder="Your name..." style="margin-bottom: 20px; text-align: center; padding: 12px;">
             <button class="action-btn" onclick="commitOnboardingUserIdentityProfile()">Initialize Workspace</button>
@@ -480,7 +484,7 @@
     </div>
 
     <div class="welcome-screen" id="welcomeScreen">
-        <h1 class="welcome-title">Study Hub</h1>
+        <h1 class="welcome-title">Punnys Study Hub</h1>
         <p class="welcome-subtitle">Learn • Excel • Succeed</p>
     </div>
 
@@ -1573,7 +1577,7 @@
             }
         }
 
-        const puns = ["Why did the triangle say to the circle? You're completely pointless!", "Parallel lines have so much in common. It’s a shame they’ll never meet.", "Organic chemistry is difficult. Those structures can be completely carbon-copied."];
+        const puns = ["Why did the triangle say to the circle? You're completely pointless!", "Parallel lines have so much in common. It's a shame they'll never meet.", "Organic chemistry is difficult. Those structures can be completely carbon-copied."];
         function renderRandomPun() { document.getElementById("dailyPunSlot").textContent = puns[Math.floor(Math.random() * puns.length)]; }
 
         const flash = [{q: "Derivative of sin(x)?", a: "cos(x)"}, {q: "Ohm's Law structural formula?", a: "V = IR"}, {q: "Functional group representing an Alcohol?", a: "-OH linkage"}];
