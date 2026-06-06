@@ -16,6 +16,7 @@
             --accent-secondary: #ffae00;
             --shadow: rgba(0, 0, 0, 0.4);
             --glow: cubic-bezier(0.15, 0.85, 0.45, 1);
+            --watermark-color: rgba(255, 255, 255, 0.25);
         }
 
         [data-theme="light"] {
@@ -25,6 +26,7 @@
             --text-main: #1e1e24;
             --text-muted: #64748b;
             --shadow: rgba(0, 0, 0, 0.08);
+            --watermark-color: rgba(30, 30, 36, 0.3);
         }
 
         * {
@@ -61,6 +63,21 @@
         body::after { bottom: -10%; right: -10%; }
         [data-theme="light"]::before, [data-theme="light"]::after { display: none; }
 
+        /* --- Top Left Brand Watermark --- */
+        .brand-watermark {
+            position: fixed;
+            top: 28px;
+            left: 40px;
+            z-index: 90;
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: var(--watermark-color);
+            text-transform: uppercase;
+            pointer-events: none; /* Keeps it from interfering with layout clicks */
+            user-select: none;
+        }
+
         /* --- Theme Toggle --- */
         .theme-toggle-container {
             position: fixed;
@@ -84,7 +101,7 @@
             backdrop-filter: blur(8px);
         }
 
-        /* --- 1. Working Welcome Screen & Keyframes --- */
+        /* --- Welcome Screen --- */
         .welcome-screen {
             position: fixed;
             top: 0;
@@ -123,14 +140,9 @@
             animation: welcomeFadeIn 1s cubic-bezier(0.25, 1, 0.5, 1) forwards 0.6s;
         }
 
-        @keyframes welcomeFadeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+        @keyframes welcomeFadeIn { to { opacity: 1; transform: translateY(0); } }
 
-        /* --- 2. Main Layout Architecture --- */
+        /* --- Layout Architecture --- */
         .page-container {
             width: 100%;
             max-width: 1200px;
@@ -176,28 +188,15 @@
             animation: pulse-glow 2s infinite;
         }
 
-        /* Internal Portal Search Engine Layout */
-        .search-container {
-            margin: 20px auto 40px auto;
-            max-width: 500px;
-        }
-
+        .search-container { margin: 20px auto 40px auto; max-width: 500px; }
         .search-bar {
-            width: 100%;
-            padding: 14px 20px;
-            background: var(--panel-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 14px;
-            color: var(--text-main);
-            font-size: 1rem;
-            outline: none;
-            backdrop-filter: blur(10px);
+            width: 100%; padding: 14px 20px; background: var(--panel-bg); border: 1px solid var(--border-color);
+            border-radius: 14px; color: var(--text-main); font-size: 1rem; outline: none; backdrop-filter: blur(10px);
             box-shadow: 0 4px 10px var(--shadow);
         }
-
         .search-bar:focus { border-color: var(--accent-primary); }
 
-        /* --- 3. Grid & Custom Floating Logo Animations --- */
+        /* --- Dashboard Grid & Custom Card Floats --- */
         .card-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -206,124 +205,77 @@
         }
 
         .card {
-            background: var(--panel-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--border-color);
-            border-radius: 24px;
-            padding: 40px 25px;
-            cursor: pointer;
-            position: relative;
-            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.3s, box-shadow 0.3s;
-            box-shadow: 0 15px 35px var(--shadow);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            background: var(--panel-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color); border-radius: 24px; padding: 40px 25px; cursor: pointer;
+            position: relative; transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.3s, box-shadow 0.3s;
+            box-shadow: 0 15px 35px var(--shadow); display: flex; flex-direction: column; justify-content: space-between;
         }
 
-        .card:hover {
-            transform: translateY(-8px);
-            border-color: var(--accent-primary);
-            box-shadow: 0 20px 45px var(--shadow);
-        }
+        .card:hover { transform: translateY(-8px); border-color: var(--accent-primary); box-shadow: 0 20px 45px var(--shadow); }
+        .card-icon { font-size: 3.2rem; margin-bottom: 15px; display: inline-block; }
 
-        .card-icon {
-            font-size: 3.2rem;
-            margin-bottom: 15px;
-            display: inline-block;
-        }
+        .animate-books { animation: floatBooks 3s ease-in-out infinite; }
+        .animate-rocket { animation: floatRocket 2.5s ease-in-out infinite; }
+        .animate-clock { animation: spinClock 4s linear infinite; }
+        .animate-flash { animation: pulseFlash 2s ease-in-out infinite; }
 
-        /* --- Continuous CSS Physics Logo Loops --- */
-        .animate-books {
-            animation: floatBooks 3s ease-in-out infinite;
-        }
-
-        .animate-rocket {
-            animation: floatRocket 2.5s ease-in-out infinite;
-        }
-
-        .animate-clock {
-            animation: spinClock 4s linear infinite;
-        }
-
-        .animate-flash {
-            animation: pulseFlash 2s ease-in-out infinite;
-        }
-
-        @keyframes floatBooks {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-8px) rotate(-3deg); }
-        }
-
-        @keyframes floatRocket {
-            0%, 100% { transform: translateY(0) translateX(0); }
-            50% { transform: translateY(-12px) translateX(4px); }
-        }
-
-        @keyframes spinClock {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        @keyframes pulseFlash {
-            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 0px rgba(255,174,0,0)); }
-            50% { transform: scale(1.08); filter: drop-shadow(0 0 8px rgba(255,174,0,0.5)); }
-        }
+        @keyframes floatBooks { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-8px) rotate(-3deg); } }
+        @keyframes floatRocket { 0%, 100% { transform: translateY(0) translateX(0); } 50% { transform: translateY(-12px) translateX(4px); } }
+        @keyframes spinClock { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes pulseFlash { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 0px rgba(255,174,0,0)); } 50% { transform: scale(1.08); filter: drop-shadow(0 0 8px rgba(255,174,0,0.5)); } }
 
         .card h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 12px; }
         .card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; }
 
-        /* --- Secondary Panels Layout --- */
-        .footer-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-top: 40px;
-            border-top: 1px solid var(--border-color);
-            padding-top: 40px;
-        }
-
-        .footer-panel {
-            background: var(--panel-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 24px;
-            box-shadow: 0 10px 25px var(--shadow);
-            text-align: left;
-        }
-
+        /* --- Footer Context Panels --- */
+        .footer-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-top: 40px; border-top: 1px solid var(--border-color); padding-top: 40px; }
+        .footer-panel { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 24px; box-shadow: 0 10px 25px var(--shadow); text-align: left; }
         .footer-panel h4 { font-size: 1.1rem; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
 
-        /* --- Feature Detail Views --- */
+        /* --- Advanced Customizable Pomodoro View --- */
         .timer-view, .flashcard-view {
-            max-width: 500px;
-            margin: 40px auto;
-            background: var(--panel-bg);
-            border: 1px solid var(--border-color);
-            padding: 40px;
-            border-radius: 24px;
-            box-shadow: 0 20px 50px var(--shadow);
+            max-width: 550px; margin: 40px auto; background: var(--panel-bg); border: 1px solid var(--border-color);
+            padding: 40px; border-radius: 24px; box-shadow: 0 20px 50px var(--shadow);
         }
 
-        .timer-clock { font-size: 4rem; font-weight: 800; color: var(--accent-secondary); margin: 20px 0; font-variant-numeric: tabular-nums; }
+        .timer-clock { font-size: 4.5rem; font-weight: 800; color: var(--accent-secondary); margin: 15px 0; font-variant-numeric: tabular-nums; }
+        
+        /* Time Setup Controls Block */
+        .config-row {
+            display: flex; justify-content: center; gap: 30px; margin-bottom: 25px;
+            background: rgba(0, 0, 0, 0.15); padding: 15px; border-radius: 14px; border: 1px solid var(--border-color);
+        }
+        .config-group { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+        .config-group span { font-size: 0.85rem; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+        .adjust-box { display: flex; align-items: center; gap: 12px; }
+        .adjust-btn {
+            background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); color: var(--text-main);
+            width: 32px; height: 32px; border-radius: 8px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center;
+        }
+        .adjust-btn:hover { background: var(--accent-primary); border-color: var(--accent-primary); color: #fff; }
+        .time-val { font-size: 1.2rem; font-weight: 700; min-width: 25px; }
+
+        /* Audio Matrix Engine Selector Styles */
+        .audio-selector-wrapper {
+            margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.05); text-align: left;
+        }
+        .audio-selector-wrapper label { display: block; font-size: 0.9rem; margin-bottom: 8px; color: var(--text-muted); font-weight: 600; }
+        .audio-select {
+            width: 100%; padding: 12px; background: #16161e; border: 1px solid var(--border-color);
+            border-radius: 10px; color: #fff; outline: none; cursor: pointer; font-size: 0.95rem;
+        }
+        .audio-select:focus { border-color: var(--accent-primary); }
 
         .action-btn {
-            background: rgba(255, 123, 0, 0.15);
-            border: 1px solid rgba(255, 123, 0, 0.3);
-            color: var(--text-main);
-            padding: 12px 28px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 1rem;
-            margin: 5px;
+            background: rgba(255, 123, 0, 0.15); border: 1px solid rgba(255, 123, 0, 0.3);
+            color: var(--text-main); padding: 12px 28px; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 1rem; margin: 5px;
         }
         .action-btn:hover { background: var(--accent-primary); color: #fff; }
 
+        /* Flashcard Elements */
         .flash-container { perspective: 1000px; width: 100%; height: 200px; margin: 20px 0; }
         .flash-card { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; }
         .flash-container.flipped .flash-card { transform: rotateY(180deg); }
-
         .face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 16px; border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; padding: 24px; font-size: 1.1rem; box-shadow: 0 8px 20px var(--shadow); }
         .face.front { background: var(--panel-bg); }
         .face.back { background: linear-gradient(135deg, #221c16 0%, #120e0a 100%); color: var(--accent-secondary); transform: rotateY(180deg); }
@@ -347,14 +299,17 @@
 </head>
 <body>
 
-    <!-- Theme Controller -->
+    <!-- Small Visible Watermark Brand Text on Top Left Corner -->
+    <div class="brand-watermark">Punny's Study Hub</div>
+
+    <!-- Theme Switch Toggle -->
     <div class="theme-toggle-container">
         <button class="theme-btn" onclick="toggleTheme()">
             <span id="themeIcon">☀️</span> <span id="themeText">Light Mode</span>
         </button>
     </div>
 
-    <!-- Corrected Welcoming Animation Splash Screen -->
+    <!-- Entrance Welcoming Animation Screen -->
     <div class="welcome-screen" id="welcomeScreen">
         <h1 class="welcome-title">Punny's Study Hub</h1>
         <p class="welcome-subtitle">Learn • Excel • Succeed</p>
@@ -374,7 +329,6 @@
             </div>
 
             <div class="card-container">
-                <!-- Animating Books Card -->
                 <div class="card" onclick="switchSection('cbseHub')">
                     <div>
                         <div class="card-icon animate-books">📚</div>
@@ -382,7 +336,6 @@
                         <p>Class 12 board curriculum setups, structured guides, and complete question archives.</p>
                     </div>
                 </div>
-                <!-- Animating Rocket Card -->
                 <div class="card" onclick="switchSection('jeeHub')">
                     <div>
                         <div class="card-icon animate-rocket">🚀</div>
@@ -390,15 +343,13 @@
                         <p>High-yield notes compiled directly from premium resources and exam analysis.</p>
                     </div>
                 </div>
-                <!-- Animating Pomodoro Card -->
                 <div class="card" onclick="switchSection('pomodoroHub')">
                     <div>
                         <div class="card-icon animate-clock">⏱️</div>
                         <h3>Focus Pomodoro</h3>
-                        <p>Set a custom countdown study interval complete with non-intrusive sound synthesis layers.</p>
+                        <p>Set customizable intervals alongside real-time dynamic noise generator audio modules.</p>
                     </div>
                 </div>
-                <!-- Animating Flashcard Card -->
                 <div class="card" onclick="switchSection('flashcardHub')">
                     <div>
                         <div class="card-icon animate-flash">⚡</div>
@@ -408,7 +359,7 @@
                 </div>
             </div>
 
-            <!-- Footer Metrics Row -->
+            <!-- Context Footer Elements -->
             <div class="footer-row">
                 <div class="footer-panel">
                     <h4>📈 Quick Progress Matrix</h4>
@@ -430,13 +381,10 @@
             <div class="main-header">
                 <h2>CBSE Vault</h2>
                 <p>Class 12 secondary study materials organized down by structural files</p>
-                
-                <!-- Internal Context Search Bar -->
                 <div class="search-container">
                     <input type="text" class="search-bar" id="cbseSearch" placeholder="Search CBSE contents or subjects..." oninput="executeSearch('cbseSearch', 'cbseHub')">
                 </div>
             </div>
-            
             <div class="card-container" style="max-width: 700px; margin: 0 auto;">
                 <div class="card">
                     <div>
@@ -467,13 +415,10 @@
             <div class="main-header">
                 <h2>JEE Prep Hub</h2>
                 <p>Engineering toolkits sourced from prime study pathways</p>
-                
-                <!-- Internal Context Search Bar -->
                 <div class="search-container">
                     <input type="text" class="search-bar" id="jeeSearch" placeholder="Search JEE modules, PYQs or notes..." oninput="executeSearch('jeeSearch', 'jeeHub')">
                 </div>
             </div>
-            
             <div class="card-container" style="max-width: 900px; margin: 0 auto;">
                 <div class="card">
                     <div>
@@ -499,22 +444,52 @@
             </div>
         </div>
 
-        <!-- DEDICATED POMODORO WORKBENCH -->
+        <!-- RE-ENGINEERED IMMERSIVE POMODORO SYSTEM -->
         <div class="page-section" id="pomodoroHub">
             <button class="back-btn" onclick="switchSection('homeHub')">← Back to Dashboard</button>
             <div class="timer-view">
                 <div class="card-icon">⏱️</div>
-                <h3>Focus Countdown Engine</h3>
+                <h3>Immersive Study Clock</h3>
+                
                 <div class="timer-clock" id="timerClock">25:00</div>
-                <button class="action-btn" id="timerControlBtn" onclick="toggleTimer()">Start Engine</button>
+
+                <!-- Custom Duration Interval Modulators -->
+                <div class="config-row">
+                    <div class="config-group">
+                        <span>Study Block</span>
+                        <div class="adjust-box">
+                            <button class="adjust-btn" onclick="adjustDuration('work', -1)">-</button>
+                            <div class="time-val" id="workVal">25</div>
+                            <button class="adjust-btn" onclick="adjustDuration('work', 1)">+</button>
+                        </div>
+                    </div>
+                    <div class="config-group">
+                        <span>Short Break</span>
+                        <div class="adjust-box">
+                            <button class="adjust-btn" onclick="adjustDuration('break', -1)">-</button>
+                            <div class="time-val" id="breakVal">5</div>
+                            <button class="adjust-btn" onclick="adjustDuration('break', 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="action-btn" id="timerControlBtn" onclick="toggleTimer()">Start Session</button>
                 <button class="action-btn" onclick="resetTimer()" style="background:transparent; border-color:transparent;">Reset</button>
-                <div style="margin-top: 20px; font-size: 0.9rem; color: var(--text-muted);">
-                    <label style="cursor:pointer;"><input type="checkbox" id="lofiAudioCheck" onchange="toggleLofiBackground()"> Enable ambient synth focus wave</label>
+
+                <!-- Custom Sound Architecture Dropdown Select Matrix -->
+                <div class="audio-selector-wrapper">
+                    <label for="audioWaveEngine">🧠 Ambient Background Matrix</label>
+                    <select id="audioWaveEngine" class="audio-select" onchange="handleAudioEngineChange()">
+                        <option value="none">🔇 Audio Off (Pure Silence)</option>
+                        <option value="brown">🟫 Deep Brown Noise (Immersive Study)</option>
+                        <option value="white">⬜ Static White Noise (Cancel Distractions)</option>
+                        <option value="binaural">🧬 Binaural Focus Waves (85Hz Alpha)</option>
+                    </select>
                 </div>
             </div>
         </div>
 
-        <!-- DEDICATED FLASHCARD HUB -->
+        <!-- FLASHCARD HUB -->
         <div class="page-section" id="flashcardHub">
             <button class="back-btn" onclick="switchSection('homeHub')">← Back to Dashboard</button>
             <div class="flashcard-view">
@@ -536,28 +511,81 @@
 
     </div>
 
-    <!-- Native Browser Focus Noise Oscillator Synth -->
+    <!-- Web Audio Node Noise Matrix Engine System -->
     <script>
-        let audioCtx = null, lofiOsc = null, lofiGain = null;
-        function toggleLofiBackground() {
-            const isChecked = document.getElementById('lofiAudioCheck').checked;
-            if (isChecked) {
-                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                lofiOsc = audioCtx.createOscillator();
-                lofiGain = audioCtx.createGain();
-                lofiOsc.type = 'sine';
-                lofiOsc.frequency.setValueAtTime(85, audioCtx.currentTime);
-                lofiGain.gain.setValueAtTime(0.03, audioCtx.currentTime);
-                lofiOsc.connect(lofiGain);
-                lofiGain.connect(audioCtx.destination);
-                lofiOsc.start();
-            } else if (lofiOsc) {
-                lofiOsc.stop(); lofiOsc = null;
+        let audioCtx = null;
+        let noiseNode = null; 
+        let waveOsc = null;   
+        let gainNode = null;
+
+        function handleAudioEngineChange() {
+            const selectValue = document.getElementById("audioWaveEngine").value;
+            stopAllAudioEngines();
+
+            if (selectValue === "none") return;
+
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            gainNode = audioCtx.createGain();
+            gainNode.connect(audioCtx.destination);
+
+            if (selectValue === "white") {
+                noiseNode = createWhiteNoiseNode();
+                gainNode.gain.setValueAtTime(0.015, audioCtx.currentTime); 
+                noiseNode.connect(gainNode);
+                noiseNode.start();
+            } else if (selectValue === "brown") {
+                noiseNode = createBrownNoiseNode();
+                gainNode.gain.setValueAtTime(0.03, audioCtx.currentTime); 
+                noiseNode.connect(gainNode);
+                noiseNode.start();
+            } else if (selectValue === "binaural") {
+                waveOsc = audioCtx.createOscillator();
+                waveOsc.type = 'sine';
+                waveOsc.frequency.setValueAtTime(85, audioCtx.currentTime); 
+                gainNode.gain.setValueAtTime(0.03, audioCtx.currentTime);
+                waveOsc.connect(gainNode);
+                waveOsc.start();
             }
+        }
+
+        function createWhiteNoiseNode() {
+            const bufferSize = 2 * audioCtx.sampleRate,
+                  noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate),
+                  output = noiseBuffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) {
+                output[i] = Math.random() * 2 - 1;
+            }
+            const whiteNoise = audioCtx.createBufferSource();
+            whiteNoise.buffer = noiseBuffer;
+            whiteNoise.loop = true;
+            return whiteNoise;
+        }
+
+        function createBrownNoiseNode() {
+            const bufferSize = 2 * audioCtx.sampleRate,
+                  noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate),
+                  output = noiseBuffer.getChannelData(0);
+            let lastOut = 0.0;
+            for (let i = 0; i < bufferSize; i++) {
+                const white = Math.random() * 2 - 1;
+                output[i] = (lastOut + (0.02 * white)) / 1.02;
+                lastOut = output[i];
+                output[i] *= 3.5; 
+            }
+            const brownNoise = audioCtx.createBufferSource();
+            brownNoise.buffer = noiseBuffer;
+            brownNoise.loop = true;
+            return brownNoise;
+        }
+
+        function stopAllAudioEngines() {
+            if (noiseNode) { try { noiseNode.stop(); } catch(e){} noiseNode.disconnect(); noiseNode = null; }
+            if (waveOsc) { try { waveOsc.stop(); } catch(e){} waveOsc.disconnect(); waveOsc = null; }
+            if (gainNode) { gainNode.disconnect(); gainNode = null; }
         }
     </script>
 
-    <!-- Navigation, Search, and Operational Scripts -->
+    <!-- UI State, Search Filter Algorithms, and Tracker Scripts -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             setTimeout(() => {
@@ -582,21 +610,12 @@
             const active = document.querySelector('.page-section.active');
             const target = document.getElementById(targetId);
             if (active) {
-                active.style.opacity = '0';
-                active.style.transform = 'translateY(15px) scale(0.98)';
-                setTimeout(() => {
-                    active.classList.remove('active');
-                    reveal(target);
-                }, 350);
+                active.style.opacity = '0'; active.style.transform = 'translateY(15px) scale(0.98)';
+                setTimeout(() => { active.classList.remove('active'); reveal(target); }, 350);
             } else { reveal(target); }
         }
+        function reveal(el) { el.classList.add('active'); setTimeout(() => { el.style.opacity = '1'; el.style.transform = 'translateY(0) scale(1)'; }, 40); }
 
-        function reveal(el) {
-            el.classList.add('active');
-            setTimeout(() => { el.style.opacity = '1'; el.style.transform = 'translateY(0) scale(1)'; }, 40);
-        }
-
-        // Context-Aware Inner Page Filters
         function executeSearch(inputId, sectionId) {
             const q = document.getElementById(inputId).value.toLowerCase();
             const parentSection = document.getElementById(sectionId);
@@ -605,21 +624,57 @@
             });
         }
 
-        // Pomodoro Clock Logics
-        let timer = null, sec = 1500, running = false;
+        let timer = null, running = false;
+        let workDurationMinutes = 25;
+        let breakDurationMinutes = 5;
+        let sec = workDurationMinutes * 60;
+        let currentMode = "work"; 
+
+        function adjustDuration(type, delta) {
+            if (running) return; 
+            if (type === 'work') {
+                workDurationMinutes = Math.max(1, workDurationMinutes + delta);
+                document.getElementById("workVal").textContent = workDurationMinutes;
+                if (currentMode === 'work') { sec = workDurationMinutes * 60; updateTimerUI(); }
+            } else {
+                breakDurationMinutes = Math.max(1, breakDurationMinutes + delta);
+                document.getElementById("breakVal").textContent = breakDurationMinutes;
+                if (currentMode === 'break') { sec = breakDurationMinutes * 60; updateTimerUI(); }
+            }
+        }
+
         function toggleTimer() {
             const btn = document.getElementById("timerControlBtn");
             if (running) {
-                clearInterval(timer); running = false; btn.textContent = "Resume Engine";
+                clearInterval(timer); running = false; btn.textContent = "Resume Session";
             } else {
-                running = true; btn.textContent = "Pause Space";
+                running = true; btn.textContent = "Pause Block";
                 timer = setInterval(() => {
-                    if (sec <= 0) { clearInterval(timer); alert("Focus block absolute!"); resetTimer(); }
-                    else { sec--; updateTimerUI(); }
+                    if (sec <= 0) {
+                        clearInterval(timer);
+                        running = false;
+                        if (currentMode === "work") {
+                            alert("Study block absolute! Commencing break interval.");
+                            currentMode = "break";
+                            sec = breakDurationMinutes * 60;
+                        } else {
+                            alert("Break absolute! Back to alignment.");
+                            currentMode = "work";
+                            sec = workDurationMinutes * 60;
+                        }
+                        updateTimerUI();
+                        toggleTimer(); 
+                    } else { sec--; updateTimerUI(); }
                 }, 1000);
             }
         }
-        function resetTimer() { clearInterval(timer); sec = 1500; running = false; updateTimerUI(); document.getElementById("timerControlBtn").textContent = "Start Engine"; }
+
+        function resetTimer() {
+            clearInterval(timer); running = false; currentMode = "work";
+            sec = workDurationMinutes * 60; updateTimerUI();
+            document.getElementById("timerControlBtn").textContent = "Start Session";
+        }
+
         function updateTimerUI() {
             document.getElementById("timerClock").textContent = `${Math.floor(sec/60).toString().padStart(2,'0')}:${(sec%60).toString().padStart(2,'0')}`;
         }
