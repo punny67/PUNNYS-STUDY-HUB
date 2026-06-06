@@ -97,4 +97,222 @@
         .tab-btn {
             background: transparent;
             color: var(--text-muted);
-            border:
+            border: 1px solid var(--border);
+            padding: 0.75rem 1.5rem;
+            border-radius: 30px;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--trans-fast);
+        }
+
+        .tab-btn:hover { border-color: var(--text-muted); color: var(--text-main); }
+        
+        .tab-btn.active {
+            background: var(--text-main);
+            color: var(--bg);
+            border-color: var(--text-main);
+            font-weight: 700;
+        }
+
+        /* --- Tab Content Areas --- */
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeUp 0.4s ease forwards; }
+
+        /* --- Grid & Cards --- */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            transition: var(--trans-fast);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            border-color: var(--text-muted);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+        }
+
+        .card-tag {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .card h2 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .card p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem; line-height: 1.6; }
+
+        /* --- Files Inside Cards --- */
+        .file-list { list-style: none; border-top: 1px dashed var(--border); padding-top: 1rem; }
+        
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .file-name { font-size: 0.9rem; font-weight: 500; }
+        
+        .btn-download {
+            background: transparent;
+            color: var(--text-main);
+            text-decoration: none;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            border: 1px solid var(--border);
+            padding: 5px 12px;
+            border-radius: 4px;
+            transition: var(--trans-fast);
+        }
+
+        .btn-download:hover { background: var(--text-main); color: var(--bg); }
+
+        /* --- Feedback Form --- */
+        .form-container {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 3rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group { margin-bottom: 1.5rem; }
+        
+        .form-label {
+            display: block;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control {
+            width: 100%;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Space Grotesk', sans-serif;
+            transition: var(--trans-fast);
+        }
+
+        .form-control:focus { outline: none; border-color: var(--accent); }
+        textarea.form-control { resize: vertical; min-height: 120px; }
+
+        .btn-submit {
+            background: var(--text-main);
+            color: var(--bg);
+            border: none;
+            width: 100%;
+            padding: 1rem;
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--trans-fast);
+        }
+
+        .btn-submit:hover { background: var(--accent); color: white; }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <header class="anim-element">
+            <div class="logo">
+                <h1><span class="red-dot"></span>HUB_OS</h1>
+                <p>System Ver. 2.0</p>
+            </div>
+        </header>
+
+        <nav class="nav-tabs anim-element delay-1">
+            <button class="tab-btn active" onclick="switchTab('vault')">DATA_VAULT</button>
+            <button class="tab-btn" onclick="switchTab('comm')">COMM_LINK</button>
+        </nav>
+
+        <main id="vault" class="tab-content active anim-element delay-2">
+            <div class="grid">
+                
+                <div class="card">
+                    <span class="card-tag">Module [01]</span>
+                    <h2>Mathematics</h2>
+                    <p>Calculus models, pure algebraic systems, and theorem logs.</p>
+                    <ul class="file-list">
+                        <li class="file-item">
+                            <span class="file-name">Calculus_Ch1.pdf</span>
+                            <a href="#" class="btn-download">GET</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <span class="card-tag">Module [02]</span>
+                    <h2>Physics</h2>
+                    <p>Kinematic simulations and raw quantum mechanics datasheets.</p>
+                    <ul class="file-list">
+                        <li class="file-item">
+                            <span class="file-name">Mechanics_Log.pdf</span>
+                            <a href="#" class="btn-download">GET</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </main>
+
+        <main id="comm" class="tab-content">
+            <div class="form-container">
+                <h2 style="margin-bottom: 2rem; font-family: 'Space Mono', monospace;">// TRANSMIT_FEEDBACK</h2>
+                
+                <form action="#" method="POST">
+                    <div class="form-group">
+                        <label class="form-label">IDENTIFIER (Name)</label>
+                        <input type="text" class="form-control" placeholder="Enter your designation...">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">DATA_PACKET (Message)</label>
+                        <textarea class="form-control" placeholder="Request a file, report a broken link, or leave a comment..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">EXECUTE TRANSMISSION</button>
+                </form>
+                
+            </div>
+        </main>
+
+    </div>
+
+    <script>
+        function switchTab(tabId) {
+            // Remove active class from all buttons and tabs
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            
+            // Show the correct tab
+            document.getElementById(tabId).classList.add('active');
+        }
+    </script>
+
+</body>
+</html>
