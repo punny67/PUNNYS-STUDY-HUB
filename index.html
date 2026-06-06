@@ -3,316 +3,226 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HUB_OS // PUNNY</title>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <title>Punny's Study Hub</title>
     <style>
-        :root {
-            --bg: #050505;
-            --surface: #121212;
-            --surface-hover: #1e1e1e;
-            --text-main: #f5f5f5;
-            --text-muted: #888888;
-            --accent: #d92d20; /* Nothing OS Red */
-            --border: #2a2a2a;
-            --radius: 12px;
-            --trans-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            --trans-slow: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        /* --- Global Resets & Fonts --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Space Grotesk', sans-serif;
-            background-color: var(--bg);
-            color: var(--text-main);
-            min-height: 100vh;
-            background-image: radial-gradient(circle at 50% 0%, #1a1a1a 0%, transparent 70%);
-        }
-
-        /* --- Animations --- */
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes pulseDot {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
-
-        .anim-element {
-            opacity: 0;
-            animation: fadeUp var(--trans-slow) forwards;
-        }
-        .delay-1 { animation-delay: 0.1s; }
-        .delay-2 { animation-delay: 0.2s; }
-        .delay-3 { animation-delay: 0.3s; }
-
-        /* --- Layout & Header --- */
-        .container { max-width: 1100px; margin: 0 auto; padding: 2rem; }
-
-        header {
+            background: #121214;
+            color: #ffffff;
+            overflow: hidden;
+            height: 100vh;
             display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .logo h1 {
-            font-family: 'Space Mono', monospace;
-            font-size: 2rem;
-            font-weight: 700;
-            letter-spacing: -2px;
-            display: flex;
+            justify-content: center;
             align-items: center;
-            gap: 10px;
         }
 
-        .red-dot {
-            width: 12px;
-            height: 12px;
-            background-color: var(--accent);
-            border-radius: 50%;
-            display: inline-block;
-            animation: pulseDot 3s infinite;
-        }
-
-        .logo p {
-            font-family: 'Space Mono', monospace;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-top: 5px;
-        }
-
-        /* --- Tab Navigation --- */
-        .nav-tabs {
+        /* --- 1. Welcome / Splash Screen --- */
+        .welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #1e1e24 0%, #0a0a0c 100%);
             display: flex;
-            gap: 1rem;
-            margin-bottom: 3rem;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.8s ease;
         }
 
-        .tab-btn {
-            background: transparent;
-            color: var(--text-muted);
-            border: 1px solid var(--border);
-            padding: 0.75rem 1.5rem;
-            border-radius: 30px;
-            font-family: 'Space Mono', monospace;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: var(--trans-fast);
+        .welcome-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease forwards 0.3s;
+            background: linear-gradient(45deg, #ff7b00, #ffae00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .tab-btn:hover { border-color: var(--text-muted); color: var(--text-main); }
-        
-        .tab-btn.active {
-            background: var(--text-main);
-            color: var(--bg);
-            border-color: var(--text-main);
-            font-weight: 700;
+        .welcome-subtitle {
+            font-size: 1.2rem;
+            color: #a0a0ab;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease forwards 0.6s;
         }
 
-        /* --- Tab Content Areas --- */
-        .tab-content { display: none; }
-        .tab-content.active { display: block; animation: fadeUp 0.4s ease forwards; }
+        /* --- 2. Main Content Screen --- */
+        .main-content {
+            opacity: 0;
+            transform: scale(0.95);
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            text-align: center;
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+            display: none; /* Hidden initially */
+        }
 
-        /* --- Grid & Cards --- */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 1.5rem;
+        .main-content.reveal {
+            display: block;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .main-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+
+        .main-header p {
+            color: #94a3b8;
+            margin-bottom: 40px;
+        }
+
+        /* --- 3. Material Selection Cards --- */
+        .card-container {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
         .card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 2rem;
-            transition: var(--trans-fast);
+            background: #1e1e24;
+            border: 2px solid #2e2e38;
+            border-radius: 16px;
+            width: 260px;
+            padding: 40px 30px;
+            cursor: pointer;
             position: relative;
             overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
 
+        /* Hover Effects */
         .card:hover {
-            border-color: var(--text-muted);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+            transform: translateY(-10px);
+            border-color: #ff7b00;
+            box-shadow: 0 15px 30px rgba(255, 123, 0, 0.2);
         }
 
-        .card-tag {
-            font-family: 'Space Mono', monospace;
-            font-size: 0.75rem;
-            color: var(--accent);
-            text-transform: uppercase;
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 123, 0, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
             letter-spacing: 1px;
-            margin-bottom: 1rem;
-            display: block;
         }
 
-        .card h2 { font-size: 1.5rem; margin-bottom: 0.5rem; }
-        .card p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem; line-height: 1.6; }
-
-        /* --- Files Inside Cards --- */
-        .file-list { list-style: none; border-top: 1px dashed var(--border); padding-top: 1rem; }
-        
-        .file-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+        .card p {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            line-height: 1.4;
         }
 
-        .file-name { font-size: 0.9rem; font-weight: 500; }
-        
-        .btn-download {
-            background: transparent;
-            color: var(--text-main);
-            text-decoration: none;
-            font-family: 'Space Mono', monospace;
-            font-size: 0.75rem;
-            border: 1px solid var(--border);
-            padding: 5px 12px;
-            border-radius: 4px;
-            transition: var(--trans-fast);
+        /* --- Keyframe Animations --- */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .btn-download:hover { background: var(--text-main); color: var(--bg); }
-
-        /* --- Feedback Form --- */
-        .form-container {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 3rem;
-            max-width: 600px;
-            margin: 0 auto;
+        /* Screen Exit Animation */
+        .slide-up {
+            transform: translateY(-100vh);
+            opacity: 0;
         }
-
-        .form-group { margin-bottom: 1.5rem; }
-        
-        .form-label {
-            display: block;
-            font-family: 'Space Mono', monospace;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-bottom: 0.5rem;
-        }
-
-        .form-control {
-            width: 100%;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            padding: 1rem;
-            border-radius: 8px;
-            font-family: 'Space Grotesk', sans-serif;
-            transition: var(--trans-fast);
-        }
-
-        .form-control:focus { outline: none; border-color: var(--accent); }
-        textarea.form-control { resize: vertical; min-height: 120px; }
-
-        .btn-submit {
-            background: var(--text-main);
-            color: var(--bg);
-            border: none;
-            width: 100%;
-            padding: 1rem;
-            font-family: 'Space Mono', monospace;
-            font-weight: 700;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: var(--trans-fast);
-        }
-
-        .btn-submit:hover { background: var(--accent); color: white; }
-
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <!-- Welcome Screen -->
+    <div class="welcome-screen" id="welcomeScreen">
+        <h1 class="welcome-title">Punny's Study Hub</h1>
+        <p class="welcome-subtitle">Learn • Excel • Succeed</p>
+    </div>
+
+    <!-- Main Materials Dashboard -->
+    <div class="main-content" id="mainContent">
+        <div class="main-header">
+            <h2>Select Your Stream</h2>
+            <p>Choose the type of study materials you want to access</p>
+        </div>
         
-        <header class="anim-element">
-            <div class="logo">
-                <h1><span class="red-dot"></span>HUB_OS</h1>
-                <p>System Ver. 2.0</p>
+        <div class="card-container">
+            <!-- CBSE Card -->
+            <div class="card" onclick="selectMaterial('CBSE')">
+                <div class="card-icon">📚</div>
+                <h3>CBSE</h3>
+                <p>School curriculum, NCERT solutions, notes, and board exam papers.</p>
             </div>
-        </header>
 
-        <nav class="nav-tabs anim-element delay-1">
-            <button class="tab-btn active" onclick="switchTab('vault')">DATA_VAULT</button>
-            <button class="tab-btn" onclick="switchTab('comm')">COMM_LINK</button>
-        </nav>
-
-        <main id="vault" class="tab-content active anim-element delay-2">
-            <div class="grid">
-                
-                <div class="card">
-                    <span class="card-tag">Module [01]</span>
-                    <h2>Mathematics</h2>
-                    <p>Calculus models, pure algebraic systems, and theorem logs.</p>
-                    <ul class="file-list">
-                        <li class="file-item">
-                            <span class="file-name">Calculus_Ch1.pdf</span>
-                            <a href="#" class="btn-download">GET</a>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="card">
-                    <span class="card-tag">Module [02]</span>
-                    <h2>Physics</h2>
-                    <p>Kinematic simulations and raw quantum mechanics datasheets.</p>
-                    <ul class="file-list">
-                        <li class="file-item">
-                            <span class="file-name">Mechanics_Log.pdf</span>
-                            <a href="#" class="btn-download">GET</a>
-                        </li>
-                    </ul>
-                </div>
-
+            <!-- JEE Card -->
+            <div class="card" onclick="selectMaterial('JEE')">
+                <div class="card-icon">🚀</div>
+                <h3>JEE</h3>
+                <p>IIT JEE Main & Advanced prep, mock tests, and advanced physics, chemistry, & math notes.</p>
             </div>
-        </main>
-
-        <main id="comm" class="tab-content">
-            <div class="form-container">
-                <h2 style="margin-bottom: 2rem; font-family: 'Space Mono', monospace;">// TRANSMIT_FEEDBACK</h2>
-                
-                <form action="#" method="POST">
-                    <div class="form-group">
-                        <label class="form-label">IDENTIFIER (Name)</label>
-                        <input type="text" class="form-control" placeholder="Enter your designation...">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">DATA_PACKET (Message)</label>
-                        <textarea class="form-control" placeholder="Request a file, report a broken link, or leave a comment..."></textarea>
-                    </div>
-                    <button type="submit" class="btn-submit">EXECUTE TRANSMISSION</button>
-                </form>
-                
-            </div>
-        </main>
-
+        </div>
     </div>
 
     <script>
-        function switchTab(tabId) {
-            // Remove active class from all buttons and tabs
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            
-            // Add active class to clicked button
-            event.target.classList.add('active');
-            
-            // Show the correct tab
-            document.getElementById(tabId).classList.add('active');
+        document.addEventListener("DOMContentLoaded", () => {
+            const welcomeScreen = document.getElementById("welcomeScreen");
+            const mainContent = document.getElementById("mainContent");
+
+            // Wait 2.5 seconds for welcome animations to finish, then transition
+            setTimeout(() => {
+                // Slide up and fade out the welcome screen
+                welcomeScreen.classList.add("slide-up");
+                
+                // Show the main content with a delay so it syncs perfectly
+                setTimeout(() => {
+                    mainContent.classList.add("reveal");
+                }, 300);
+                
+            }, 2500);
+        });
+
+        // Function to handle card selection
+        function selectMaterial(type) {
+            alert(`You selected ${type} materials! Redirecting...`);
+            // You can replace the alert with actual navigation later, like:
+            // window.location.href = `/${type.toLowerCase()}-dashboard.html`;
         }
     </script>
-
 </body>
 </html>
