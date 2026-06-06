@@ -694,6 +694,28 @@
             document.getElementById('scratchpadContent').value = localStorage.getItem('punnyScratchNotes') || ""; 
         }
 
+        // --- MISSING FIX #1: TOGGLE GLOBAL AUDIO SYSTEM ---
+        function toggleGlobalAudioSystem() {
+            triggerUiSound('hover');
+            globalAudioSystemActive = !globalAudioSystemActive;
+            localStorage.setItem('punnyMasterAudioState', globalAudioSystemActive);
+            
+            document.getElementById('audioMasterIcon').innerText = globalAudioSystemActive ? "🔊" : "🔇";
+            document.getElementById('audioMasterText').innerText = globalAudioSystemActive ? "Audio ON" : "Audio OFF";
+            
+            if (!globalAudioSystemActive) {
+                stopAllAudioEngines();
+                if (ytPlayerObj && typeof ytPlayerObj.mute === 'function') {
+                    ytPlayerObj.mute();
+                }
+            } else {
+                if (ytPlayerObj && typeof ytPlayerObj.unMute === 'function') {
+                    ytPlayerObj.unMute();
+                }
+            }
+            showToastNotification(globalAudioSystemActive ? "🔊 Audio enabled" : "🔇 Audio disabled");
+        }
+
         // --- ONBOARDING & PROFILE GRIDS ---
         function commitOnboardingUserIdentityProfile() {
             const name = document.getElementById('onboardingIdentityInputField').value.trim();
@@ -710,6 +732,19 @@
         
         function applyPersonalizedDashboardGreeting() { 
             document.getElementById('personalizedDashboardTitleGreeting').innerText = `Welcome back, ${localStorage.getItem('punnyProfileNameStr') || 'Scholar'}`; 
+        }
+
+        // --- MISSING FIX #2: LAUNCH TASK WORKSPACE FOR CALENDAR DAY ---
+        function launchTaskWorkspaceForDay(key, dayNum) {
+            triggerUiSound('hover');
+            currentlySelectedDateStringKey = key;
+            const workspace = document.getElementById('calendarTaskWorkspace');
+            const label = document.getElementById('selectedDateWorkspaceLabel');
+            const monthName = monthNameStringArray[currentTargetDateObj.getMonth()];
+            label.textContent = `${monthName} ${dayNum} - Manage Tasks`;
+            workspace.style.display = 'block';
+            document.getElementById('newCalendarTaskTextInput').focus();
+            renderTaskListWorkspaceBucket();
         }
 
         // --- TRACKER & TIMING CONTROL PANELS (WITH LOCKDOWN MODE) ---
