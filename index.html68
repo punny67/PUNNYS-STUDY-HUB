@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Study Hub</title>
+    <style>
+        body { font-family: sans-serif; padding: 40px; line-height: 1.6; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+        .card { border: 1px solid #ccc; padding: 20px; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <h1>Welcome to My Study Materials</h1>
+    <div class="grid">
+        <div class="card"><h3>Math</h3><p>Calculus notes, algebra sheets.</p></div>
+        <div class="card"><h3>Physics</h3><p>Lab reports and diagrams.</p></div>
+    </div>
+</body>
+</html>
