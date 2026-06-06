@@ -3,310 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Punny's Premium Study Hub</title>
+    <title>HUB_OS // PUNNY</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* Modern Design Variables */
         :root {
-            --bg-gradient: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
-            --panel-bg: #ffffff;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --primary: #4f46e5;
-            --primary-hover: #4338ca;
-            --accent: #10b981;
-            --radius: 16px;
-            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --bg: #050505;
+            --surface: #121212;
+            --surface-hover: #1e1e1e;
+            --text-main: #f5f5f5;
+            --text-muted: #888888;
+            --accent: #d92d20; /* Nothing OS Red */
+            --border: #2a2a2a;
+            --radius: 12px;
+            --trans-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --trans-slow: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* Smooth Reset & Animations */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes pulseTrack { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background: var(--bg-gradient);
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--bg);
             color: var(--text-main);
             min-height: 100vh;
-            padding: 2rem 1rem;
+            background-image: radial-gradient(circle at 50% 0%, #1a1a1a 0%, transparent 70%);
         }
 
-        .wrapper {
-            max-width: 1200px;
-            margin: 0 auto;
-            animation: fadeIn 0.6s ease-out forwards;
+        /* --- Animations --- */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulseDot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
         }
 
-        /* Header Setup */
-        header {
-            background: var(--panel-bg);
-            padding: 2rem;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-sm);
-            margin-bottom: 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-            border: 1px solid rgba(255,255,255,0.8);
-        }
-
-        .logo-area h1 {
-            font-size: 1.75rem;
-            font-weight: 800;
-            color: var(--text-main);
-            letter-spacing: -0.025em;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .logo-area p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            margin-top: 0.25rem;
-        }
-
-        .status-badge {
-            background: #ecfdf5;
-            color: var(--accent);
-            padding: 0.5rem 1rem;
-            border-radius: 9999px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            border: 1px solid #a7f3d0;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--accent);
-            border-radius: 50%;
-            animation: pulseTrack 2s infinite;
-        }
-
-        /* 3-Column Modern Grid */
-        .grid-layout {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
-        }
-
-        /* Animated Subject Box Cards */
-        .subject-card {
-            background: var(--panel-bg);
-            border-radius: var(--radius);
-            padding: 2rem;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid rgba(226, 232, 240, 0.8);
-            transition: var(--transition);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* The Box Hover Animation Pop Effect */
-        .subject-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-md);
-            border-color: var(--primary);
-        }
-
-        .subject-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: var(--primary);
+        .anim-element {
             opacity: 0;
-            transition: var(--transition);
+            animation: fadeUp var(--trans-slow) forwards;
+        }
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+
+        /* --- Layout & Header --- */
+        .container { max-width: 1100px; margin: 0 auto; padding: 2rem; }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 2rem;
+            margin-bottom: 2rem;
         }
 
-        .subject-card:hover::before { opacity: 1; }
-
-        .card-header { margin-bottom: 1.5rem; }
-
-        .tag {
-            display: inline-block;
-            font-size: 0.75rem;
+        .logo h1 {
+            font-family: 'Space Mono', monospace;
+            font-size: 2rem;
             font-weight: 700;
-            text-transform: uppercase;
-            padding: 0.25rem 0.75rem;
-            border-radius: 6px;
-            margin-bottom: 1rem;
-            letter-spacing: 0.05em;
-        }
-
-        .tag-math { background: #eff6ff; color: #2563eb; }
-        .tag-science { background: #faf5ff; color: #7c3aed; }
-        .tag-ref { background: #fffbeb; color: #d97706; }
-
-        .subject-card h2 {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--text-main);
-            margin-bottom: 0.5rem;
-        }
-
-        .subject-card p {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-
-        /* Premium Download Elements */
-        .file-box-list { list-style: none; margin-top: 1.5rem; }
-
-        .file-item {
+            letter-spacing: -2px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            background: #f8fafc;
-            padding: 0.85rem 1rem;
-            border-radius: 10px;
-            margin-bottom: 0.75rem;
-            border: 1px solid #f1f5f9;
-            transition: var(--transition);
+            gap: 10px;
         }
 
-        .file-item:hover {
-            background: #f1f5f9;
-            transform: scale(1.02);
+        .red-dot {
+            width: 12px;
+            height: 12px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulseDot 3s infinite;
         }
 
-        .file-name {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #334155;
-            max-width: 180px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .download-btn {
-            background: var(--primary);
-            color: white;
-            text-decoration: none;
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
-            transition: var(--transition);
-        }
-
-        .download-btn:hover {
-            background: var(--primary-hover);
-            box-shadow: 0 4px 8px rgba(79, 70, 229, 0.3);
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 4rem;
-            font-size: 0.8rem;
+        .logo p {
+            font-family: 'Space Mono', monospace;
             color: var(--text-muted);
-            font-weight: 500;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 5px;
         }
-    </style>
-</head>
-<body>
 
-    <div class="wrapper">
-        <!-- Top Navigation Panel -->
-        <header>
-            <div class="logo-area">
-                <h1>📚 Punny's Study Hub</h1>
-                <p>Premium Digital Vault for Academic Resources</p>
-            </div>
-            <div class="status-badge">
-                <div class="status-dot"></div> Hub Online
-            </div>
-        </header>
+        /* --- Tab Navigation --- */
+        .nav-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
 
-        <!-- Main Interactive Workspace Layout -->
-        <main class="grid-layout">
-            
-            <!-- Box Card 1: Mathematics -->
-            <div class="subject-card">
-                <div class="card-header">
-                    <span class="tag tag-math">Core Subject</span>
-                    <h2>📐 Mathematics</h2>
-                    <p>Advanced calculus breakdowns, algebraic proofs, and reference worksheets.</p>
-                </div>
-                <ul class="file-box-list">
-                    <li class="file-item">
-                        <span class="file-name">Calculus_Limits_Ch1.pdf</span>
-                        <a href="#" class="download-btn">Download</a>
-                    </li>
-                    <li class="file-item">
-                        <span class="file-name">Derivatives_Formula.pdf</span>
-                        <a href="#" class="download-btn">Download</a>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Box Card 2: Physics -->
-            <div class="subject-card">
-                <div class="card-header">
-                    <span class="tag tag-science">Natural Science</span>
-                    <h2>⚛️ Physics</h2>
-                    <p>Kinematics formulas, core electricity modules, and laboratory record designs.</p>
-                </div>
-                <ul class="file-box-list">
-                    <li class="file-item">
-                        <span class="file-name">Mechanics_Workbook.pdf</span>
-                        <a href="#" class="download-btn">Download</a>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Box Card 3: Chemistry -->
-            <div class="subject-card">
-                <div class="card-header">
-                    <span class="tag tag-science">Chemical Science</span>
-                    <h2>🧬 Chemistry</h2>
-                    <p>Organic chains, chemical equations tracking, and molecular layout references.</p>
-                </div>
-                <ul class="file-box-list">
-                    <li class="file-item">
-                        <span class="file-name">Organic_Chains_Index.pdf</span>
-                        <a href="#" class="download-btn">Download</a>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Box Card 4: References -->
-            <div class="subject-card">
-                <div class="card-header">
-                    <span class="tag tag-ref">Resource Links</span>
-                    <h2>🔗 External Access Links</h2>
-                    <p>Direct web anchors to university syllabi, questionnaires, and text portals.</p>
-                </div>
-                <ul class="file-box-list">
-                    <li class="file-item">
-                        <span class="file-name">Official Portal</span>
-                        <a href="https://example.com" target="_blank" class="download-btn" style="background:#475569;">Open</a>
-                    </li>
-                </ul>
-            </div>
-
-        </main>
-
-        <footer>
-            &copy; 2026 Punny's Study Hub. Optimized for continuous file streaming.
-        </footer>
-    </div>
-
-</body>
-</html>
+        .tab-btn {
+            background: transparent;
+            color: var(--text-muted);
+            border:
