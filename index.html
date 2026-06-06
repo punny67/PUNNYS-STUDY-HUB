@@ -80,15 +80,17 @@
             user-select: none;
         }
 
-        /* --- Theme Toggle --- */
-        .theme-toggle-container {
+        /* --- Global Control Panel Rig --- */
+        .global-controls {
             position: fixed;
             top: 25px;
             right: 40px;
             z-index: 90;
+            display: flex;
+            gap: 12px;
         }
 
-        .theme-btn {
+        .control-btn {
             background: var(--panel-bg);
             border: 1px solid var(--border-color);
             color: var(--text-main);
@@ -103,6 +105,7 @@
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
         }
+        .control-btn:hover { border-color: var(--accent-primary); }
 
         /* --- Welcome Screen Animation --- */
         .welcome-screen {
@@ -221,6 +224,7 @@
         .card:hover .animate-books { transform: scale(1.1) rotate(-5deg); }
         .card:hover .animate-rocket { transform: translateY(-4px) scale(1.1); }
         .card:hover .animate-tracker { transform: scale(1.15); filter: drop-shadow(0 4px 12px var(--accent-primary)); }
+        .card:hover .animate-calendar { transform: scale(1.1) rotate(4deg); }
 
         /* Continuous Keyframe Loops */
         .animate-books { animation: floatBooks 3s ease-in-out infinite; }
@@ -228,6 +232,7 @@
         .animate-clock { animation: spinClock 4s linear infinite; }
         .animate-flash { animation: pulseFlash 2s ease-in-out infinite; }
         .animate-tracker { animation: pulseTracker 2s ease-in-out infinite; }
+        .animate-calendar { animation: floatBooks 3.2s ease-in-out infinite; }
         .animate-admin { animation: floatAdmin 3.5s ease-in-out infinite; }
 
         @keyframes floatBooks { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-6px) rotate(-2deg); } }
@@ -256,10 +261,11 @@
         .tag-mth { background: rgba(255,123,0,0.15); color: #ff7b00; }
 
         /* --- Immersive View Frameworks --- */
-        .timer-view, .flashcard-view, .admin-view, .tracker-view {
+        .timer-view, .flashcard-view, .admin-view, .tracker-view, .calendar-panel-view {
             max-width: 550px; margin: 40px auto; background: var(--panel-bg); border: 1px solid var(--border-color);
             padding: 40px; border-radius: 24px; box-shadow: 0 20px 50px var(--shadow); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
         }
+        .calendar-panel-view { max-width: 750px; }
 
         .timer-clock, .visit-counter, .tracker-clock { font-size: 4.5rem; font-weight: 800; color: var(--accent-secondary); margin: 15px 0; font-variant-numeric: tabular-nums; text-shadow: 0 0 20px rgba(255,174,0,0.15); }
         
@@ -304,6 +310,30 @@
         .face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 16px; border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; padding: 24px; font-size: 1.1rem; box-shadow: 0 8px 20px var(--shadow); }
         .face.front { background: var(--panel-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
         .face.back { background: linear-gradient(135deg, #221c16 0%, #120e0a 100%); color: var(--accent-secondary); transform: rotateY(180deg); }
+
+        /* --- PREMIUM TO-DO CALENDAR MODULE ARCHITECTURE --- */
+        .calendar-nav-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .calendar-nav-title { font-size: 1.4rem; font-weight: 800; color: #fff; }
+        .calendar-grid-wrapper { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-bottom: 25px; }
+        .calendar-day-label { font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); font-weight: 800; padding-bottom: 5px; text-align: center; }
+        .calendar-date-cell { background: rgba(0, 0, 0, 0.2); border: 1px solid var(--border-color); border-radius: 10px; min-height: 75px; padding: 6px; text-align: left; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; transition: border-color 0.2s, background 0.2s; }
+        .calendar-date-cell:hover { border-color: var(--accent-primary); background: rgba(255,123,0,0.02); }
+        .calendar-date-cell.outside-month { opacity: 0.25; pointer-events: none; }
+        .calendar-date-cell.current-today { border-color: var(--accent-secondary); background: rgba(255,174,0,0.04); }
+        .calendar-cell-num { font-size: 0.85rem; font-weight: 700; color: var(--text-muted); }
+        .calendar-date-cell.current-today .calendar-cell-num { color: var(--accent-secondary); }
+        .calendar-cell-tasks-indicator { display: flex; flex-direction: column; gap: 3px; overflow: hidden; margin-top: 4px; }
+        .calendar-mini-task-dot { height: 4px; width: 100%; border-radius: 2px; background: var(--accent-primary); }
+
+        /* Integrated Calendar Detail Input Panel */
+        .calendar-task-entry-box { background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 14px; padding: 18px; text-align: left; display: none; margin-top: 15px; }
+        .calendar-entry-title { font-size: 0.9rem; font-weight: 700; margin-bottom: 12px; color: var(--accent-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
+        .calendar-input-row { display: flex; gap: 10px; }
+        .calendar-text-field { flex: 1; padding: 10px 14px; background: #16161e; border: 1px solid var(--border-color); border-radius: 8px; color: #fff; outline: none; font-size: 0.9rem; }
+        .calendar-text-field:focus { border-color: var(--accent-primary); }
+        .calendar-tasks-listing { margin-top: 12px; display: flex; flex-direction: column; gap: 6px; max-height: 150px; overflow-y: auto; }
+        .calendar-task-row-item { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); padding: 8px 12px; border-radius: 6px; font-size: 0.9rem; border: 1px solid rgba(255,255,255,0.02); }
+        .calendar-task-del-btn { color: #ef4444; cursor: pointer; font-weight: bold; background: transparent; border: none; padding: 0 4px; }
 
         /* --- Enlarged Navigation Back Buttons --- */
         .back-btn { 
@@ -381,8 +411,12 @@
         <textarea class="scratchpad-textarea" id="scratchpadContent" placeholder="Type quick formulas, equation notes, or task lists here..." oninput="saveScratchpadNotes()"></textarea>
     </div>
 
-    <div class="theme-toggle-container">
-        <button class="theme-btn" onclick="toggleTheme()">
+    <!-- Global Rig Controls Layout -->
+    <div class="global-controls">
+        <button class="control-btn" id="masterAudioToggleBtn" onclick="toggleGlobalAudioSystem()">
+            <span id="audioMasterIcon">🔊</span> <span id="audioMasterText">Audio ON</span>
+        </button>
+        <button class="control-btn" onclick="toggleTheme()">
             <span id="themeIcon">☀️</span> <span id="themeText">Light Mode</span>
         </button>
     </div>
@@ -405,42 +439,49 @@
             </div>
 
             <div class="card-container">
-                <div class="card" onclick="switchSection('cbseHub')">
+                <div class="card" onclick="switchSection('cbseHub')" onmouseenter="triggerUiSound('hover')">
                     <div>
                         <div class="card-icon animate-books">📚</div>
                         <h3>CBSE Materials</h3>
                         <p>Class 12 board curriculum setups, structured guides, and complete question archives.</p>
                     </div>
                 </div>
-                <div class="card" onclick="switchSection('jeeHub')">
+                <div class="card" onclick="switchSection('jeeHub')" onmouseenter="triggerUiSound('hover')">
                     <div>
                         <div class="card-icon animate-rocket">🚀</div>
                         <h3>JEE Preparation</h3>
                         <p>High-yield notes compiled directly from premium resources and exam analysis.</p>
                     </div>
                 </div>
-                <div class="card" onclick="switchSection('pomodoroHub')">
+                <div class="card" onclick="switchSection('pomodoroHub')" onmouseenter="triggerUiSound('hover')">
                     <div>
                         <div class="card-icon animate-clock">⏱️</div>
                         <h3>Focus Pomodoro</h3>
                         <p>Set customizable intervals alongside real-time dynamic noise generator audio modules.</p>
                     </div>
                 </div>
-                <div class="card" onclick="switchSection('trackerHub')">
+                <div class="card" onclick="switchSection('trackerHub')" onmouseenter="triggerUiSound('hover')">
                     <div>
                         <div class="card-icon animate-tracker">🔥</div>
                         <h3>Study Tracker</h3>
                         <p>Log your subject-specific revision sessions and check out your breakdown graphs.</p>
                     </div>
                 </div>
-                <div class="card" onclick="switchSection('flashcardHub')">
+                <div class="card" onclick="switchSection('calendarHub')" onmouseenter="triggerUiSound('hover')">
+                    <div>
+                        <div class="card-icon animate-calendar">📅</div>
+                        <h3>To-Do Calendar</h3>
+                        <p>Schedule your monthly checkpoints and manage assignments inside an immersive soundscape.</p>
+                    </div>
+                </div>
+                <div class="card" onclick="switchSection('flashcardHub')" onmouseenter="triggerUiSound('hover')">
                     <div>
                         <div class="card-icon animate-flash">⚡</div>
                         <h3>Active Revision</h3>
                         <p>Flip interactive micro-flashcards to verify core system principles instantly.</p>
                     </div>
                 </div>
-                <div class="card" onclick="verifyAdminPortal()">
+                <div class="card" onclick="verifyAdminPortal()" onmouseenter="triggerUiSound('hover')">
                     <div>
                         <div class="card-icon animate-admin">🔒</div>
                         <h3>Visit Insights</h3>
@@ -609,6 +650,34 @@
             </div>
         </div>
 
+        <!-- --- BRAND NEW TO-DO CALENDAR MODULE --- -->
+        <div class="page-section" id="calendarHub">
+            <button class="back-btn" onclick="switchSection('homeHub')">← Back to Dashboard</button>
+            <div class="calendar-panel-view">
+                <div class="calendar-nav-header">
+                    <button class="adjust-btn" onclick="shiftCalendarMonth(-1)">←</button>
+                    <div class="calendar-nav-title" id="calendarMonthTitleDisplay">June 2026</div>
+                    <button class="adjust-btn" onclick="shiftCalendarMonth(1)">→</button>
+                </div>
+
+                <div class="calendar-grid-wrapper" id="calendarGridCoreContainer">
+                    <!-- Day Labels Generated via JavaScript Engine -->
+                </div>
+
+                <!-- Contextual Task Manager Form Entry Overlay -->
+                <div class="calendar-task-entry-box" id="calendarTaskWorkspace">
+                    <div class="calendar-entry-title" id="selectedDateWorkspaceLabel">Manage Tasks</div>
+                    <div class="calendar-input-row">
+                        <input type="text" class="calendar-text-field" id="newCalendarTaskTextInput" placeholder="Write item task (e.g., Complete Electrostatics PYQs)...">
+                        <button class="action-btn" onclick="commitTaskToSelectedDay()" style="margin:0; padding:10px 20px;">Add</button>
+                    </div>
+                    <div class="calendar-tasks-listing" id="selectedDayTasksLayoutBucket">
+                        <!-- Task items populated dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="page-section" id="flashcardHub">
             <button class="back-btn" onclick="switchSection('homeHub')">← Back to Dashboard</button>
             <div class="flashcard-view">
@@ -643,11 +712,116 @@
 
     <script>
         let audioCtx = null, noiseNode = null, waveOsc = null, gainNode = null;
+        let calendarBgNoiseNode = null, calendarBgGainNode = null;
+        let globalAudioSystemActive = JSON.parse(localStorage.getItem('punnyMasterAudioState')) !== false;
+
+        function toggleGlobalAudioSystem() {
+            globalAudioSystemActive = !globalAudioSystemActive;
+            localStorage.setItem('punnyMasterAudioState', JSON.stringify(globalAudioSystemActive));
+            document.getElementById('audioMasterIcon').innerText = globalAudioSystemActive ? "🔊" : "🔇";
+            document.getElementById('audioMasterText').innerText = globalAudioSystemActive ? "Audio ON" : "Audio OFF";
+            
+            if(!globalAudioSystemActive) {
+                stopAllAudioEngines();
+                stopCalendarBackgroundAtmosphere();
+            } else {
+                const currentActiveSection = document.querySelector('.page-section.active');
+                if(currentActiveSection && currentActiveSection.id === "calendarHub") {
+                    startCalendarBackgroundAtmosphere();
+                }
+            }
+        }
+
+        // --- REAL-TIME GRAPH SYNTHESIZER AUDIO FX CODE ---
+        function triggerUiSound(soundType) {
+            if (!globalAudioSystemActive) return;
+            try {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                let osc = audioCtx.createOscillator();
+                let volumeNode = audioCtx.createGain();
+                osc.connect(volumeNode);
+                volumeNode.connect(audioCtx.destination);
+
+                if (soundType === 'hover') {
+                    // Crisp mechanical click tick response
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(1200, audioCtx.currentTime);
+                    volumeNode.gain.setValueAtTime(0.015, audioCtx.currentTime);
+                    volumeNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.04);
+                    osc.start(); osc.stop(audioCtx.currentTime + 0.05);
+                } else if (soundType === 'transition') {
+                    // Smooth sweep shift transition audio trigger
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(300, audioCtx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(650, audioCtx.currentTime + 0.25);
+                    volumeNode.gain.setValueAtTime(0.04, audioCtx.currentTime);
+                    volumeNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.28);
+                    osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+                }
+            } catch(error) {}
+        }
+
+        // --- MATH SYNTHESIZER LO-FI RAIN AMBIENT ATMOSPHERE MATRIX ---
+        function startCalendarBackgroundAtmosphere() {
+            if (!globalAudioSystemActive) return;
+            try {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                
+                // Construct a custom low-pass noise synthesizer loop
+                const bufferSize = 3 * audioCtx.sampleRate;
+                const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                const output = noiseBuffer.getChannelData(0);
+                
+                let lastOut = 0.0;
+                for (let i = 0; i < bufferSize; i++) {
+                    const whiteNoise = Math.random() * 2 - 1;
+                    // Pink/brown audio wave filtration equation matrix
+                    output[i] = (lastOut + (0.07 * whiteNoise)) / 1.07;
+                    lastOut = output[i];
+                    output[i] *= 1.5; 
+                }
+
+                calendarBgNoiseNode = audioCtx.createBufferSource();
+                calendarBgNoiseNode.buffer = noiseBuffer;
+                calendarBgNoiseNode.loop = true;
+
+                let filter = audioCtx.createBiquadFilter();
+                filter.type = 'lowpass';
+                filter.frequency.value = 450; // Muffly deep lofi sound profile setup
+
+                calendarBgGainNode = audioCtx.createGain();
+                calendarBgGainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+                // Linear volume fade-in to handle abrupt audio starts elegantly
+                calendarBgGainNode.gain.linearRampToValueAtTime(0.08, audioCtx.currentTime + 1.2);
+
+                calendarBgNoiseNode.connect(filter);
+                filter.connect(calendarBgGainNode);
+                calendarBgGainNode.connect(audioCtx.destination);
+                
+                calendarBgNoiseNode.start();
+            } catch(e) {}
+        }
+
+        function stopCalendarBackgroundAtmosphere() {
+            if (calendarBgGainNode) {
+                try {
+                    calendarBgGainNode.gain.setValueAtTime(calendarBgGainNode.gain.value, audioCtx.currentTime);
+                    calendarBgGainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.4);
+                } catch(e){}
+            }
+            setTimeout(() => {
+                if (calendarBgNoiseNode) {
+                    try { calendarBgNoiseNode.stop(); } catch(e){}
+                    calendarBgNoiseNode.disconnect(); calendarBgNoiseNode = null;
+                }
+                if (calendarBgGainNode) { calendarBgGainNode.disconnect(); calendarBgGainNode = null; }
+            }, 450);
+        }
 
         function handleAudioEngineChange() {
             const selectValue = document.getElementById("audioWaveEngine").value;
             stopAllAudioEngines();
-            if (selectValue === "none") return;
+            if (selectValue === "none" || !globalAudioSystemActive) return;
 
             if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             gainNode = audioCtx.createGain();
@@ -700,6 +874,151 @@
         let yptChartInstance = null;
         let studyStorage = JSON.parse(localStorage.getItem('yptDataMetrics')) || { Physics: 0, Chemistry: 0, Maths: 0 };
 
+        // --- PREMIUM TO-DO CALENDAR LOGIC ARCHITECTURE ---
+        let calendarDatabase = JSON.parse(localStorage.getItem('punnyCalendarTaskDB')) || {};
+        let currentTargetDateObj = new Date(2026, 5, 1); // Set directly to June 2026 baseline context
+        let currentlySelectedDateStringKey = "";
+
+        const monthNameStringArray = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        const standardDayLabelsArray = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+        function compileCalendarGridStructure() {
+            const gridContainer = document.getElementById('calendarGridCoreContainer');
+            if(!gridContainer) return;
+            gridContainer.innerHTML = "";
+
+            document.getElementById('calendarMonthTitleDisplay').innerText = `${monthNameStringArray[currentTargetDateObj.getMonth()]} ${currentTargetDateObj.getFullYear()}`;
+
+            // Mount Weekday Text Headers First
+            standardDayLabelsArray.forEach(dayName => {
+                const dayLabelElement = document.createElement('div');
+                dayLabelElement.className = 'calendar-day-label';
+                dayLabelElement.innerText = dayName;
+                gridContainer.appendChild(dayLabelElement);
+            });
+
+            const iterationYear = currentTargetDateObj.getFullYear();
+            const iterationMonth = currentTargetDateObj.getMonth();
+
+            const firstDayOfMonthIndex = new Date(iterationYear, iterationMonth, 1).getDay();
+            const totalDaysInTargetMonth = new Date(iterationYear, iterationMonth + 1, 0).getDate();
+
+            // Render Pad Blank Cells for Leading Off-Month Alignments
+            for (let i = 0; i < firstDayOfMonthIndex; i++) {
+                const paddingCell = document.createElement('div');
+                paddingCell.className = 'calendar-date-cell outside-month';
+                gridContainer.appendChild(paddingCell);
+            }
+
+            // Compile Day Numbers
+            const realTimeToday = new Date();
+            for (let dayNumCounter = 1; dayNumCounter <= totalDaysInTargetMonth; dayNumCounter++) {
+                const dateIterationCell = document.createElement('div');
+                dateIterationCell.className = 'calendar-date-cell';
+                
+                // Formulate key lookup path inside local storage db object
+                const computedKeyString = `${iterationYear}-${(iterationMonth+1).toString().padStart(2,'0')}-${dayNumCounter.toString().padStart(2,'0')}`;
+                
+                // Lock highlight style matches on current systemic calendar day
+                if (realTimeToday.getFullYear() === iterationYear && realTimeToday.getMonth() === iterationMonth && realTimeToday.getDate() === dayNumCounter) {
+                    dateIterationCell.classList.add('current-today');
+                }
+
+                const dayIndicatorLabel = document.createElement('span');
+                dayIndicatorLabel.className = 'calendar-cell-num';
+                dayIndicatorLabel.innerText = dayNumCounter;
+                dateIterationCell.appendChild(dayIndicatorLabel);
+
+                // Tasks Dot Indicator Layout Bar
+                const indicatorHolderBlock = document.createElement('div');
+                indicatorHolderBlock.className = 'calendar-cell-tasks-indicator';
+                if (calendarDatabase[computedKeyString] && calendarDatabase[computedKeyString].length > 0) {
+                    calendarDatabase[computedKeyString].forEach(() => {
+                        const microTaskMarkerDot = document.createElement('div');
+                        microTaskMarkerDot.className = 'calendar-mini-task-dot';
+                        indicatorHolderBlock.appendChild(microTaskMarkerDot);
+                    });
+                }
+                dateIterationCell.appendChild(indicatorHolderBlock);
+
+                // Click Response Event Route to Open Task Management Workspace Panel
+                dateIterationCell.onclick = () => launchTaskWorkspaceForDay(computedKeyString, dayNumCounter);
+
+                gridContainer.appendChild(dateIterationCell);
+            }
+        }
+
+        function shiftCalendarMonth(directionDelta) {
+            triggerUiSound('hover');
+            currentTargetDateObj.setMonth(currentTargetDateObj.getMonth() + directionDelta);
+            document.getElementById('calendarTaskWorkspace').style.display = 'none';
+            compileCalendarGridStructure();
+        }
+
+        function launchTaskWorkspaceForDay(dateKeyString, clearDayNumber) {
+            triggerUiSound('hover');
+            currentlySelectedDateStringKey = dateKeyString;
+            const workspaceBox = document.getElementById('calendarTaskWorkspace');
+            workspaceBox.style.display = 'block';
+            
+            document.getElementById('selectedDateWorkspaceLabel').innerText = `Tasks for: ${clearDayNumber} ${monthNameStringArray[currentTargetDateObj.getMonth()]}`;
+            document.getElementById('newCalendarTaskTextInput').value = "";
+            renderTaskListWorkspaceBucket();
+        }
+
+        function renderTaskListWorkspaceBucket() {
+            const listBucket = document.getElementById('selectedDayTasksLayoutBucket');
+            listBucket.innerHTML = "";
+            const registeredDayTasksArray = calendarDatabase[currentlySelectedDateStringKey] || [];
+
+            if (registeredDayTasksArray.length === 0) {
+                listBucket.innerHTML = `<div style="font-size:0.85rem; color:var(--text-muted); font-style:italic; padding:5px 2px;">No active entries booked for this date checkpoint.</div>`;
+                return;
+            }
+
+            registeredDayTasksArray.forEach((taskString, index) => {
+                const taskRow = document.createElement('div');
+                taskRow.className = 'calendar-task-row-item';
+                taskRow.innerHTML = `
+                    <span>${taskString}</span>
+                    <button class="calendar-task-del-btn" onclick="removeTaskFromSelectedDay(${index})">×</button>
+                `;
+                listBucket.appendChild(taskRow);
+            });
+        }
+
+        function commitTaskToSelectedDay() {
+            const textInput = document.getElementById('newCalendarTaskTextInput');
+            const taskContentString = textInput.value.trim();
+            if(!taskContentString) return;
+
+            if(!calendarDatabase[currentlySelectedDateStringKey]) {
+                calendarDatabase[currentlySelectedDateStringKey] = [];
+            }
+            calendarDatabase[currentlySelectedDateStringKey].push(taskContentString);
+            localStorage.setItem('punnyCalendarTaskDB', JSON.stringify(calendarDatabase));
+            
+            textInput.value = "";
+            triggerUiSound('hover');
+            showToastNotification("📅 Task Scheduled into Calendar Array.");
+            renderTaskListWorkspaceBucket();
+            compileCalendarGridStructure();
+        }
+
+        function removeTaskFromSelectedDay(targetTaskIndex) {
+            if(!calendarDatabase[currentlySelectedDateStringKey]) return;
+            calendarDatabase[currentlySelectedDateStringKey].splice(targetTaskIndex, 1);
+            
+            if(calendarDatabase[currentlySelectedDateStringKey].length === 0) {
+                delete calendarDatabase[currentlySelectedDateStringKey];
+            }
+            localStorage.setItem('punnyCalendarTaskDB', JSON.stringify(calendarDatabase));
+            triggerUiSound('hover');
+            showToastNotification("🗑️ Entry Discarded from Database Node.");
+            renderTaskListWorkspaceBucket();
+            compileCalendarGridStructure();
+        }
+
         function formatTrackerTime(totalSecs) {
             let h = Math.floor(totalSecs / 3600).toString().padStart(2, '0');
             let m = Math.floor((totalSecs % 3600) / 60).toString().padStart(2, '0');
@@ -722,6 +1041,7 @@
         }
 
         function toggleScratchpad() {
+            triggerUiSound('hover');
             const pad = document.getElementById('scratchpadBox');
             pad.classList.toggle('open');
         }
@@ -795,7 +1115,6 @@
                     trackerSeconds++;
                     let outputClock = formatTrackerTime(trackerSeconds);
                     document.getElementById('trackerClockDisplay').innerText = outputClock;
-                    // Dynamic Page Tab Title Module Execution
                     document.title = `⏱️ [${outputClock}] ${streamSelect.value} | Study Hub`;
                 }, 1000);
             } else {
@@ -811,8 +1130,6 @@
                 localStorage.setItem('yptDataMetrics', JSON.stringify(studyStorage));
                 
                 showToastNotification(`💾 Session Saved! Added ${formatTrackerTime(trackerSeconds)} to ${selectedSubject}.`);
-                
-                // Revert page title back to baseline default
                 document.title = "Punny's Study Hub";
 
                 trackerSeconds = 0;
@@ -821,10 +1138,13 @@
             }
         }
 
-
         document.addEventListener("DOMContentLoaded", () => {
             handleVisitIncrementation();
             loadScratchpadNotes();
+            
+            // Set Initial Global Audio Interface Buttons Display Matrix
+            document.getElementById('audioMasterIcon').innerText = globalAudioSystemActive ? "🔊" : "🔇";
+            document.getElementById('audioMasterText').innerText = globalAudioSystemActive ? "Audio ON" : "Audio OFF";
 
             setTimeout(() => {
                 document.getElementById("welcomeScreen").classList.add("slide-up");
@@ -835,11 +1155,11 @@
                     loadSavedProgress();
                     initTrackerChart();
                     refreshTrackerUI();
+                    compileCalendarGridStructure();
                 }, 400);
             }, 2400);
         });
 
-        // Traffic Tracker Loop Handler
         function handleVisitIncrementation() {
             let totalVisits = localStorage.getItem("siteVisitsTracker");
             if (!totalVisits) { totalVisits = 1; } 
@@ -848,7 +1168,6 @@
             document.getElementById("visitDisplayNum").textContent = totalVisits;
         }
 
-        // Passkey Verification Security Engine
         function verifyAdminPortal() {
             const userInput = prompt("⚠️ Restricted Access. Enter Security Access Password Key:");
             if (userInput === "punny") {
@@ -860,6 +1179,7 @@
         }
 
         function toggleTheme() {
+            triggerUiSound('hover');
             const currentTheme = document.documentElement.getAttribute("data-theme");
             const newTheme = currentTheme === "light" ? "dark" : "light";
             document.documentElement.setAttribute("data-theme", newTheme);
@@ -869,8 +1189,19 @@
         }
 
         function switchSection(targetId) {
+            // Trigger dynamic synthesizer sound effects
+            triggerUiSound('transition');
+
             const active = document.querySelector('.page-section.active');
             const target = document.getElementById(targetId);
+
+            // Audio Context Environment Routing for To-Do Calendar View Sprints
+            if(targetId === "calendarHub") {
+                startCalendarBackgroundAtmosphere();
+            } else {
+                stopCalendarBackgroundAtmosphere();
+            }
+
             if (active) {
                 active.style.opacity = '0'; active.style.transform = 'translateY(15px) scale(0.98)';
                 setTimeout(() => { active.classList.remove('active'); reveal(target); }, 350);
