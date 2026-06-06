@@ -148,6 +148,21 @@
 
         @keyframes welcomeFadeIn { to { opacity: 1; transform: translateY(0); } }
 
+        /* --- PRE-FLIGHT IDENTITY CAPTURE OVERLAY MODAL --- */
+        .identity-modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(5, 5, 8, 0.85); backdrop-filter: blur(25px);
+            z-index: 999; display: none; align-items: center; justify-content: center;
+            opacity: 0; transition: opacity 0.5s ease;
+        }
+        .identity-modal-box {
+            background: var(--panel-bg); border: 1px solid var(--border-color);
+            padding: 40px; border-radius: 28px; max-width: 420px; width: 90%;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.6); text-align: center;
+        }
+        .identity-modal-box h3 { font-size: 1.8rem; font-weight: 800; margin-bottom: 10px; color: #fff; }
+        .identity-modal-box p { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 25px; }
+
         /* --- Layout Architecture --- */
         .page-container {
             width: 100%;
@@ -223,6 +238,7 @@
         /* Interactive Micro Hover States */
         .card:hover .animate-books { transform: scale(1.1) rotate(-5deg); }
         .card:hover .animate-rocket { transform: translateY(-4px) scale(1.1); }
+        .card:hover .animate-clock { transform: rotate(45deg) scale(1.05); }
         .card:hover .animate-tracker { transform: scale(1.15); filter: drop-shadow(0 4px 12px var(--accent-primary)); }
         .card:hover .animate-calendar { transform: scale(1.1) rotate(4deg); }
 
@@ -283,13 +299,13 @@
         .adjust-btn:hover { background: var(--accent-primary); border-color: var(--accent-primary); color: #fff; }
         .time-val { font-size: 1.2rem; font-weight: 700; min-width: 25px; }
 
-        /* Tracker Section Dropdown Styling */
+        /* Tracker Dropdown Custom Overrides */
         .tracker-select-wrapper { text-align: left; margin-bottom: 20px; }
         .tracker-select-wrapper label { display: block; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 8px; color: var(--text-muted); font-weight: 600; }
         .tracker-select { width: 100%; padding: 12px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 10px; color: #fff; outline: none; cursor: pointer; font-size: 0.95rem; }
         .tracker-select:focus { border-color: var(--accent-primary); }
 
-        /* Chart Canvas Size Restrictor */
+        /* Chart Canvas Constraints */
         .chart-container-box { position: relative; height: 220px; width: 100%; margin-top: 25px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.05); }
 
         .audio-selector-wrapper { margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.05); text-align: left; }
@@ -297,8 +313,8 @@
         .audio-select { width: 100%; padding: 12px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 10px; color: #fff; outline: none; cursor: pointer; font-size: 0.95rem; }
         .audio-select:focus { border-color: var(--accent-primary); }
 
-        /* YouTube Container Layer styles */
-        .yt-frame-container { position: relative; width: 100%; height: 0; padding-bottom: 40px; margin-top: 15px; border-radius: 12px; overflow: hidden; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); }
+        /* YouTube Stream Container Frame Layer */
+        .yt-frame-container { position: relative; width: 100%; height: 0; padding-bottom: 1px; margin-top: 15px; border-radius: 12px; overflow: hidden; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); }
         .yt-frame-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
 
         .action-btn {
@@ -307,7 +323,7 @@
         }
         .action-btn:hover { background: var(--accent-primary); color: #fff; border-color: var(--accent-primary); }
 
-        /* Flashcard Component Elements */
+        /* Flashcard Elements */
         .flash-container { perspective: 1000px; width: 100%; height: 200px; margin: 20px 0; }
         .flash-card { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; }
         .flash-container.flipped .flash-card { transform: rotateY(180deg); }
@@ -315,7 +331,7 @@
         .face.front { background: var(--panel-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
         .face.back { background: linear-gradient(135deg, #221c16 0%, #120e0a 100%); color: var(--accent-secondary); transform: rotateY(180deg); }
 
-        /* --- PREMIUM TO-DO CALENDAR MODULE ARCHITECTURE --- */
+        /* --- CALENDAR VIEW GRID DOM MODULE --- */
         .calendar-nav-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .calendar-nav-title { font-size: 1.4rem; font-weight: 800; color: #fff; }
         .calendar-grid-wrapper { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-bottom: 25px; }
@@ -329,7 +345,7 @@
         .calendar-cell-tasks-indicator { display: flex; flex-direction: column; gap: 3px; overflow: hidden; margin-top: 4px; }
         .calendar-mini-task-dot { height: 4px; width: 100%; border-radius: 2px; background: var(--accent-primary); }
 
-        /* Integrated Calendar Detail Input Panel */
+        /* Calendar Form Entry Workspaces */
         .calendar-task-entry-box { background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 14px; padding: 18px; text-align: left; display: none; margin-top: 15px; }
         .calendar-entry-title { font-size: 0.9rem; font-weight: 700; margin-bottom: 12px; color: var(--accent-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
         .calendar-input-row { display: flex; gap: 10px; }
@@ -339,7 +355,7 @@
         .calendar-task-row-item { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); padding: 8px 12px; border-radius: 6px; font-size: 0.9rem; border: 1px solid rgba(255,255,255,0.02); }
         .calendar-task-del-btn { color: #ef4444; cursor: pointer; font-weight: bold; background: transparent; border: none; padding: 0 4px; }
 
-        /* --- Enlarged Navigation Back Buttons --- */
+        /* --- Navigation Action Buttons --- */
         .back-btn { 
             background: rgba(255, 255, 255, 0.04); 
             color: var(--text-main); 
@@ -362,7 +378,7 @@
         .subject-list { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; margin-top: 15px; }
         .subject-badge { background: rgba(255,123,0,0.1); color: var(--accent-secondary); padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; }
 
-        /* --- PREMIUM FLOATING SCRATCHPAD --- */
+        /* --- SCRATCHPAD RIG --- */
         .scratchpad-toggle {
             position: fixed; bottom: 25px; right: 25px; z-index: 99;
             background: var(--accent-primary); color: #fff; border: none;
@@ -385,10 +401,14 @@
         .scratchpad-header { padding: 14px 18px; border-bottom: 1px solid var(--border-color); font-weight: 700; font-size: 0.95rem; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.15); }
         .scratchpad-textarea { flex: 1; background: transparent; border: none; padding: 15px; color: var(--text-main); font-size: 0.95rem; outline: none; resize: none; line-height: 1.5; }
 
-        /* --- TOAST NOTIFICATION CONTAINER --- */
+        /* --- TOAST popups --- */
         #toastContainer { position: fixed; top: 25px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
         .toast-popup { background: rgba(20, 20, 25, 0.85); border: 1px solid var(--accent-primary); color: #fff; padding: 14px 24px; border-radius: 12px; font-weight: 600; font-size: 0.95rem; box-shadow: 0 10px 30px rgba(0,0,0,0.3); backdrop-filter: blur(10px); opacity: 0; transform: translateY(-20px); transition: opacity 0.3s, transform 0.3s; pointer-events: auto; }
         .toast-popup.show { opacity: 1; transform: translateY(0); }
+
+        /* Administrative History Logger Listing element formatting */
+        .admin-log-list-frame { margin-top: 15px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 14px; border: 1px solid var(--border-color); max-height: 140px; overflow-y: auto; text-align: left; }
+        .admin-log-item-line { font-family: monospace; font-size: 0.82rem; color: var(--text-muted); padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.02); }
 
         @keyframes pulse-glow {
             0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 123, 0, 0.4); }
@@ -404,6 +424,16 @@
 
     <!-- UI Notification Engine -->
     <div id="toastContainer"></div>
+
+    <!-- PRE-FLIGHT IDENTITY VERIFICATION MODAL FRAME -->
+    <div class="identity-modal-overlay" id="identityCaptureModalWrapper">
+        <div class="identity-modal-box">
+            <h3>Initialize Profile</h3>
+            <p>Please log your name to calibrate personal tracking nodes on your dashboard layout context.</p>
+            <input type="text" class="calendar-text-field" id="onboardingIdentityInputField" placeholder="Enter your name..." style="margin-bottom: 20px; text-align: center;">
+            <button class="action-btn" onclick="commitOnboardingUserIdentityProfile()" style="width: 100%; margin: 0;">Access Core Hub</button>
+        </div>
+    </div>
 
     <!-- Floating Scratchpad Menu -->
     <button class="scratchpad-toggle" onclick="toggleScratchpad()">📝</button>
@@ -434,7 +464,7 @@
 
         <div class="page-section" id="homeHub">
             <div class="main-header">
-                <h2>Select Your Target</h2>
+                <h2 id="personalizedDashboardTitleGreeting">Select Your Target</h2>
                 <p>Access high-quality study pipelines and focus toolsets custom built for your stream.</p>
                 <div class="beta-status">
                     <span class="beta-pulse"></span>
@@ -615,14 +645,14 @@
                 <button class="action-btn" id="timerControlBtn" onclick="toggleTimer()">Start Session</button>
                 <button class="action-btn" onclick="resetTimer()" style="background:transparent; border-color:transparent;">Reset</button>
 
-                <!-- CURATED UNRESTRICTED DUAL PLATFORM FOCUS AUDIO CHANNELS -->
+                <!-- RE-ENGINEERED ROBUST WORLD STREAM NETWORKS -->
                 <div class="audio-selector-wrapper">
-                    <label for="audioWaveEngine">🎵 Option A: Free Native Cloud Streams</label>
+                    <label for="audioWaveEngine">🎵 Option A: Free Native Cloud Radio Streams</label>
                     <select id="audioWaveEngine" class="audio-select" onchange="handleAudioEngineChange()">
                         <option value="none">Reference Sound Engine Array (Off)</option>
-                        <option value="lofi">☁️ Direct Stream: 24/7 Lo-Fi Chill Hop</option>
-                        <option value="piano">🎹 Direct Stream: Minimalist Piano Symphony</option>
-                        <option value="synth">🌌 Direct Stream: Deep Space Retro Synthwave</option>
+                        <option value="lofi">☁️ Stream Link: 24/7 Global Chill-Hop Radio</option>
+                        <option value="piano">🎹 Stream Link: Classical Instrumental Piano Feed</option>
+                        <option value="synth">🌌 Stream Link: Cyber Synthesizer Focus Wave</option>
                         <option value="brown">🟫 Noise Rig: Deep Pure Brown Focus Noise</option>
                     </select>
                 </div>
@@ -716,14 +746,19 @@
             </div>
         </div>
 
+        <!-- --- TRANSPARENT TELEMETRY INSIGHTS AUDIT LOOPS --- -->
         <div class="page-section" id="adminHub">
             <button class="back-btn" onclick="switchSection('homeHub')">← Back to Dashboard</button>
             <div class="admin-view">
                 <div class="card-icon">📊</div>
-                <h3>Administrative Insights</h3>
-                <p style="color: var(--text-muted); font-size: 0.9rem;">Total site traffic deployments across the user network tier.</p>
+                <h3>Administrative Telemetry</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Local device validation tracking access node loops.</p>
                 <div class="visit-counter" id="visitDisplayNum">1</div>
-                <p style="font-size:0.85rem; color:var(--accent-secondary); font-weight:700; text-transform:uppercase; letter-spacing:1px;">🔒 Authenticated Connection Secured</p>
+                
+                <p style="font-size:0.8rem; color:var(--accent-secondary); font-weight:700; text-transform:uppercase; letter-spacing:1px; margin-top:20px;">🔒 Local Device Access History Logs</p>
+                <div class="admin-log-list-frame" id="adminAccessLogContainerBox">
+                    <!-- Logs populated dynamically from localStorage analytics block -->
+                </div>
             </div>
         </div>
 
@@ -734,8 +769,8 @@
 
     <script>
         let audioCtx = null, noiseNode = null, gainNode = null;
-        let nativeAudioStreamElement = null; // HTML5 Audio Node Rig
-        let ytPlayerObj = null; // YouTube Player Instance Wrapper
+        let nativeAudioStreamElement = null; // HTML5 Audio Stream Engine
+        let ytPlayerObj = null; // YouTube Player Context Object
         let calendarBgNoiseNode = null, calendarBgGainNode = null;
         let globalAudioSystemActive = JSON.parse(localStorage.getItem('punnyMasterAudioState')) !== false;
 
@@ -838,34 +873,29 @@
             }, 450);
         }
 
-        // --- OPTION A: NATIVE HIGH-PERFORMANCE AUDIO STREAM CONTROLLER ---
+        // --- OPTION A: NATIVE ICECAST HIGH-STABILITY NETWORKS SELECTOR ---
         function handleAudioEngineChange() {
             const selectValue = document.getElementById("audioWaveEngine").value;
             
-            // Kill any active stream or noise loops first
             if(nativeAudioStreamElement) { nativeAudioStreamElement.pause(); nativeAudioStreamElement = null; }
             if (noiseNode) { try { noiseNode.stop(); } catch(e){} noiseNode = null; }
 
             if (selectValue === "none" || !globalAudioSystemActive) return;
             
-            // Terminate counter-overlapping YouTube engines automatically
             document.getElementById("youtubeTrackEngine").value = "none";
             handleYoutubeStreamMatrixChange();
 
-            // Sourcing dynamic open-source digital study pipelines
             let targetStreamUrl = "";
-            if(selectValue === "lofi") targetStreamUrl = "https://s3.amazonaws.com/freecodecamp/chatswood-antiphony.mp3"; // Free open-source LoFi track anchor
-            if(selectValue === "piano") targetStreamUrl = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
-            if(selectValue === "synth") targetStreamUrl = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3";
+            // Safe Icecast live broadcast streams bypassing file locking algorithms entirely
+            if(selectValue === "lofi") targetStreamUrl = "https://icecast.unitedradio.it/Chillhop.mp3"; 
+            if(selectValue === "piano") targetStreamUrl = "http://stream.klassikradio.de/dreams/mp3-128/www.klassikradio.de/";
+            if(selectValue === "synth") targetStreamUrl = "http://icecast.radiobob.de/bob-synthiepop/mp3-128/streams.radiobob.de/";
 
             if (targetStreamUrl !== "") {
                 nativeAudioStreamElement = new Audio(targetStreamUrl);
-                nativeAudioStreamElement.loop = true;
-                nativeAudioStreamElement.volume = 0.25;
                 nativeAudioStreamElement.play().catch(e=>{});
-                showToastNotification("☁️ Streaming native open-source audio pipeline...");
+                showToastNotification("☁️ Connected to live network streaming relay broadcast loop.");
             } else if (selectValue === "brown") {
-                // Generate deep pure brown wave spectrum natively via Web Audio API
                 if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 gainNode = audioCtx.createGain();
                 noiseNode = createBrownNoiseNode();
@@ -889,7 +919,6 @@
 
         // --- OPTION B: PROGRAMMATIC YOUTUBE COMPILATION CONTROLLER ---
         function onYouTubeIframeAPIReady() {
-            // Instantiates base frame placeholder array structure safely
             ytPlayerObj = new YT.Player('ytPlayerInternalPlaceholder', {
                 height: '0', width: '0',
                 playerVars: { 'autoplay': 0, 'controls': 0, 'disablekb': 1, 'fs': 0, 'rel': 0, 'showinfo': 0 },
@@ -907,7 +936,6 @@
                 return;
             }
 
-            // Interrupt native option A streams automatically to protect audio overlap balance
             document.getElementById("audioWaveEngine").value = "none";
             handleAudioEngineChange();
 
@@ -940,11 +968,41 @@
 
         // --- TO-DO CALENDAR LOGIC ARCHITECTURE ---
         let calendarDatabase = JSON.parse(localStorage.getItem('punnyCalendarTaskDB')) || {};
-        let currentTargetDateObj = new Date(2026, 5, 1); // June 2026 Context Anchor
+        let currentTargetDateObj = new Date(2026, 5, 1); // June 2026 Baseline context
         let currentlySelectedDateStringKey = "";
 
         const monthNameStringArray = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         const standardDayLabelsArray = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+        // --- ONBOARDING CORE MANAGEMENT IDENTITY METHOD ---
+        function commitOnboardingUserIdentityProfile() {
+            const nameInput = document.getElementById('onboardingIdentityInputField');
+            const sanitizedName = nameInput.value.trim();
+            
+            if(!sanitizedName) {
+                showToastNotification("⚠️ Identity string entry required to map workspace.");
+                return;
+            }
+
+            localStorage.setItem('punnyProfileNameStr', sanitizedName);
+            triggerUiSound('transition');
+
+            // Collapse Modal view wrapper safely
+            const overlayModal = document.getElementById('identityCaptureModalWrapper');
+            overlayModal.style.opacity = '0';
+            setTimeout(() => {
+                overlayModal.style.display = 'none';
+                applyPersonalizedDashboardGreeting();
+                switchSection('homeHub');
+            }, 500);
+        }
+
+        function applyPersonalizedDashboardGreeting() {
+            const userName = localStorage.getItem('punnyProfileNameStr');
+            if(userName) {
+                document.getElementById('personalizedDashboardTitleGreeting').innerText = `Welcome back, ${userName}! 👋`;
+            }
+        }
 
         function compileCalendarGridStructure() {
             const gridContainer = document.getElementById('calendarGridCoreContainer');
@@ -1049,7 +1107,6 @@
             if(!taskContentString) return;
 
             if(!calendarDatabase[currentlySelectedDateStringKey]) {
-                calendarDatabase[currentlyDatabaseSelectedDateStringKey] = [];
                 calendarDatabase[currentlySelectedDateStringKey] = [];
             }
             calendarDatabase[currentlySelectedDateStringKey].push(taskContentString);
@@ -1199,6 +1256,7 @@
         document.addEventListener("DOMContentLoaded", () => {
             handleVisitIncrementation();
             loadScratchpadNotes();
+            renderAdminAccessLogHistoryBucket();
             
             document.getElementById('audioMasterIcon').innerText = globalAudioSystemActive ? "🔊" : "🔇";
             document.getElementById('audioMasterText').innerText = globalAudioSystemActive ? "Audio ON" : "Audio OFF";
@@ -1206,7 +1264,17 @@
             setTimeout(() => {
                 document.getElementById("welcomeScreen").classList.add("slide-up");
                 setTimeout(() => {
-                    switchSection('homeHub');
+                    // Check if an identity string token is cached in the machine drive
+                    const verifiedSavedName = localStorage.getItem('punnyProfileNameStr');
+                    if (!verifiedSavedName) {
+                        // Display Identity Capture Form Prompt Modal Overlay
+                        const setupModal = document.getElementById('identityCaptureModalWrapper');
+                        setupModal.style.display = "flex";
+                        setTimeout(() => setupModal.style.opacity = "1", 50);
+                    } else {
+                        applyPersonalizedDashboardGreeting();
+                        switchSection('homeHub');
+                    }
                     renderRandomPun();
                     renderFlashcard();
                     loadSavedProgress();
@@ -1225,14 +1293,40 @@
             document.getElementById("visitDisplayNum").textContent = totalVisits;
         }
 
+        // --- TRANSPARENT PASSKEY LOG AUDITING SUBSYSTEM ---
         function verifyAdminPortal() {
             const userInput = prompt("⚠️ Restricted Access. Enter Security Access Password Key:");
             if (userInput === "punny") {
+                // Compile stamp timestamp configuration objects
+                const currentStamp = new Date().toLocaleString();
+                let historicalLogsArray = JSON.parse(localStorage.getItem('punnyAdminPasskeyAuditTrail')) || [];
+                historicalLogsArray.unshift(currentStamp); // Push new entry to topmost index
+                localStorage.setItem('punnyAdminPasskeyAuditTrail', JSON.stringify(historicalLogsArray));
+                
                 showToastNotification("🔓 Administrative Authorization Cleared!");
+                renderAdminAccessLogHistoryBucket();
                 switchSection('adminHub');
             } else if (userInput !== null) {
                 showToastNotification("❌ Security Failure: Invalid Passkey Credential.");
             }
+        }
+
+        function renderAdminAccessLogHistoryBucket() {
+            const auditContainer = document.getElementById('adminAccessLogContainerBox');
+            if(!auditContainer) return;
+            auditContainer.innerHTML = "";
+            
+            let auditLogs = JSON.parse(localStorage.getItem('punnyAdminPasskeyAuditTrail')) || [];
+            if(auditLogs.length === 0) {
+                auditContainer.innerHTML = `<div class="admin-log-item-line" style="font-style:italic;">No unlock logs documented on this device drive.</div>`;
+                return;
+            }
+            auditLogs.forEach(timestampString => {
+                const logLine = document.createElement('div');
+                logLine.className = 'admin-log-item-line';
+                logLine.innerText = `🔑 Unlocked: ${timestampString}`;
+                auditContainer.appendChild(logLine);
+            });
         }
 
         function toggleTheme() {
