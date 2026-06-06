@@ -5,16 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Punny's Study Hub</title>
     <style>
-        /* --- Core System Styles & Variables --- */
+        /* --- Core System Variables & Themes --- */
         :root {
+            /* Dark Mode Defaults */
             --bg-dark: #0b0b0f;
             --panel-bg: rgba(30, 30, 38, 0.6);
             --border-color: rgba(255, 255, 255, 0.08);
-            --accent-primary: #ff7b00;
-            --accent-secondary: #ffae00;
             --text-main: #f1f5f9;
             --text-muted: #94a3b8;
+            --accent-primary: #ff7b00;
+            --accent-secondary: #ffae00;
+            --shadow: rgba(0, 0, 0, 0.4);
             --glow: cubic-bezier(0.15, 0.85, 0.45, 1);
+        }
+
+        [data-theme="light"] {
+            /* Light Mode Variables */
+            --bg-dark: #f4f4f7;
+            --panel-bg: rgba(255, 255, 255, 0.8);
+            --border-color: rgba(0, 0, 0, 0.08);
+            --text-main: #1e1e24;
+            --text-muted: #64748b;
+            --shadow: rgba(0, 0, 0, 0.08);
         }
 
         * {
@@ -22,6 +34,7 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
 
         body {
@@ -35,21 +48,48 @@
             position: relative;
         }
 
-        /* Ambient Dynamic Background Glows */
+        /* Ambient Dynamic Background Glows (Hidden in Light Mode for clean look) */
         body::before, body::after {
             content: '';
             position: absolute;
             width: 400px;
             height: 400px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(255, 123, 0, 0.08) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(255, 123, 0, 0.06) 0%, transparent 70%);
             z-index: -1;
             filter: blur(40px);
         }
         body::before { top: -10%; left: -10%; }
         body::after { bottom: -10%; right: -10%; }
+        [data-theme="light"]::before, [data-theme="light"]::after { display: none; }
 
-        /* --- 1. Premium Splash Screen --- */
+        /* --- Theme Toggle Controller --- */
+        .theme-toggle-container {
+            position: fixed;
+            top: 25px;
+            right: 40px;
+            z-index: 90;
+        }
+
+        .theme-btn {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 10px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px var(--shadow);
+            backdrop-filter: blur(8px);
+        }
+        .theme-btn:hover {
+            border-color: var(--accent-primary);
+        }
+
+        /* --- Splash Screen --- */
         .welcome-screen {
             position: fixed;
             top: 0;
@@ -70,9 +110,6 @@
             font-weight: 900;
             letter-spacing: -1px;
             margin-bottom: 12px;
-            opacity: 0;
-            transform: translateY(40px);
-            animation: fadeInUp 1.2s var(--glow) forwards 0.2s;
             background: linear-gradient(135deg, #ffffff 30%, #ffae00 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -80,31 +117,24 @@
 
         .welcome-subtitle {
             font-size: 1rem;
-            color: var(--text-muted);
+            color: #94a3b8;
             letter-spacing: 6px;
             text-transform: uppercase;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 1.2s var(--glow) forwards 0.5s;
         }
 
-        /* --- 2. Structural Layout & Utilities Menu --- */
+        /* --- Main Layout Grid Architecture --- */
         .page-container {
-            display: flex;
             width: 100%;
-            max-width: 1400px;
-            padding: 40px;
-            gap: 40px;
-            align-items: flex-start;
+            max-width: 1200px;
+            padding: 60px 24px;
+            text-align: center;
         }
 
         .page-section {
             display: none;
             opacity: 0;
             transform: translateY(20px) scale(0.98);
-            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-            text-align: center;
-            flex-grow: 1;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         .page-section.active {
@@ -116,11 +146,7 @@
         .main-header h2 {
             font-size: 3rem;
             font-weight: 800;
-            letter-spacing: -0.5px;
             margin-bottom: 12px;
-            background: linear-gradient(to right, #ffffff, #cbd5e1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
         }
 
         .main-header p {
@@ -129,21 +155,18 @@
             margin-bottom: 20px;
         }
 
-        /* Beta Notice Banner Styling */
         .beta-status {
             display: inline-flex;
             align-items: center;
             gap: 8px;
             background: rgba(255, 123, 0, 0.1);
             border: 1px solid rgba(255, 123, 0, 0.25);
-            color: #ffae00;
+            color: var(--accent-secondary);
             padding: 8px 16px;
             border-radius: 20px;
             font-size: 0.85rem;
             font-weight: 600;
-            letter-spacing: 0.5px;
-            margin-bottom: 35px;
-            box-shadow: 0 4px 12px rgba(255, 123, 0, 0.05);
+            margin-bottom: 40px;
         }
 
         .beta-pulse {
@@ -151,17 +174,12 @@
             height: 8px;
             background: #ff7b00;
             border-radius: 50%;
-            display: inline-block;
             animation: pulse-glow 2s infinite;
         }
 
-        /* Smart Search Engine Input */
         .search-container {
-            margin-bottom: 40px;
-            position: relative;
+            margin: 0 auto 50px auto;
             max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
         }
 
         .search-bar {
@@ -170,24 +188,23 @@
             background: var(--panel-bg);
             border: 1px solid var(--border-color);
             border-radius: 14px;
-            color: #fff;
+            color: var(--text-main);
             font-size: 1rem;
             outline: none;
-            transition: all 0.3s ease;
             backdrop-filter: blur(10px);
+            box-shadow: 0 4px 10px var(--shadow);
         }
 
         .search-bar:focus {
             border-color: var(--accent-primary);
-            box-shadow: 0 0 20px rgba(255, 123, 0, 0.15);
         }
 
-        /* --- 3. Glassmorphic Card Engine --- */
+        /* --- Grid of Four Content Blocks --- */
         .card-container {
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 25px;
-            justify-content: center;
-            flex-wrap: wrap;
+            margin-bottom: 40px;
         }
 
         .card {
@@ -196,281 +213,172 @@
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid var(--border-color);
             border-radius: 24px;
-            width: 300px;
-            padding: 45px 30px;
+            padding: 40px 25px;
             cursor: pointer;
             position: relative;
-            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 24px;
-            padding: 1.5px;
-            background: linear-gradient(135deg, rgba(255,123,0,0.4), transparent 60%);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            opacity: 0;
-            transition: opacity 0.4s ease;
+            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.3s, box-shadow 0.3s;
+            box-shadow: 0 15px 35px var(--shadow);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .card:hover {
-            transform: translateY(-10px);
-            background: rgba(38, 38, 48, 0.8);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(255, 123, 0, 0.05);
+            transform: translateY(-8px);
+            background: var(--panel-bg);
+            border-color: var(--accent-primary);
+            box-shadow: 0 20px 45px var(--shadow);
         }
-
-        .card:hover::before { opacity: 1; }
 
         .card-icon {
             font-size: 2.8rem;
-            margin-bottom: 20px;
-            display: inline-block;
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .card:hover .card-icon { transform: scale(1.15) rotate(5deg); }
-        .card h3 { font-size: 1.5rem; font-weight: 700; margin-bottom: 12px; color: #ffffff; }
-        .card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; }
-
-        /* Premium Subject Pill Badges */
-        .subject-list {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 25px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .subject-badge {
-            background: rgba(255, 174, 0, 0.08);
-            color: var(--accent-secondary);
-            border: 1px solid rgba(255, 174, 0, 0.15);
-            padding: 6px 14px;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-        }
-
-        /* --- 4. Sidebar Panels (Timer, Puns, Progress) --- */
-        .utility-sidebar {
-            width: 320px;
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-            flex-shrink: 0;
-            opacity: 0;
-            transform: translateX(30px);
-            transition: all 0.8s ease 0.5s;
-        }
-
-        .utility-sidebar.reveal {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .side-panel {
-            background: var(--panel-bg);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 24px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-        }
-
-        .side-panel h4 {
-            font-size: 1.1rem;
             margin-bottom: 15px;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            padding-bottom: 8px;
         }
 
-        /* Pomodoro Engine Configuration */
-        .timer-display {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin: 10px 0;
-            font-variant-numeric: tabular-nums;
-            color: var(--accent-secondary);
-            text-shadow: 0 0 15px rgba(255, 174, 0, 0.2);
+        .card h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 12px;
         }
 
-        .timer-btn {
-            background: rgba(255, 123, 0, 0.15);
-            border: 1px solid rgba(255, 123, 0, 0.3);
-            color: #fff;
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.2s ease;
-        }
-
-        .timer-btn:hover {
-            background: var(--accent-primary);
-            box-shadow: 0 0 12px rgba(255, 123, 0, 0.4);
-        }
-
-        .lofi-toggle {
-            margin-top: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            cursor: pointer;
-        }
-
-        /* Syllabus Checkboxes Tracker */
-        .tracker-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-            font-size: 0.9rem;
-            text-align: left;
-            cursor: pointer;
-        }
-
-        .tracker-item input {
-            accent-color: var(--accent-primary);
-            cursor: pointer;
-        }
-
-        .progress-bar-container {
-            background: rgba(255,255,255,0.05);
-            height: 6px;
-            border-radius: 10px;
-            margin-top: 15px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary));
-            width: 0%;
-            height: 100%;
-            transition: width 0.4s ease;
-        }
-
-        /* Pun Card Layout */
-        .pun-text {
-            font-style: italic;
-            color: var(--text-main);
+        .card p {
             font-size: 0.95rem;
-            line-height: 1.4;
+            color: var(--text-muted);
+            line-height: 1.5;
         }
 
-        /* --- 5. Active Recall Flashcards Section --- */
-        .flashcard-section {
-            margin-top: 50px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        /* --- Footer Context Row (Tracker & Pun) --- */
+        .footer-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+            border-top: 1px solid var(--border-color);
             padding-top: 40px;
         }
 
-        .flashcard-section h3 {
-            margin-bottom: 20px;
-            font-size: 1.6rem;
-        }
-
-        .flashcard-box {
-            perspective: 1000px;
-            width: 340px;
-            height: 180px;
-            margin: 0 auto;
-            cursor: pointer;
-        }
-
-        .flashcard-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            transform-style: preserve-3d;
-        }
-
-        .flashcard-box.flipped .flashcard-inner {
-            transform: rotateY(180deg);
-        }
-
-        .card-front, .card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            border-radius: 16px;
+        .footer-panel {
+            background: var(--panel-bg);
             border: 1px solid var(--border-color);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 10px 25px var(--shadow);
+            text-align: left;
         }
 
-        .card-front {
-            background: rgba(40, 40, 50, 0.7);
+        .footer-panel h4 {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* --- Dedicated Sub-Hub Component Views --- */
+        .timer-view, .flashcard-view {
+            max-width: 500px;
+            margin: 40px auto;
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 20px 50px var(--shadow);
+        }
+
+        .timer-clock {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--accent-secondary);
+            margin: 20px 0;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .action-btn {
+            background: rgba(255, 123, 0, 0.15);
+            border: 1px solid rgba(255, 123, 0, 0.3);
+            color: var(--text-main);
+            padding: 12px 28px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            margin: 5px;
+        }
+
+        .action-btn:hover {
+            background: var(--accent-primary);
             color: #fff;
         }
 
-        .card-back {
+        /* Flashcard 3D Core */
+        .flash-container {
+            perspective: 1000px;
+            width: 100%;
+            height: 200px;
+            margin: 20px 0;
+        }
+
+        .flash-card {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .flash-container.flipped .flash-card {
+            transform: rotateY(180deg);
+        }
+
+        .face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            font-size: 1.1rem;
+            box-shadow: 0 8px 20px var(--shadow);
+        }
+
+        .face.front { background: var(--panel-bg); }
+        .face.back {
             background: linear-gradient(135deg, #221c16 0%, #120e0a 100%);
             color: var(--accent-secondary);
             transform: rotateY(180deg);
-            border-color: rgba(255, 174, 0, 0.2);
         }
 
-        .flashcard-nav {
-            margin-top: 15px;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        /* --- 6. Navigation Controls --- */
+        /* Utilities */
         .back-btn {
-            background: rgba(255, 255, 255, 0.03);
+            background: transparent;
             color: var(--text-muted);
             border: 1px solid var(--border-color);
-            padding: 12px 24px;
-            border-radius: 14px;
+            padding: 10px 20px;
+            border-radius: 12px;
             cursor: pointer;
             font-weight: 600;
-            font-size: 0.95rem;
             margin-bottom: 30px;
-            transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            backdrop-filter: blur(5px);
+            gap: 8px;
         }
+        .back-btn:hover { color: var(--accent-primary); border-color: var(--accent-primary); }
 
-        .back-btn:hover {
-            background: rgba(255, 123, 0, 0.1);
-            color: var(--accent-secondary);
-            border-color: rgba(255, 123, 0, 0.3);
-            transform: translateX(-4px);
-        }
+        .tracker-item { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 0.95rem;}
+        .progress-track { background: rgba(0,0,0,0.1); height: 8px; border-radius: 4px; overflow: hidden; margin-top: 15px; }
+        .progress-fill { background: var(--accent-primary); width: 0%; height: 100%; transition: width 0.3s; }
+        .subject-list { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; margin-top: 15px;}
+        .subject-badge { background: rgba(255,123,0,0.1); color: var(--accent-secondary); padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; }
 
-        /* --- Animations Configurations --- */
-        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
         @keyframes pulse-glow {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 123, 0, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(255, 123, 0, 0); }
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 123, 0, 0.4); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(255, 123, 0, 0); }
             100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 123, 0, 0); }
         }
         .slide-up { transform: translateY(-100vh); opacity: 0; }
@@ -478,7 +386,12 @@
 </head>
 <body>
 
-    <!-- Splash Intro Grid -->
+    <div class="theme-toggle-container">
+        <button class="theme-btn" onclick="toggleTheme()">
+            <span id="themeIcon">☀️</span> <span id="themeText">Light Mode</span>
+        </button>
+    </div>
+
     <div class="welcome-screen" id="welcomeScreen">
         <h1 class="welcome-title">Punny's Study Hub</h1>
         <p class="welcome-subtitle">Learn • Excel • Succeed</p>
@@ -486,335 +399,271 @@
 
     <div class="page-container">
         
-        <!-- MAIN INTERACTION AREA -->
-        <main style="flex-grow: 1;">
-            
-            <!-- SEARCH CONTROL PANEL -->
-            <div class="search-container" id="searchWrapper" style="display:none;">
-                <input type="text" class="search-bar" id="hubSearch" placeholder="Search materials (e.g., Maths, Kota, PYQ)..." oninput="executeSearch()">
+        <div class="search-container" id="searchWrapper" style="display:none;">
+            <input type="text" class="search-bar" id="hubSearch" placeholder="Search hubs, notes, or tools..." oninput="executeSearch()">
+        </div>
+
+        <div class="page-section" id="homeHub">
+            <div class="main-header">
+                <h2>Select Your Target</h2>
+                <p>Access high-quality study pipelines and focus toolsets custom built for your stream.</p>
+                <div class="beta-status">
+                    <span class="beta-pulse"></span>
+                    Currently beta testing. Full materials will come soon!
+                </div>
             </div>
 
-            <!-- MAIN DASHBOARD HUB -->
-            <div class="page-section" id="homeHub">
-                <div class="main-header">
-                    <h2>Select Your Stream</h2>
-                    <p>Your portal into premium academic resource archives</p>
-                    <div class="beta-status">
-                        <span class="beta-pulse"></span>
-                        Currently beta testing. Full materials will come soon!
-                    </div>
-                </div>
-                <div class="card-container">
-                    <div class="card" onclick="switchSection('cbseHub')">
+            <div class="card-container">
+                <div class="card" onclick="switchSection('cbseHub')">
+                    <div>
                         <div class="card-icon">📚</div>
                         <h3>CBSE Materials</h3>
-                        <p>Comprehensive class notes, curated boards analysis, and structure files.</p>
+                        <p>Class 12 board curriculum setups, structured guides, and complete question archives.</p>
                     </div>
-                    <div class="card" onclick="switchSection('jeeHub')">
+                </div>
+                <div class="card" onclick="switchSection('jeeHub')">
+                    <div>
                         <div class="card-icon">🚀</div>
-                        <h3>JEE Prep</h3>
-                        <p>High-yield toolkits explicitly engineered to clear Main & Advanced tiers.</p>
+                        <h3>JEE Preparation</h3>
+                        <p>High-yield notes compiled directly from premium resources and exam analysis.</p>
+                    </div>
+                </div>
+                <div class="card" onclick="switchSection('pomodoroHub')">
+                    <div>
+                        <div class="card-icon">⏱️</div>
+                        <h3>Focus Pomodoro</h3>
+                        <p>Set a custom countdown study interval complete with non-intrusive sound synthesis layers.</p>
+                    </div>
+                </div>
+                <div class="card" onclick="switchSection('flashcardHub')">
+                    <div>
+                        <div class="card-icon">⚡ Recall Cards</div>
+                        <h3>Active Revision</h3>
+                        <p>Flip interactive micro-flashcards to verify core system principles instantly.</p>
                     </div>
                 </div>
             </div>
 
-            <!-- CBSE INNER HUB -->
-            <div class="page-section" id="cbseHub">
-                <button class="back-btn" onclick="switchSection('homeHub')">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-                    Back to Streams
-                </button>
-                <div class="main-header">
-                    <h2>CBSE Class 12 Portal</h2>
-                    <p>Access focused curriculum archives by program selection</p>
+            <div class="footer-row">
+                <div class="footer-panel">
+                    <h4>📈 Quick Progress Matrix</h4>
+                    <div class="tracker-item"><input type="checkbox" onchange="calculateProgress()"> Physics Preparation Core</div>
+                    <div class="tracker-item"><input type="checkbox" onchange="calculateProgress()"> Chemistry Structural Module</div>
+                    <div class="tracker-item"><input type="checkbox" onchange="calculateProgress()"> Advanced Mathematics Review</div>
+                    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
                 </div>
-                <div class="card-container">
-                    <div class="card">
+                <div class="footer-panel" style="display: flex; flex-direction: column; justify-content: center;">
+                    <h4>💡 Pun of the Session</h4>
+                    <p id="dailyPunSlot" style="font-style: italic; color: var(--text-muted); line-height: 1.4;"></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-section" id="cbseHub">
+            <button class="back-btn" onclick="switchSection('homeHub')">← Back to Dashboard</button>
+            <div class="main-header">
+                <h2>CBSE Vault</h2>
+                <p>Class 12 secondary study materials organized down by structural files</p>
+            </div>
+            <div class="card-container" style="max-width: 700px; margin: 0 auto;">
+                <div class="card">
+                    <div>
                         <div class="card-icon">📁</div>
-                        <h3>Class 12 Previous Year Papers</h3>
-                        <p>Core system annual examination data and answers.</p>
+                        <h3>Class 12 Board Papers</h3>
+                        <p>Official final exam metrics arranged by focus chapters.</p>
                         <div class="subject-list">
-                            <span class="subject-badge">Maths</span>
-                            <span class="subject-badge">English</span>
-                            <span class="subject-badge">Phy</span>
-                            <span class="subject-badge">Chem</span>
-                            <span class="subject-badge">CS</span>
-                            <span class="subject-badge">Bio</span>
+                            <span class="subject-badge">Maths</span><span class="subject-badge">English</span><span class="subject-badge">Phy</span><span class="subject-badge">Chem</span>
                         </div>
                     </div>
-                    <div class="card">
+                </div>
+                <div class="card">
+                    <div>
                         <div class="card-icon">🔄</div>
-                        <h3>Improvement Papers</h3>
-                        <p>Compartment vaults and design upgrade frameworks.</p>
+                        <h3>Improvement Banks</h3>
+                        <p>Official improvement blueprints and supplementary practice runs.</p>
                         <div class="subject-list">
-                            <span class="subject-badge">Maths</span>
-                            <span class="subject-badge">English</span>
-                            <span class="subject-badge">Phy</span>
-                            <span class="subject-badge">Chem</span>
-                            <span class="subject-badge">CS</span>
-                            <span class="subject-badge">Bio</span>
+                            <span class="subject-badge">Maths</span><span class="subject-badge">Phy</span><span class="subject-badge">Chem</span>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- JEE INNER HUB -->
-            <div class="page-section" id="jeeHub">
-                <button class="back-btn" onclick="switchSection('homeHub')">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-                    Back to Streams
-                </button>
-                <div class="main-header">
-                    <h2>JEE Preparation Vault</h2>
-                    <p>Premium modules sourced from elite training centers</p>
-                </div>
-                <div class="card-container">
-                    <div class="card">
+        <div class="page-section" id="jeeHub">
+            <button class="back-btn" onclick="switchSection('homeHub')">← Back to Dashboard</button>
+            <div class="main-header">
+                <h2>JEE Prep Hub</h2>
+                <p>Engineering toolkits sourced from prime study pathways</p>
+            </div>
+            <div class="card-container" style="max-width: 900px; margin: 0 auto;">
+                <div class="card">
+                    <div>
                         <div class="card-icon">⏱️</div>
                         <h3>PYQ Section</h3>
-                        <p>Chapter-sorted past questions structured alongside granular evaluation metrics.</p>
+                        <p>Chapter-wise previous years queries with structured breakdown points.</p>
                     </div>
-                    <div class="card">
+                </div>
+                <div class="card">
+                    <div>
                         <div class="card-icon">🎯</div>
-                        <h3>Brilliant Study Material</h3>
-                        <p>Advanced algorithmic question sets and predictive testing structures.</p>
+                        <h3>Brilliant Material</h3>
+                        <p>Advanced predictive testing modules and evaluation sequences.</p>
                     </div>
-                    <div class="card">
+                </div>
+                <div class="card">
+                    <div>
                         <div class="card-icon">👑</div>
-                        <h3>Kota Notes Section</h3>
-                        <p>Hand-written blueprint insights extracted directly from prime class lectures.</p>
+                        <h3>Kota Classroom Notes</h3>
+                        <p>Handcrafted premium directives taken straight from core lecture assemblies.</p>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- ACTIVE RECALL FLASHCARDS BOX -->
-            <div class="flashcard-section" id="flashcardBox" style="display:none;">
-                <h3>⚡ Daily Quick Recall Flashcards</h3>
-                <div class="flashcard-box" onclick="this.classList.toggle('flipped')">
-                    <div class="flashcard-inner">
-                        <div class="card-front">
-                            <p id="flashQuestion">Loading flashcard challenge...</p>
-                            <span style="font-size:0.75rem; color:var(--text-muted); margin-top:20px;">Click card to flip</span>
-                        </div>
-                        <div class="card-back">
-                            <p id="flashAnswer">Loading verification framework...</p>
-                        </div>
+        <div class="page-section" id="pomodoroHub">
+            <button class="back-btn" onclick="switchSection('homeHub')">← Back to Dashboard</button>
+            <div class="timer-view">
+                <div class="card-icon">⏱️</div>
+                <h3>Focus Countdown Engine</h3>
+                <div class="timer-clock" id="timerClock">25:00</div>
+                <button class="action-btn" id="timerControlBtn" onclick="toggleTimer()">Start Engine</button>
+                <button class="action-btn" onclick="resetTimer()" style="background:transparent; border-color:transparent;">Reset</button>
+                <div style="margin-top: 20px; font-size: 0.9rem; color: var(--text-muted);">
+                    <label style="cursor:pointer;"><input type="checkbox" id="lofiAudioCheck" onchange="toggleLofiBackground()"> Enable ambient synth focus wave</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-section" id="flashcardHub">
+            <button class="back-btn" onclick="switchSection('homeHub')">← Back to Dashboard</button>
+            <div class="flashcard-view">
+                <div class="card-icon">⚡</div>
+                <h3>Active Recall Matrix</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Test your instant memory retention capacity.</p>
+                <div class="flash-container" id="flashContainer" onclick="this.classList.toggle('flipped')">
+                    <div class="flash-card">
+                        <div class="face front" id="flashQuestion">Click next card to begin initialization...</div>
+                        <div class="face back" id="flashAnswer">Verification array complete.</div>
                     </div>
                 </div>
-                <div class="flashcard-nav">
-                    <button class="timer-btn" onclick="event.stopPropagation(); changeFlashcard(-1)">Previous</button>
-                    <button class="timer-btn" onclick="event.stopPropagation(); changeFlashcard(1)">Next Card</button>
+                <div>
+                    <button class="action-btn" onclick="changeFlashcard(-1)">Previous</button>
+                    <button class="action-btn" onclick="changeFlashcard(1)">Next Blueprint</button>
                 </div>
             </div>
+        </div>
 
-        </main>
-
-        <!-- FLOATING SIDEBAR UTILITIES MODULE -->
-        <aside class="utility-sidebar" id="sidebarPanel">
-            
-            <!-- POMODORO TIMER PANEL -->
-            <div class="side-panel">
-                <h4>⏱️ Focus Pomodoro</h4>
-                <div class="timer-display" id="timerClock">25:00</div>
-                <button class="timer-btn" id="timerControlBtn" onclick="toggleTimer()">Start Focus</button>
-                <label class="lofi-toggle">
-                    <input type="checkbox" id="lofiAudioCheck" onchange="toggleLofiBackground()"> Play Ambient Study Track
-                </label>
-            </div>
-
-            <!-- SYLLABUS STEP PROGRESS PANEL -->
-            <div class="side-panel">
-                <h4>📈 Syllabus Progress</h4>
-                <div class="tracker-item"><input type="checkbox" onchange="calculateProgress()"> Physics Unit 1</div>
-                <div class="tracker-item"><input type="checkbox" onchange="calculateProgress()"> Chemistry Unit 1</div>
-                <div class="tracker-item"><input type="checkbox" onchange="calculateProgress()"> Mathematics Unit 1</div>
-                <div class="tracker-item"><input type="checkbox" onchange="calculateProgress()"> Computer Science / Bio</div>
-                <div class="progress-bar-container">
-                    <div class="progress-fill" id="progressFill"></div>
-                </div>
-            </div>
-
-            <!-- PUNNY WINNER CARD GENERATOR -->
-            <div class="side-panel">
-                <h4>💡 Daily Study Pun</h4>
-                <p class="pun-text" id="dailyPunSlot">"Why can't you trust atoms? Because they make up everything!"</p>
-            </div>
-
-        </aside>
     </div>
 
-    <!-- Web Audio API Synth Engine for Background Study Track (No External Assets Required) -->
     <script>
-        let audioCtx = null;
-        let lofiOsc = null;
-        let lofiGain = null;
-
+        let audioCtx = null, lofiOsc = null, lofiGain = null;
         function toggleLofiBackground() {
             const isChecked = document.getElementById('lofiAudioCheck').checked;
             if (isChecked) {
                 if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                
-                // Setup low low-frequency sound oscillator node to simulate deep binaural background study waves
                 lofiOsc = audioCtx.createOscillator();
                 lofiGain = audioCtx.createGain();
-                
                 lofiOsc.type = 'sine';
-                lofiOsc.frequency.setValueAtTime(90, audioCtx.currentTime); // Deep focusing tone
-                lofiGain.gain.setValueAtTime(0.04, audioCtx.currentTime); // Low non-intrusive volume
-                
+                lofiOsc.frequency.setValueAtTime(85, audioCtx.currentTime); // Deep focus note
+                lofiGain.gain.setValueAtTime(0.03, audioCtx.currentTime);
                 lofiOsc.connect(lofiGain);
                 lofiGain.connect(audioCtx.destination);
                 lofiOsc.start();
-            } else {
-                if (lofiOsc) {
-                    lofiOsc.stop();
-                    lofiOsc.disconnect();
-                    lofiOsc = null;
-                }
+            } else if (lofiOsc) {
+                lofiOsc.stop(); lofiosc = null;
             }
         }
     </script>
 
-    <!-- UI State, Search Engine, Flashcards, and Time Track Scripts -->
     <script>
-        // Splash Transition Hook
         document.addEventListener("DOMContentLoaded", () => {
             setTimeout(() => {
-                const welcomeScreen = document.getElementById("welcomeScreen");
-                welcomeScreen.classList.add("slide-up");
-                
+                document.getElementById("welcomeScreen").classList.add("slide-up");
                 setTimeout(() => {
                     switchSection('homeHub');
-                    document.getElementById("sidebarPanel").classList.add("reveal");
                     document.getElementById("searchWrapper").style.display = "block";
-                    document.getElementById("flashcardBox").style.display = "block";
                     renderRandomPun();
                     renderFlashcard();
                 }, 400);
-            }, 2200);
+            }, 1800);
         });
 
-        // Dynamic Section Layout Switcher
-        function switchSection(targetSectionId) {
-            const activeSection = document.querySelector('.page-section.active');
-            const targetSection = document.getElementById(targetSectionId);
+        // Theme Switch Logic
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute("data-theme");
+            const newTheme = currentTheme === "light" ? "dark" : "light";
+            document.documentElement.setAttribute("data-theme", newTheme);
             
-            if (activeSection) {
-                activeSection.style.opacity = '0';
-                activeSection.style.transform = 'translateY(15px) scale(0.98)';
-                
+            document.getElementById("themeIcon").textContent = newTheme === "light" ? "🌙" : "☀️";
+            document.getElementById("themeText").textContent = newTheme === "light" ? "Dark Mode" : "Light Mode";
+        }
+
+        // Window Layer Management
+        function switchSection(targetId) {
+            const active = document.querySelector('.page-section.active');
+            const target = document.getElementById(targetId);
+            if (active) {
+                active.style.opacity = '0';
+                active.style.transform = 'translateY(15px) scale(0.98)';
                 setTimeout(() => {
-                    activeSection.classList.remove('active');
-                    engageTarget(targetSection);
-                }, 400);
-            } else {
-                engageTarget(targetSection);
-            }
+                    active.classList.remove('active');
+                    reveal(target);
+                }, 350);
+            } else { reveal(target); }
+        }
+        function reveal(el) {
+            el.classList.add('active');
+            setTimeout(() => { el.style.opacity = '1'; el.style.transform = 'translateY(0) scale(1)'; }, 40);
         }
 
-        function engageTarget(element) {
-            element.classList.add('active');
-            setTimeout(() => {
-                element.style.opacity = '1';
-                element.style.transform = 'translateY(0) scale(1)';
-            }, 40);
-        }
-
-        // Live Search Engine Filtering
+        // Live Grid Client Filter
         function executeSearch() {
-            const query = document.getElementById("hubSearch").value.toLowerCase();
-            const cards = document.querySelectorAll(".card");
-            
-            cards.forEach(card => {
-                const contentText = card.textContent.toLowerCase();
-                if (contentText.includes(query)) {
-                    card.style.display = "block";
-                    card.style.opacity = "1";
-                } else {
-                    card.style.display = "none";
-                }
+            const q = document.getElementById("hubSearch").value.toLowerCase();
+            document.querySelectorAll(".card").forEach(c => {
+                c.style.display = c.textContent.toLowerCase().includes(q) ? "flex" : "none";
             });
         }
 
-        // Pomodoro Clock Logic
-        let timerInterval = null;
-        let secondsLeft = 1500; // 25 Minutes Default
-        let isRunning = false;
-
+        // Pomodoro Interval Timer
+        let timer = null, sec = 1500, running = false;
         function toggleTimer() {
             const btn = document.getElementById("timerControlBtn");
-            if (isRunning) {
-                clearInterval(timerInterval);
-                btn.textContent = "Resume Focus";
-                isRunning = false;
+            if (running) {
+                clearInterval(timer); running = false; btn.textContent = "Resume Engine";
             } else {
-                isRunning = true;
-                btn.textContent = "Pause Timer";
-                timerInterval = setInterval(() => {
-                    if (secondsLeft <= 0) {
-                        clearInterval(timerInterval);
-                        alert("Session complete! Time for a well-deserved short break.");
-                        secondsLeft = 300; // 5 min break transition auto
-                        isRunning = false;
-                        btn.textContent = "Start Break";
-                    } else {
-                        secondsLeft--;
-                    }
-                    updateTimerUI();
+                running = true; btn.textContent = "Pause Space";
+                timer = setInterval(() => {
+                    if (sec <= 0) { clearInterval(timer); alert("Focus block absolute!"); resetTimer(); }
+                    else { sec--; updateTimerUI(); }
                 }, 1000);
             }
         }
-
+        function resetTimer() { clearInterval(timer); sec = 1500; running = false; updateTimerUI(); document.getElementById("timerControlBtn").textContent = "Start Engine"; }
         function updateTimerUI() {
-            const mins = Math.floor(secondsLeft / 60).toString().padStart(2, '0');
-            const secs = (secondsLeft % 60).toString().padStart(2, '0');
-            document.getElementById("timerClock").textContent = `${mins}:${secs}`;
+            document.getElementById("timerClock").textContent = `${Math.floor(sec/60).toString().padStart(2,'0')}:${(sec%60).toString().padStart(2,'0')}`;
         }
 
-        // Syllabus Tracker Calculation Engine
+        // Progress Metrics Tracker
         function calculateProgress() {
-            const checkboxes = document.querySelectorAll(".tracker-item input");
-            let checkedCount = 0;
-            checkboxes.forEach(box => { if(box.checked) checkedCount++; });
-            const finalPercentage = (checkedCount / checkboxes.length) * 100;
-            document.getElementById("progressFill").style.width = `${finalPercentage}%`;
+            const boxes = document.querySelectorAll(".tracker-item input");
+            let checked = 0; boxes.forEach(b => { if(b.checked) checked++; });
+            document.getElementById("progressFill").style.width = `${(checked / boxes.length) * 100}%`;
         }
 
-        // Pun Database
-        const studyPuns = [
-            "Why did the computer go to school? To get a byte to eat!",
-            "Have you heard the one about the chemical reaction? It blew everyone away.",
-            "Parallel lines have so much in common. It’s a shame they’ll never meet.",
-            "What did the triangle say to the circle? 'You're pointless!'"
-        ];
-        function renderRandomPun() {
-            const randomIdx = Math.floor(Math.random() * studyPuns.length);
-            document.getElementById("dailyPunSlot").textContent = `"${studyPuns[randomIdx]}"`;
-        }
+        // Static Arrays
+        const puns = ["Why did the triangle say to the circle? You're completely pointless!", "Parallel lines have so much in common. It’s a shame they’ll never meet.", "Organic chemistry is difficult. Those structures can be completely carbon-copied."];
+        function renderRandomPun() { document.getElementById("dailyPunSlot").textContent = puns[Math.floor(Math.random() * puns.length)]; }
 
-        // Flashcards Database
-        const flashcards = [
-            { q: "What is the derivative of sin(x)?", a: "cos(x)" },
-            { q: "Which functional group represents an Alcohol in organic chem?", a: "-OH Group" },
-            { q: "State Ohm's Law formula structure.", a: "V = IR" },
-            { q: "What is the time complexity of a Binary Search operation?", a: "O(log n)" }
-        ];
-        let currentFlashIdx = 0;
-
+        const flash = [{q: "Derivative of sin(x)?", a: "cos(x)"}, {q: "Ohm's Law structural formula?", a: "V = IR"}, {q: "Functional group representing an Alcohol?", a: "-OH linkage"}];
+        let fIdx = 0;
         function renderFlashcard() {
-            document.getElementById("flashcardBox").classList.remove('flipped');
+            document.getElementById("flashContainer").classList.remove('flipped');
             setTimeout(() => {
-                document.getElementById("flashQuestion").textContent = flashcards[currentFlashIdx].q;
-                document.getElementById("flashAnswer").textContent = flashcards[currentFlashIdx].a;
+                document.getElementById("flashQuestion").textContent = flash[fIdx].q;
+                document.getElementById("flashAnswer").textContent = flash[fIdx].a;
             }, 150);
         }
-
-        function changeFlashcard(direction) {
-            currentFlashIdx += direction;
-            if (currentFlashIdx >= flashcards.length) currentFlashIdx = 0;
-            if (currentFlashIdx < 0) currentFlashIdx = flashcards.length - 1;
-            renderFlashcard();
-        }
+        function changeFlashcard(d) { fIdx = (fIdx + d + flash.length) % flash.length; renderFlashcard(); }
     </script>
 </body>
 </html>
