@@ -4,29 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Punny's Study Hub</title>
+    <!-- Chart.js for YPT Tracker Visual Distribution -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         /* --- Core System Variables & Themes --- */
         :root {
             --bg-dark: #0b0b0f;
-            --panel-bg: rgba(30, 30, 38, 0.6);
-            --border-color: rgba(255, 255, 255, 0.08);
+            --panel-bg: rgba(22, 22, 30, 0.45);
+            --border-color: rgba(255, 255, 255, 0.06);
             --text-main: #f1f5f9;
             --text-muted: #94a3b8;
             --accent-primary: #ff7b00;
             --accent-secondary: #ffae00;
-            --shadow: rgba(0, 0, 0, 0.4);
+            --shadow: rgba(0, 0, 0, 0.5);
             --glow: cubic-bezier(0.15, 0.85, 0.45, 1);
             --watermark-color: rgba(255, 255, 255, 0.35);
         }
 
         [data-theme="light"] {
             --bg-dark: #f4f4f7;
-            --panel-bg: rgba(255, 255, 255, 0.8);
-            --border-color: rgba(0, 0, 0, 0.08);
+            --panel-bg: rgba(255, 255, 255, 0.65);
+            --border-color: rgba(0, 0, 0, 0.06);
             --text-main: #1e1e24;
             --text-muted: #64748b;
-            --shadow: rgba(0, 0, 0, 0.08);
+            --shadow: rgba(0, 0, 0, 0.06);
             --watermark-color: rgba(30, 30, 36, 0.45);
         }
 
@@ -64,7 +65,7 @@
         body::after { bottom: -10%; right: -10%; }
         [data-theme="light"]::before, [data-theme="light"]::after { display: none; }
 
-        /* --- Top Left Brand Watermark (Bigger Adjustment Lock) --- */
+        /* --- Top Left Brand Watermark --- */
         .brand-watermark {
             position: fixed;
             top: 26px;
@@ -99,7 +100,8 @@
             align-items: center;
             gap: 8px;
             box-shadow: 0 4px 12px var(--shadow);
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
         }
 
         /* --- Welcome Screen Animation --- */
@@ -192,8 +194,8 @@
         .search-container { margin: 20px auto 40px auto; max-width: 500px; }
         .search-bar {
             width: 100%; padding: 14px 20px; background: var(--panel-bg); border: 1px solid var(--border-color);
-            border-radius: 14px; color: var(--text-main); font-size: 1rem; outline: none; backdrop-filter: blur(10px);
-            box-shadow: 0 4px 10px var(--shadow);
+            border-radius: 14px; color: var(--text-main); font-size: 1rem; outline: none; backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px); box-shadow: 0 4px 10px var(--shadow);
         }
         .search-bar:focus { border-color: var(--accent-primary); }
 
@@ -206,14 +208,19 @@
         }
 
         .card {
-            background: var(--panel-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            background: var(--panel-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border-color); border-radius: 24px; padding: 35px 22px; cursor: pointer;
-            position: relative; transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.3s, box-shadow 0.3s;
+            position: relative; transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.3s, box-shadow 0.3s, border-color 0.3s;
             box-shadow: 0 15px 35px var(--shadow); display: flex; flex-direction: column; justify-content: space-between;
         }
 
         .card:hover { transform: translateY(-8px); border-color: var(--accent-primary); box-shadow: 0 20px 45px var(--shadow); }
-        .card-icon { font-size: 3rem; margin-bottom: 12px; display: inline-block; }
+        .card-icon { font-size: 3rem; margin-bottom: 12px; display: inline-block; transition: transform 0.3s; }
+        
+        /* Interactive Micro Hover States */
+        .card:hover .animate-books { transform: scale(1.1) rotate(-5deg); }
+        .card:hover .animate-rocket { transform: translateY(-4px) scale(1.1); }
+        .card:hover .animate-tracker { transform: scale(1.15); filter: drop-shadow(0 4px 12px var(--accent-primary)); }
 
         /* Continuous Keyframe Loops */
         .animate-books { animation: floatBooks 3s ease-in-out infinite; }
@@ -223,19 +230,19 @@
         .animate-tracker { animation: pulseTracker 2s ease-in-out infinite; }
         .animate-admin { animation: floatAdmin 3.5s ease-in-out infinite; }
 
-        @keyframes floatBooks { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-8px) rotate(-3deg); } }
-        @keyframes floatRocket { 0%, 100% { transform: translateY(0) translateX(0); } 50% { transform: translateY(-12px) translateX(4px); } }
+        @keyframes floatBooks { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-6px) rotate(-2deg); } }
+        @keyframes floatRocket { 0%, 100% { transform: translateY(0) translateX(0); } 50% { transform: translateY(-8px) translateX(3px); } }
         @keyframes spinClock { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @keyframes pulseFlash { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 0px rgba(255,174,0,0)); } 50% { transform: scale(1.08); filter: drop-shadow(0 0 8px rgba(255,174,0,0.5)); } }
-        @keyframes pulseTracker { 0%, 100% { transform: translateY(0); filter: drop-shadow(0 0 0px rgba(255,123,0,0)); } 50% { transform: translateY(-6px); filter: drop-shadow(0 4px 10px rgba(255,123,0,0.4)); } }
-        @keyframes floatAdmin { 0%, 100% { transform: scale(1) rotate(0deg); } 50% { transform: scale(1.05) rotate(5deg); } }
+        @keyframes pulseFlash { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 0px rgba(255,174,0,0)); } 50% { transform: scale(1.06); filter: drop-shadow(0 0 8px rgba(255,174,0,0.4)); } }
+        @keyframes pulseTracker { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+        @keyframes floatAdmin { 0%, 100% { transform: scale(1) rotate(0deg); } 50% { transform: scale(1.03) rotate(3deg); } }
 
         .card h3 { font-size: 1.35rem; font-weight: 700; margin-bottom: 10px; }
         .card p { font-size: 0.92rem; color: var(--text-muted); line-height: 1.45; }
 
         /* --- Footer Context Panels --- */
         .footer-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; margin-top: 40px; border-top: 1px solid var(--border-color); padding-top: 40px; }
-        .footer-panel { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 24px; box-shadow: 0 10px 25px var(--shadow); text-align: left; }
+        .footer-panel { background: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 24px; box-shadow: 0 10px 25px var(--shadow); text-align: left; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
         .footer-panel h4 { font-size: 1.1rem; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
 
         /* --- Granular Progress Sections --- */
@@ -251,7 +258,7 @@
         /* --- Immersive View Frameworks --- */
         .timer-view, .flashcard-view, .admin-view, .tracker-view {
             max-width: 550px; margin: 40px auto; background: var(--panel-bg); border: 1px solid var(--border-color);
-            padding: 40px; border-radius: 24px; box-shadow: 0 20px 50px var(--shadow);
+            padding: 40px; border-radius: 24px; box-shadow: 0 20px 50px var(--shadow); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
         }
 
         .timer-clock, .visit-counter, .tracker-clock { font-size: 4.5rem; font-weight: 800; color: var(--accent-secondary); margin: 15px 0; font-variant-numeric: tabular-nums; text-shadow: 0 0 20px rgba(255,174,0,0.15); }
@@ -273,7 +280,7 @@
         /* Tracker Section Dropdown Styling */
         .tracker-select-wrapper { text-align: left; margin-bottom: 20px; }
         .tracker-select-wrapper label { display: block; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 8px; color: var(--text-muted); font-weight: 600; }
-        .tracker-select { width: 100%; padding: 12px; background: #16161e; border: 1px solid var(--border-color); border-radius: 10px; color: #fff; outline: none; cursor: pointer; font-size: 0.95rem; }
+        .tracker-select { width: 100%; padding: 12px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 10px; color: #fff; outline: none; cursor: pointer; font-size: 0.95rem; }
         .tracker-select:focus { border-color: var(--accent-primary); }
 
         /* Chart Canvas Size Restrictor */
@@ -281,21 +288,21 @@
 
         .audio-selector-wrapper { margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.05); text-align: left; }
         .audio-selector-wrapper label { display: block; font-size: 0.9rem; margin-bottom: 8px; color: var(--text-muted); font-weight: 600; }
-        .audio-select { width: 100%; padding: 12px; background: #16161e; border: 1px solid var(--border-color); border-radius: 10px; color: #fff; outline: none; cursor: pointer; font-size: 0.95rem; }
+        .audio-select { width: 100%; padding: 12px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 10px; color: #fff; outline: none; cursor: pointer; font-size: 0.95rem; }
         .audio-select:focus { border-color: var(--accent-primary); }
 
         .action-btn {
             background: rgba(255, 123, 0, 0.15); border: 1px solid rgba(255, 123, 0, 0.3);
             color: var(--text-main); padding: 12px 28px; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 1rem; margin: 5px;
         }
-        .action-btn:hover { background: var(--accent-primary); color: #fff; }
+        .action-btn:hover { background: var(--accent-primary); color: #fff; border-color: var(--accent-primary); }
 
         /* Flashcard Component Elements */
         .flash-container { perspective: 1000px; width: 100%; height: 200px; margin: 20px 0; }
         .flash-card { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; }
         .flash-container.flipped .flash-card { transform: rotateY(180deg); }
         .face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 16px; border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; padding: 24px; font-size: 1.1rem; box-shadow: 0 8px 20px var(--shadow); }
-        .face.front { background: var(--panel-bg); }
+        .face.front { background: var(--panel-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
         .face.back { background: linear-gradient(135deg, #221c16 0%, #120e0a 100%); color: var(--accent-secondary); transform: rotateY(180deg); }
 
         /* --- Enlarged Navigation Back Buttons --- */
@@ -321,6 +328,34 @@
         .subject-list { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; margin-top: 15px; }
         .subject-badge { background: rgba(255,123,0,0.1); color: var(--accent-secondary); padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; }
 
+        /* --- PREMIUM FLOATING SCRATCHPAD --- */
+        .scratchpad-toggle {
+            position: fixed; bottom: 25px; right: 25px; z-index: 99;
+            background: var(--accent-primary); color: #fff; border: none;
+            width: 54px; height: 54px; border-radius: 50%; cursor: pointer;
+            font-size: 1.5rem; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 8px 24px rgba(255, 123, 0, 0.3); transition: transform 0.2s;
+        }
+        .scratchpad-toggle:hover { transform: scale(1.08); }
+        
+        .scratchpad-window {
+            position: fixed; bottom: 90px; right: 25px; z-index: 99;
+            width: 320px; height: 380px; background: var(--panel-bg);
+            border: 1px solid var(--border-color); border-radius: 20px;
+            box-shadow: 0 15px 40px var(--shadow); backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px); display: none; flex-direction: column;
+            overflow: hidden; opacity: 0; transform: translateY(10px);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        .scratchpad-window.open { display: flex; opacity: 1; transform: translateY(0); }
+        .scratchpad-header { padding: 14px 18px; border-bottom: 1px solid var(--border-color); font-weight: 700; font-size: 0.95rem; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.15); }
+        .scratchpad-textarea { flex: 1; background: transparent; border: none; padding: 15px; color: var(--text-main); font-size: 0.95rem; outline: none; resize: none; line-height: 1.5; }
+
+        /* --- TOAST NOTIFICATION CONTAINER --- */
+        #toastContainer { position: fixed; top: 25px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+        .toast-popup { background: rgba(20, 20, 25, 0.85); border: 1px solid var(--accent-primary); color: #fff; padding: 14px 24px; border-radius: 12px; font-weight: 600; font-size: 0.95rem; box-shadow: 0 10px 30px rgba(0,0,0,0.3); backdrop-filter: blur(10px); opacity: 0; transform: translateY(-20px); transition: opacity 0.3s, transform 0.3s; pointer-events: auto; }
+        .toast-popup.show { opacity: 1; transform: translateY(0); }
+
         @keyframes pulse-glow {
             0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 123, 0, 0.4); }
             70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(255, 123, 0, 0); }
@@ -332,6 +367,19 @@
 <body>
 
     <div class="brand-watermark">Punny's Study Hub</div>
+
+    <!-- UI Notification Engine -->
+    <div id="toastContainer"></div>
+
+    <!-- Floating Scratchpad Menu -->
+    <button class="scratchpad-toggle" onclick="toggleScratchpad()">📝</button>
+    <div class="scratchpad-window" id="scratchpadBox">
+        <div class="scratchpad-header">
+            <span>📋 Live Sticky Scratchpad</span>
+            <span style="font-size:0.75rem; color:var(--text-muted);">Autosaved</span>
+        </div>
+        <textarea class="scratchpad-textarea" id="scratchpadContent" placeholder="Type quick formulas, equation notes, or task lists here..." oninput="saveScratchpadNotes()"></textarea>
+    </div>
 
     <div class="theme-toggle-container">
         <button class="theme-btn" onclick="toggleTheme()">
@@ -534,6 +582,7 @@
             </div>
         </div>
 
+        <!-- --- STUDY TRACKER MODULE --- -->
         <div class="page-section" id="trackerHub">
             <button class="back-btn" onclick="switchSection('homeHub')">← Back to Dashboard</button>
             <div class="tracker-view">
@@ -658,6 +707,35 @@
             return `${h}:${m}:${s}`;
         }
 
+        function showToastNotification(textMessage) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'toast-popup';
+            toast.innerText = textMessage;
+            container.appendChild(toast);
+            
+            setTimeout(() => toast.classList.add('show'), 50);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
+        function toggleScratchpad() {
+            const pad = document.getElementById('scratchpadBox');
+            pad.classList.toggle('open');
+        }
+
+        function saveScratchpadNotes() {
+            const txt = document.getElementById('scratchpadContent').value;
+            localStorage.setItem('punnyScratchNotes', txt);
+        }
+
+        function loadScratchpadNotes() {
+            const savedTxt = localStorage.getItem('punnyScratchNotes');
+            if(savedTxt) document.getElementById('scratchpadContent').value = savedTxt;
+        }
+
         function initTrackerChart() {
             const canvasElement = document.getElementById('yptTrackerChart');
             if(!canvasElement) return;
@@ -710,10 +788,15 @@
                 actionBtn.style.background = "#ef4444";
                 actionBtn.style.borderColor = "#ef4444";
                 streamSelect.disabled = true;
+                
+                showToastNotification(`🔥 Focus Session Initiated for ${streamSelect.value}!`);
 
                 trackerInterval = setInterval(() => {
                     trackerSeconds++;
-                    document.getElementById('trackerClockDisplay').innerText = formatTrackerTime(trackerSeconds);
+                    let outputClock = formatTrackerTime(trackerSeconds);
+                    document.getElementById('trackerClockDisplay').innerText = outputClock;
+                    // Dynamic Page Tab Title Module Execution
+                    document.title = `⏱️ [${outputClock}] ${streamSelect.value} | Study Hub`;
                 }, 1000);
             } else {
                 trackerActive = false;
@@ -727,6 +810,11 @@
                 studyStorage[selectedSubject] += trackerSeconds;
                 localStorage.setItem('yptDataMetrics', JSON.stringify(studyStorage));
                 
+                showToastNotification(`💾 Session Saved! Added ${formatTrackerTime(trackerSeconds)} to ${selectedSubject}.`);
+                
+                // Revert page title back to baseline default
+                document.title = "Punny's Study Hub";
+
                 trackerSeconds = 0;
                 document.getElementById('trackerClockDisplay').innerText = "00:00:00";
                 refreshTrackerUI();
@@ -736,6 +824,7 @@
 
         document.addEventListener("DOMContentLoaded", () => {
             handleVisitIncrementation();
+            loadScratchpadNotes();
 
             setTimeout(() => {
                 document.getElementById("welcomeScreen").classList.add("slide-up");
@@ -763,9 +852,10 @@
         function verifyAdminPortal() {
             const userInput = prompt("⚠️ Restricted Access. Enter Security Access Password Key:");
             if (userInput === "punny") {
+                showToastNotification("🔓 Administrative Authorization Cleared!");
                 switchSection('adminHub');
             } else if (userInput !== null) {
-                alert("❌ Authentication Denied. Access Token Invalid.");
+                showToastNotification("❌ Security Failure: Invalid Passkey Credential.");
             }
         }
 
@@ -824,10 +914,10 @@
                     if (sec <= 0) {
                         clearInterval(timer); running = false;
                         if (currentMode === "work") {
-                            alert("Study block absolute! Commencing break interval.");
+                            showToastNotification("🔔 Pomodoro Completed! Time for a short break.");
                             currentMode = "break"; sec = breakDurationMinutes * 60;
                         } else {
-                            alert("Break absolute! Back to alignment.");
+                            showToastNotification("🎯 Break Over! Time to lock back in.");
                             currentMode = "work"; sec = workDurationMinutes * 60;
                         }
                         updateTimerUI(); toggleTimer(); 
