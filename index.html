@@ -1368,14 +1368,27 @@
         ];
         let fIdx = 0;
 
-        function renderFlashcard() {
-            // Remove flip class before updating text node parameters to hide structural leak points
-            document.getElementById("flashContainer").classList.remove('flipped');
-            setTimeout(() => {
-                document.getElementById("flashQuestion").textContent = flash[fIdx].q;
-                document.getElementById("flashAnswer").textContent = flash[fIdx].a;
-            }, 150);
-        }
+        // --- PREMIUM 3D FLASHCARD ENGINE ---
+function renderFlashcard() {
+    const container = document.getElementById("flashContainer");
+    const qEl = document.getElementById("flashQuestion");
+    const aEl = document.getElementById("flashAnswer");
+    
+    // Smoothly remove flip class to reset
+    container.classList.remove('flipped');
+    
+    setTimeout(() => {
+        const current = flash[fIdx];
+        qEl.textContent = current.q;
+        aEl.textContent = current.a;
+    }, 300);
+}
+
+function changeFlashcard(d) {
+    triggerUiSound('hover');
+    fIdx = (fIdx + d + flash.length) % flash.length; 
+    renderFlashcard(); 
+}
 
         function changeFlashcard(d) {
             triggerUiSound('hover');
