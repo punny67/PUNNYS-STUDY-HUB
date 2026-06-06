@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Punny's Study Hub</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         /* --- Core System Variables & Themes --- */
         :root {
@@ -219,12 +220,14 @@
         .animate-rocket { animation: floatRocket 2.5s ease-in-out infinite; }
         .animate-clock { animation: spinClock 4s linear infinite; }
         .animate-flash { animation: pulseFlash 2s ease-in-out infinite; }
+        .animate-tracker { animation: pulseTracker 2s ease-in-out infinite; }
         .animate-admin { animation: floatAdmin 3.5s ease-in-out infinite; }
 
         @keyframes floatBooks { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-8px) rotate(-3deg); } }
         @keyframes floatRocket { 0%, 100% { transform: translateY(0) translateX(0); } 50% { transform: translateY(-12px) translateX(4px); } }
         @keyframes spinClock { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes pulseFlash { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 0px rgba(255,174,0,0)); } 50% { transform: scale(1.08); filter: drop-shadow(0 0 8px rgba(255,174,0,0.5)); } }
+        @keyframes pulseTracker { 0%, 100% { transform: translateY(0); filter: drop-shadow(0 0 0px rgba(255,123,0,0)); } 50% { transform: translateY(-6px); filter: drop-shadow(0 4px 10px rgba(255,123,0,0.4)); } }
         @keyframes floatAdmin { 0%, 100% { transform: scale(1) rotate(0deg); } 50% { transform: scale(1.05) rotate(5deg); } }
 
         .card h3 { font-size: 1.35rem; font-weight: 700; margin-bottom: 10px; }
@@ -246,12 +249,12 @@
         .tag-mth { background: rgba(255,123,0,0.15); color: #ff7b00; }
 
         /* --- Immersive View Frameworks --- */
-        .timer-view, .flashcard-view, .admin-view {
+        .timer-view, .flashcard-view, .admin-view, .tracker-view {
             max-width: 550px; margin: 40px auto; background: var(--panel-bg); border: 1px solid var(--border-color);
             padding: 40px; border-radius: 24px; box-shadow: 0 20px 50px var(--shadow);
         }
 
-        .timer-clock, .visit-counter { font-size: 4.5rem; font-weight: 800; color: var(--accent-secondary); margin: 15px 0; font-variant-numeric: tabular-nums; text-shadow: 0 0 20px rgba(255,174,0,0.15); }
+        .timer-clock, .visit-counter, .tracker-clock { font-size: 4.5rem; font-weight: 800; color: var(--accent-secondary); margin: 15px 0; font-variant-numeric: tabular-nums; text-shadow: 0 0 20px rgba(255,174,0,0.15); }
         
         .config-row {
             display: flex; justify-content: center; gap: 30px; margin-bottom: 25px;
@@ -266,6 +269,15 @@
         }
         .adjust-btn:hover { background: var(--accent-primary); border-color: var(--accent-primary); color: #fff; }
         .time-val { font-size: 1.2rem; font-weight: 700; min-width: 25px; }
+
+        /* Tracker Section Dropdown Styling */
+        .tracker-select-wrapper { text-align: left; margin-bottom: 20px; }
+        .tracker-select-wrapper label { display: block; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 8px; color: var(--text-muted); font-weight: 600; }
+        .tracker-select { width: 100%; padding: 12px; background: #16161e; border: 1px solid var(--border-color); border-radius: 10px; color: #fff; outline: none; cursor: pointer; font-size: 0.95rem; }
+        .tracker-select:focus { border-color: var(--accent-primary); }
+
+        /* Chart Canvas Size Restrictor */
+        .chart-container-box { position: relative; height: 220px; width: 100%; margin-top: 25px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.05); }
 
         .audio-selector-wrapper { margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.05); text-align: left; }
         .audio-selector-wrapper label { display: block; font-size: 0.9rem; margin-bottom: 8px; color: var(--text-muted); font-weight: 600; }
@@ -364,6 +376,13 @@
                         <div class="card-icon animate-clock">⏱️</div>
                         <h3>Focus Pomodoro</h3>
                         <p>Set customizable intervals alongside real-time dynamic noise generator audio modules.</p>
+                    </div>
+                </div>
+                <div class="card" onclick="switchSection('trackerHub')">
+                    <div>
+                        <div class="card-icon animate-tracker">🔥</div>
+                        <h3>Study Tracker</h3>
+                        <p>Log your subject-specific revision sessions and check out your breakdown graphs.</p>
                     </div>
                 </div>
                 <div class="card" onclick="switchSection('flashcardHub')">
@@ -515,6 +534,32 @@
             </div>
         </div>
 
+        <div class="page-section" id="trackerHub">
+            <button class="back-btn" onclick="switchSection('homeHub')">← Back to Dashboard</button>
+            <div class="tracker-view">
+                <div class="card-icon">🔥</div>
+                <h3>YPT Session Dashboard</h3>
+                <div id="trackerTodayLabel" style="font-size: 0.85rem; color: var(--text-muted); font-weight: 700; margin-top: 5px; text-transform: uppercase;">Total Tracked Today: 00:00:00</div>
+                
+                <div class="tracker-clock" id="trackerClockDisplay">00:00:00</div>
+
+                <div class="tracker-select-wrapper">
+                    <label for="trackerSubjectSelect">Select Focus Stream</label>
+                    <select id="trackerSubjectSelect" class="tracker-select">
+                        <option value="Physics">Physics 🌌</option>
+                        <option value="Chemistry">Chemistry 🧪</option>
+                        <option value="Maths">Mathematics 📐</option>
+                    </select>
+                </div>
+
+                <button class="action-btn" id="trackerActionBtn" onclick="toggleTrackerSession()">Start Focusing</button>
+
+                <div class="chart-container-box">
+                    <canvas id="yptTrackerChart"></canvas>
+                </div>
+            </div>
+        </div>
+
         <div class="page-section" id="flashcardHub">
             <button class="back-btn" onclick="switchSection('homeHub')">← Back to Dashboard</button>
             <div class="flashcard-view">
@@ -599,8 +644,97 @@
     </script>
 
     <script>
+        // --- Core Study Tracker Script Engines ---
+        let trackerInterval = null;
+        let trackerSeconds = 0;
+        let trackerActive = false;
+        let yptChartInstance = null;
+        let studyStorage = JSON.parse(localStorage.getItem('yptDataMetrics')) || { Physics: 0, Chemistry: 0, Maths: 0 };
+
+        function formatTrackerTime(totalSecs) {
+            let h = Math.floor(totalSecs / 3600).toString().padStart(2, '0');
+            let m = Math.floor((totalSecs % 3600) / 60).toString().padStart(2, '0');
+            let s = (totalSecs % 60).toString().padStart(2, '0');
+            return `${h}:${m}:${s}`;
+        }
+
+        function initTrackerChart() {
+            const canvasElement = document.getElementById('yptTrackerChart');
+            if(!canvasElement) return;
+            const ctx = canvasElement.getContext('2d');
+            
+            yptChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(studyStorage),
+                    datasets: [{
+                        data: Object.values(studyStorage),
+                        backgroundColor: ['#00b4d8', '#00cc99', '#ff7b00'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: document.documentElement.getAttribute("data-theme") === "light" ? "#1e1e24" : "#94a3b8",
+                                font: { size: 11, weight: 'bold' },
+                                padding: 10
+                            }
+                        }
+                    },
+                    maintainAspectRatio: false,
+                    cutout: '72%'
+                }
+            });
+        }
+
+        function refreshTrackerUI() {
+            if (yptChartInstance) {
+                yptChartInstance.data.datasets[0].data = Object.values(studyStorage);
+                yptChartInstance.options.plugins.legend.labels.color = document.documentElement.getAttribute("data-theme") === "light" ? "#1e1e24" : "#94a3b8";
+                yptChartInstance.update();
+            }
+            let accumulativeTime = Object.values(studyStorage).reduce((x, y) => x + y, 0);
+            document.getElementById('trackerTodayLabel').innerText = `Total Tracked Today: ${formatTrackerTime(accumulativeTime)}`;
+        }
+
+        function toggleTrackerSession() {
+            const actionBtn = document.getElementById('trackerActionBtn');
+            const streamSelect = document.getElementById('trackerSubjectSelect');
+            
+            if (!trackerActive) {
+                trackerActive = true;
+                actionBtn.innerText = "Stop Tracking";
+                actionBtn.style.background = "#ef4444";
+                actionBtn.style.borderColor = "#ef4444";
+                streamSelect.disabled = true;
+
+                trackerInterval = setInterval(() => {
+                    trackerSeconds++;
+                    document.getElementById('trackerClockDisplay').innerText = formatTrackerTime(trackerSeconds);
+                }, 1000);
+            } else {
+                trackerActive = false;
+                clearInterval(trackerInterval);
+                actionBtn.innerText = "Start Focusing";
+                actionBtn.style.background = "rgba(255, 123, 0, 0.15)";
+                actionBtn.style.borderColor = "rgba(255, 123, 0, 0.3)";
+                streamSelect.disabled = false;
+
+                let selectedSubject = streamSelect.value;
+                studyStorage[selectedSubject] += trackerSeconds;
+                localStorage.setItem('yptDataMetrics', JSON.stringify(studyStorage));
+                
+                trackerSeconds = 0;
+                document.getElementById('trackerClockDisplay').innerText = "00:00:00";
+                refreshTrackerUI();
+            }
+        }
+
+
         document.addEventListener("DOMContentLoaded", () => {
-            // Increments global traffic logging data loops
             handleVisitIncrementation();
 
             setTimeout(() => {
@@ -610,6 +744,8 @@
                     renderRandomPun();
                     renderFlashcard();
                     loadSavedProgress();
+                    initTrackerChart();
+                    refreshTrackerUI();
                 }, 400);
             }, 2400);
         });
@@ -639,6 +775,7 @@
             document.documentElement.setAttribute("data-theme", newTheme);
             document.getElementById("themeIcon").textContent = newTheme === "light" ? "🌙" : "☀️";
             document.getElementById("themeText").textContent = newTheme === "light" ? "Dark Mode" : "Light Mode";
+            refreshTrackerUI();
         }
 
         function switchSection(targetId) {
