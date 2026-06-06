@@ -63,7 +63,7 @@
         body::after { bottom: -10%; right: -10%; }
         [data-theme="light"]::before, [data-theme="light"]::after { display: none; }
 
-        /* --- Top Left Brand Watermark --- */
+        /* --- Brand Watermark --- */
         .brand-watermark {
             position: fixed;
             top: 20px;
@@ -151,7 +151,7 @@
 
         @keyframes welcomeFadeIn { to { opacity: 1; transform: translateY(0); } }
 
-        /* --- USER IDENTITY ENTRY MODAL --- */
+        /* --- IDENTITY MODAL INTERFACE --- */
         .identity-modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(5, 5, 8, 0.85); backdrop-filter: blur(30px);
@@ -170,7 +170,7 @@
         .page-container {
             width: 100%;
             max-width: 1100px;
-            padding: 100px 24px 120px 24px;
+            padding: 100px 24px 140px 24px;
             text-align: center;
         }
 
@@ -224,30 +224,13 @@
         .card {
             background: var(--panel-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border-color); border-radius: 20px; padding: 30px 24px; cursor: pointer;
-            position: relative; transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.25s, box-shadow 0.25s, border-color 0.25s;
+            position: relative; transition: transform 0.25s, background-color 0.25s, box-shadow 0.25s, border-color 0.25s;
             box-shadow: 0 10px 30px var(--shadow); display: flex; flex-direction: column; justify-content: space-between;
             text-align: left;
         }
 
         .card:hover { transform: translateY(-5px); border-color: rgba(255, 123, 0, 0.3); box-shadow: 0 15px 35px var(--shadow); }
         .card-icon { font-size: 2.2rem; margin-bottom: 16px; display: inline-block; transition: transform 0.25s; }
-        
-        .card:hover .animate-books { transform: translateY(-2px) rotate(-3deg); }
-        .card:hover .animate-rocket { transform: translateY(-4px); }
-        .card:hover .animate-tracker { transform: scale(1.08); }
-        .card:hover .animate-calendar { transform: scale(1.1) rotate(4deg); }
-
-        /* Continuous Animations */
-        .animate-books { animation: floatBooks 4s ease-in-out infinite; }
-        .animate-rocket { animation: floatRocket 3s ease-in-out infinite; }
-        .animate-tracker { animation: pulseTracker 2.5s ease-in-out infinite; }
-        .animate-calendar { animation: floatBooks 4.2s ease-in-out infinite; }
-        .animate-flash { animation: pulseTracker 3s ease-in-out infinite; }
-        .animate-admin { animation: floatBooks 4.5s ease-in-out infinite; }
-
-        @keyframes floatBooks { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
-        @keyframes floatRocket { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px) translateX(2px); } }
-        @keyframes pulseTracker { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.04); } }
 
         .card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 6px; letter-spacing: -0.3px; }
         .card p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; font-weight: 400; }
@@ -271,7 +254,7 @@
         .subject-list { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; margin-top: 12px; }
         .subject-badge { background: rgba(255,123,0,0.06); color: var(--accent-secondary); padding: 3px 8px; border-radius: 6px; font-size: 0.72rem; font-weight: 600; }
 
-        /* --- Other Hub Sections Views --- */
+        /* --- Panel View Wrappers --- */
         .flashcard-view, .admin-view, .calendar-panel-view, .cbse-view, .jee-view {
             max-width: 580px; margin: 20px auto; background: var(--panel-bg); border: 1px solid var(--border-color);
             padding: 35px; border-radius: 20px; box-shadow: 0 15px 40px var(--shadow); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
@@ -280,23 +263,25 @@
         .cbse-view, .jee-view { max-width: 700px; }
         .visit-counter, .tracker-clock { font-size: 3.8rem; font-weight: 700; color: var(--accent-secondary); margin: 15px 0; font-variant-numeric: tabular-nums; text-shadow: 0 0 20px rgba(255,174,0,0.15); font-family: monospace; }
         
-        /* --- PREMIUM FIXED HOVER PREMIUM SEARCH BARS AND DROPDOWNS --- */
+        /* --- DESIGN BUG FIX: PREMIUM RESPONSIVE SEARCH BARS --- */
         .search-container { margin: 20px auto 35px auto; max-width: 500px; position: relative; }
-        
-        /* Fixed both search bars AND the audio dropdown selects to have the dark theme and no white boxes! */
-        .search-bar, .tracker-select, .audio-select {
+        .search-bar {
             width: 100%; padding: 14px 22px; background: #16161e !important; border: 1px solid var(--border-color) !important;
             border-radius: 12px; color: var(--text-main) !important; font-size: 0.95rem; outline: none; backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px); box-shadow: inset 0 2px 4px rgba(0,0,0,0.4), 0 4px 15px rgba(0,0,0,0.2);
-            font-weight: 500; letter-spacing: 0.2px; cursor: pointer;
+            font-weight: 500; letter-spacing: 0.2px;
         }
         .search-bar::placeholder { color: #64748b; font-weight: 400; }
-        .search-bar:focus, .tracker-select:focus, .audio-select:focus { border-color: rgba(255, 123, 0, 0.4) !important; background: #111116 !important; box-shadow: 0 0 15px rgba(255, 123, 0, 0.1); }
+        .search-bar:focus { border-color: rgba(255, 123, 0, 0.4) !important; box-shadow: 0 0 15px rgba(255, 123, 0, 0.1); }
         
-        /* Forces the actual dropdown items to be dark instead of white */
+        /* Dropdown selector styling fixes */
+        .tracker-select, .audio-select {
+            width: 100%; padding: 14px 22px; background: #16161e !important; border: 1px solid var(--border-color) !important;
+            border-radius: 12px; color: var(--text-main) !important; font-size: 0.95rem; outline: none; cursor: pointer;
+        }
         select option { background: #16161e; color: #fff; }
 
-        /* --- HORIZONTAL STUDY TRACKER LAYOUT GRID --- */
+        /* --- HORIZONTAL STUDY TRACKER STRUCTURE MAP --- */
         .tracker-master-split-container {
             display: grid;
             grid-template-columns: 1.05fr 0.95fr; 
@@ -319,7 +304,7 @@
             letter-spacing: -1px; font-variant-numeric: tabular-nums;
         }
 
-        /* YPT LIVE VIRTUAL STUDY ROOM GRID PANEL */
+        /* --- STUDY ROOM MULTIPLAYER EXPANSION --- */
         .ypt-live-room-frame { margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.05); }
         .ypt-live-room-header { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; color: var(--accent-secondary); letter-spacing: 0.5px; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
         .ypt-live-room-pulse-dot { width: 6px; height: 6px; background: #22c55e; border-radius: 50%; display: inline-block; animation: pulse-glow-green 2s infinite; }
@@ -329,6 +314,12 @@
         .ypt-user-meta-subject { font-size: 0.7rem; padding: 2px 6px; background: rgba(255,255,255,0.04); color: var(--text-muted); border-radius: 4px; text-transform: uppercase; font-weight: 700; }
         .ypt-user-live-timer { font-family: monospace; font-size: 0.82rem; font-weight: 700; color: #22c55e; }
 
+        /* Coming Soon Section Slots */
+        .coming-soon-block-tag {
+            font-size: 0.65rem; font-weight: 800; letter-spacing: 0.5px; background: rgba(255,123,0,0.1);
+            color: var(--accent-secondary); padding: 2px 6px; border-radius: 4px; text-transform: uppercase;
+        }
+
         @media (max-width: 868px) {
             .tracker-master-split-container { grid-template-columns: 1fr; gap: 16px; }
             .tracker-card-panel { padding: 24px; }
@@ -336,12 +327,10 @@
             .brand-watermark { display: none; }
         }
 
-        /* Modern Segmented Menu Selection Tabs */
         .mode-toggle-bar { display: flex; background: rgba(0,0,0,0.2); padding: 3px; border-radius: 10px; border: 1px solid var(--border-color); margin-bottom: 20px; }
         .mode-toggle-tab { flex: 1; padding: 8px; border-radius: 7px; color: var(--text-muted); font-weight: 600; font-size: 0.82rem; cursor: pointer; border: none; background: transparent; text-align: center; }
         .mode-toggle-tab.selected { background: rgba(255, 123, 0, 0.12); color: var(--accent-secondary); font-weight: 700; }
 
-        /* Smooth Variable Adjustment Config Fields */
         .config-row { display: flex; justify-content: center; gap: 20px; margin-bottom: 20px; background: rgba(0, 0, 0, 0.12); padding: 10px; border-radius: 10px; border: 1px solid var(--border-color); }
         .config-group { display: flex; flex-direction: column; align-items: center; gap: 4px; }
         .config-group span { font-size: 0.72rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700; letter-spacing: 0.5px; }
@@ -350,10 +339,9 @@
         .adjust-btn:hover { background: var(--accent-primary); border-color: var(--accent-primary); color: #fff; }
         .time-val { font-size: 1rem; font-weight: 700; min-width: 20px; text-align: center; }
 
-        /* Premium Form Elements */
         .tracker-select-wrapper { text-align: left; margin-bottom: 16px; }
         .tracker-select-wrapper label { display: block; font-size: 0.75rem; text-transform: uppercase; margin-bottom: 6px; color: var(--text-muted); font-weight: 700; letter-spacing: 0.5px; }
-        
+
         .action-btn {
             background: var(--accent-primary); color: #fff; border: none;
             padding: 12px 24px; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 0.92rem;
@@ -361,22 +349,19 @@
         }
         .action-btn:hover { background: #e06c00; }
 
-        /* --- STICKY BOTTOM GLASS MOBILE NAVIGATION DOCK --- */
+        /* --- FIXED MOBILE BUG: PREMIUM INTERACTIVE BOTTOM STICKY NAVIGATION CAPSULE --- */
         .sticky-bottom-navigation-dock {
-            position: fixed; bottom: 0; left: 0; width: 100%;
-            background: rgba(10, 10, 14, 0.5); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
-            border-top: 1px solid var(--border-color); padding: 14px 20px; z-index: 999;
-            display: none; justify-content: center; align-items: center;
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); width: calc(100% - 40px); max-width: 480px;
+            background: linear-gradient(135deg, rgba(255, 123, 0, 0.9) 0%, rgba(255, 174, 0, 0.95) 100%);
+            padding: 16px 28px; z-index: 9999; display: none; justify-content: center; align-items: center;
+            border-radius: 50px; box-shadow: 0 15px 35px rgba(255, 123, 0, 0.35), inset 0 2px 4px rgba(255,255,255,0.2);
         }
         .dock-home-btn {
-            background: rgba(255, 255, 255, 0.04); color: var(--text-main);
-            border: 1px solid rgba(255, 255, 255, 0.12); font-size: 0.9rem; font-weight: 700;
-            padding: 10px 30px; border-radius: 12px; cursor: pointer;
-            display: flex; align-items: center; gap: 8px;
+            background: transparent; color: #000; border: none; font-size: 1rem; font-weight: 800;
+            cursor: pointer; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.5px;
         }
-        .dock-home-btn:hover { border-color: var(--accent-primary); color: var(--accent-primary); background: transparent; }
 
-        /* --- PREMIUM TO-DO CALENDAR LAYOUT --- */
+        /* --- CALENDAR ARCHITECTURE --- */
         .calendar-nav-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
         .calendar-nav-title { font-size: 1.2rem; font-weight: 700; color: #fff; letter-spacing: -0.3px; }
         .calendar-grid-wrapper { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 20px; }
@@ -399,7 +384,15 @@
         .calendar-task-row-item { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.01); padding: 6px 10px; border-radius: 6px; font-size: 0.85rem; border: 1px solid rgba(255,255,255,0.01); }
         .calendar-task-del-btn { color: #f43f5e; cursor: pointer; background: transparent; border: none; padding: 0 4px; font-size: 1rem; }
 
-        /* --- FLOATING HIGH-VISIBILITY SCRATCHPAD TOGGLE KEY --- */
+        /* --- PREMIUM CSS 3D HARD RE-WIRED FLASHCARDS --- */
+        .flash-container { perspective: 1000px; width: 100%; height: 220px; margin: 25px 0; }
+        .flash-card { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; -webkit-transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; }
+        .flash-container.flipped .flash-card { transform: rotateY(180deg); }
+        .face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 16px; border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; padding: 26px; font-size: 1.1rem; font-weight: 500; box-shadow: 0 12px 30px var(--shadow); }
+        .face.front { background: var(--panel-bg); color: var(--text-main); z-index: 2; transform: rotateY(0deg); }
+        .face.back { background: linear-gradient(135deg, #181822 0%, #0c0c12 100%); color: var(--accent-secondary); transform: rotateY(180deg); }
+
+        /* --- FLOATING NOTEPAD BUTTON SYSTEM --- */
         .scratchpad-toggle {
             position: fixed; bottom: 25px; right: 25px; z-index: 999;
             background: linear-gradient(135deg, #1e1e2c 0%, #111118 100%); 
@@ -412,7 +405,7 @@
         
         .scratchpad-window {
             position: fixed; bottom: 95px; right: 25px; z-index: 999;
-            width: 310px; height: 360px; background: rgba(18, 18, 24, 0.85);
+            width: 310px; height: 360px; background: rgba(18, 18, 24, 0.9);
             border: 1px solid var(--border-color); border-radius: 16px;
             box-shadow: 0 20px 50px var(--shadow); backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px); display: none; flex-direction: column;
@@ -422,53 +415,40 @@
         .scratchpad-header { padding: 12px 16px; border-bottom: 1px solid var(--border-color); font-weight: 600; font-size: 0.85rem; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.2); color: var(--text-muted); }
         .scratchpad-textarea { flex: 1; background: transparent; border: none; padding: 14px; color: var(--text-main); font-size: 0.88rem; outline: none; resize: none; line-height: 1.5; }
 
-        /* --- TOAST NOTIFICATIONS --- */
-        #toastContainer { position: fixed; bottom: 25px; left: 25px; z-index: 9999; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
+        #toastContainer { position: fixed; bottom: 25px; left: 25px; z-index: 99999; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
         .toast-popup { background: rgba(15, 23, 42, 0.9); border: 1px solid var(--border-color); color: #fff; padding: 10px 18px; border-radius: 8px; font-weight: 500; font-size: 0.85rem; box-shadow: 0 8px 20px rgba(0,0,0,0.3); backdrop-filter: blur(10px); opacity: 0; transform: translateY(10px); transition: opacity 0.2s, transform 0.2s; }
         .toast-popup.show { opacity: 1; transform: translateY(0); border-color: rgba(255, 123, 0, 0.2); }
 
         .admin-log-list-frame { margin-top: 12px; background: rgba(0,0,0,0.15); padding: 12px; border-radius: 10px; border: 1px solid var(--border-color); max-height: 130px; overflow-y: auto; text-align: left; }
         .admin-log-item-line { font-family: monospace; font-size: 0.78rem; color: var(--text-muted); padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.01); }
 
-        @keyframes pulse-glow-green {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
-            70% { transform: scale(1); box-shadow: 0 0 0 5px rgba(34, 197, 94, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
-        }
-        @keyframes pulse-glow {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 123, 0, 0.4); }
-            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(255, 123, 0, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 123, 0, 0); }
-        }
         .slide-up { transform: translateY(-100vh); opacity: 0; }
+        @keyframes pulse-glow-green { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); } 70% { transform: scale(1); box-shadow: 0 0 0 5px rgba(34, 197, 94, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); } }
+        @keyframes pulse-glow { 0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 123, 0, 0.4); } 70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(255, 123, 0, 0); } 100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 123, 0, 0); } }
     </style>
 </head>
 <body>
 
-    <div class="brand-watermark">Punnys Study Hub</div>
-
+    <div class="brand-watermark">Study Hub</div>
     <div id="toastContainer"></div>
 
     <div class="sticky-bottom-navigation-dock" id="globalMobileStickyDock">
-        <button class="dock-home-btn" onclick="switchSection('homeHub')">Return to Dashboard</button>
+        <button class="dock-home-btn" onclick="switchSection('homeHub')">↩ Back to Dashboard</button>
     </div>
 
     <div class="identity-modal-overlay" id="identityCaptureModalWrapper">
         <div class="identity-modal-box">
-            <h3>Welcome to Punnys Study Hub</h3>
+            <h3>Welcome to Study Hub</h3>
             <p>Enter your profile name to initialize your local tracker storage.</p>
-            <input type="text" class="search-bar" id="onboardingIdentityInputField" placeholder="Your name..." style="margin-bottom: 20px; text-align: center; padding: 12px;">
+            <input type="text" class="search-bar" id="onboardingIdentityInputField" placeholder="Your name..." style="margin-bottom: 20px; text-align: center;">
             <button class="action-btn" onclick="commitOnboardingUserIdentityProfile()">Initialize Workspace</button>
         </div>
     </div>
 
     <button class="scratchpad-toggle" onclick="toggleScratchpad()">📝</button>
     <div class="scratchpad-window" id="scratchpadBox">
-        <div class="scratchpad-header">
-            <span>Scratchpad</span>
-            <span>Autosaved</span>
-        </div>
-        <textarea class="scratchpad-textarea" id="scratchpadContent" placeholder="Jot notes or variables here..." oninput="saveScratchpadNotes()"></textarea>
+        <div class="scratchpad-header"><span>Scratchpad</span><span>Autosaved</span></div>
+        <textarea class="scratchpad-textarea" id="scratchpadContent" placeholder="Jot notes here..." oninput="saveScratchpadNotes()"></textarea>
     </div>
 
     <div class="global-controls">
@@ -481,7 +461,7 @@
     </div>
 
     <div class="welcome-screen" id="welcomeScreen">
-        <h1 class="welcome-title">Punnys Study Hub</h1>
+        <h1 class="welcome-title">Study Hub</h1>
         <p class="welcome-subtitle">Learn • Excel • Succeed</p>
     </div>
 
@@ -491,78 +471,45 @@
             <div class="main-header">
                 <h2 id="personalizedDashboardTitleGreeting">Select Your Target</h2>
                 <p>Access high-quality study pipelines and focus toolsets custom built for your stream.</p>
-                <div class="beta-status">
-                    <span class="beta-pulse"></span>
-                    Beta Phase Running
-                </div>
+                <div class="beta-status"><span class="beta-pulse"></span> Beta Phase Running</div>
             </div>
 
             <div class="card-container">
                 <div class="card" onclick="switchSection('cbseHub')" onmouseenter="triggerUiSound('hover')">
-                    <div>
-                        <div class="card-icon animate-books">📚</div>
-                        <h3>CBSE Materials</h3>
-                        <p>Class 12 board curriculum setups, structured guides, and complete question archives.</p>
-                    </div>
+                    <div><div class="card-icon">📚</div><h3>CBSE Materials</h3><p>Class 12 board curriculum setups, structured guides, and complete question archives.</p></div>
                 </div>
                 <div class="card" onclick="switchSection('jeeHub')" onmouseenter="triggerUiSound('hover')">
-                    <div>
-                        <div class="card-icon animate-rocket">🚀</div>
-                        <h3>JEE Preparation</h3>
-                        <p>High-yield notes compiled directly from premium resources and exam analysis.</p>
-                    </div>
+                    <div><div class="card-icon">🚀</div><h3>JEE Preparation</h3><p>High-yield notes compiled directly from premium resources and exam analysis.</p></div>
                 </div>
                 <div class="card" onclick="switchSection('trackerHub')" onmouseenter="triggerUiSound('hover')">
-                    <div>
-                        <div class="card-icon animate-tracker">🔥</div>
-                        <h3>Study Tracker</h3>
-                        <p>Log subject focus hours dynamically via Stopwatch or unified Pomodoro block intervals.</p>
-                    </div>
+                    <div><div class="card-icon">🔥</div><h3>Study Tracker</h3><p>Log subject focus hours dynamically via Stopwatch or unified Pomodoro block intervals.</p></div>
                 </div>
                 <div class="card" onclick="switchSection('calendarHub')" onmouseenter="triggerUiSound('hover')">
-                    <div>
-                        <div class="card-icon animate-calendar">📅</div>
-                        <h3>To-Do Calendar</h3>
-                        <p>Schedule your monthly checkpoints and manage assignments inside an immersive soundscape.</p>
-                    </div>
+                    <div><div class="card-icon">📅</div><h3>To-Do Calendar</h3><p>Schedule your monthly checkpoints and manage assignments inside an immersive soundscape.</p></div>
                 </div>
                 <div class="card" onclick="switchSection('flashcardHub')" onmouseenter="triggerUiSound('hover')">
-                    <div>
-                        <div class="card-icon animate-flash">⚡</div>
-                        <h3>Active Revision</h3>
-                        <p>Flip interactive micro-flashcards to verify core system principles instantly.</p>
-                    </div>
+                    <div><div class="card-icon">⚡</div><h3>Active Revision</h3><p>Flip interactive micro-flashcards to verify core system principles instantly.</p></div>
                 </div>
                 <div class="card" onclick="verifyAdminPortal()" onmouseenter="triggerUiSound('hover')">
-                    <div>
-                        <div class="card-icon animate-admin">🔒</div>
-                        <h3>Visit Insights</h3>
-                        <p>Secure administrative telemetry data vault tracking global launch metrics.</p>
-                    </div>
+                    <div><div class="card-icon">🔒</div><h3>Visit Insights</h3><p>Secure administrative telemetry data vault tracking global launch metrics.</p></div>
                 </div>
             </div>
 
             <div class="footer-row">
                 <div class="footer-panel">
                     <h4>Syllabus Coverage</h4>
-                    <div class="progress-meta-info">
-                        <span>Completion Rate</span>
-                        <span id="progressPercent">0% Completed</span>
-                    </div>
+                    <div class="progress-meta-info"><span>Completion Rate</span><span id="progressPercent">0% Completed</span></div>
                     <div class="tracker-grid">
                         <div class="tracker-item"><input type="checkbox" onchange="calculateProgress()"><span>Physics Core</span><span class="mini-tag tag-phy">Phy</span></div>
                         <div class="tracker-item"><input type="checkbox" onchange="calculateProgress()"><span>Organic Chem</span><span class="mini-tag tag-chm">Chm</span></div>
                         <div class="tracker-item"><input type="checkbox" onchange="calculateProgress()"><span>Calculus Unit</span><span class="mini-tag tag-mth">Mth</span></div>
                         <div class="tracker-item"><input type="checkbox" onchange="calculateProgress()"><span>Inorganic Chem</span><span class="mini-tag tag-chm">Chm</span></div>
-                        <div class="tracker-item"><input type="checkbox" onchange="calculateProgress()"><span>Algebra Module</span><span class="mini-tag tag-mth">Mth</span></div>
-                        <div class="tracker-item"><input type="checkbox" onchange="calculateProgress()"><span>Electrodynamics</span><span class="mini-tag tag-phy">Phy</span></div>
                     </div>
                     <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
                 </div>
-                
                 <div class="footer-panel" style="display: flex; flex-direction: column; justify-content: center;">
                     <h4>Session Insight</h4>
-                    <p id="dailyPunSlot" style="font-style: italic; color: var(--text-muted); line-height: 1.5; font-size: 0.92rem;"></p>
+                    <p id="dailyPunSlot" style="font-style: italic; color: var(--text-muted); font-size: 0.92rem;"></p>
                 </div>
             </div>
         </div>
@@ -572,31 +519,11 @@
                 <div class="main-header">
                     <h2>CBSE Vault</h2>
                     <p>Class 12 board curriculum setups, structured guides, and complete question archives.</p>
-                    <div class="search-container">
-                        <input type="text" class="search-bar" id="cbseSearch" placeholder="Search CBSE contents or subjects..." oninput="executeSearch('cbseSearch', 'cbseHub')">
-                    </div>
+                    <div class="search-container"><input type="text" class="search-bar" id="cbseSearch" placeholder="Search CBSE contents or subjects..." oninput="executeSearch('cbseSearch', 'cbseHub')"></div>
                 </div>
                 <div class="card-container" style="grid-template-columns: 1fr 1fr;">
-                    <div class="card">
-                        <div>
-                            <div class="card-icon">📁</div>
-                            <h3>Class 12 Board Papers</h3>
-                            <p>Official final exam metrics arranged by focus chapters.</p>
-                            <div class="subject-list">
-                                <span class="subject-badge">Maths</span><span class="subject-badge">English</span><span class="subject-badge">Phy</span><span class="subject-badge">Chem</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div>
-                            <div class="card-icon">🔄</div>
-                            <h3>Improvement Banks</h3>
-                            <p>Official improvement blueprints and supplementary practice runs.</p>
-                            <div class="subject-list">
-                                <span class="subject-badge">Maths</span><span class="subject-badge">Phy</span><span class="subject-badge">Chem</span>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="card"><div><div class="card-icon">📁</div><h3>Class 12 Board Papers</h3><p>Official final exam metrics arranged by focus chapters.</p><div class="subject-list"><span class="subject-badge">Maths</span><span class="subject-badge">English</span><span class="subject-badge">Phy</span><span class="subject-badge">Chem</span></div></div></div>
+                    <div class="card"><div><div class="card-icon">🔄</div><h3>Improvement Banks</h3><p>Official improvement blueprints and supplementary practice runs.</p><div class="subject-list"><span class="subject-badge">Maths</span><span class="subject-badge">Phy</span><span class="subject-badge">Chem</span></div></div></div>
                 </div>
             </div>
         </div>
@@ -606,42 +533,21 @@
                 <div class="main-header">
                     <h2>JEE Prep Hub</h2>
                     <p>Engineering toolkits sourced from prime study pathways</p>
-                    <div class="search-container">
-                        <input type="text" class="search-bar" id="jeeSearch" placeholder="Search JEE modules, PYQs or notes..." oninput="executeSearch('jeeSearch', 'jeeHub')">
-                    </div>
+                    <div class="search-container"><input type="text" class="search-bar" id="jeeSearch" placeholder="Search JEE modules, PYQs or notes..." oninput="executeSearch('jeeSearch', 'jeeHub')"></div>
                 </div>
                 <div class="card-container" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));">
-                    <div class="card">
-                        <div>
-                            <div class="card-icon">⏱️</div>
-                            <h3>PYQ Section</h3>
-                            <p>Chapter-wise previous years queries with structured breakdown points.</p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div>
-                            <div class="card-icon">🎯</div>
-                            <h3>Brilliant Material</h3>
-                            <p>Advanced predictive testing modules and evaluation sequences.</p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div>
-                            <div class="card-icon">👑</div>
-                            <h3>Kota Notes</h3>
-                            <p>Handcrafted premium directives taken straight from lecture assemblies.</p>
-                        </div>
-                    </div>
+                    <div class="card"><div><div class="card-icon">⏱️</div><h3>PYQ Section</h3><p>Chapter-wise previous years queries with structured breakdown points.</p></div></div>
+                    <div class="card"><div><div class="card-icon">🎯</div><h3>Brilliant Material</h3><p>Advanced predictive testing modules and evaluation sequences.</p></div></div>
+                    <div class="card"><div><div class="card-icon">👑</div><h3>Kota Notes</h3><p>Handcrafted premium directives taken straight from lecture assemblies.</p></div></div>
                 </div>
             </div>
         </div>
 
         <div class="page-section" id="trackerHub">
             <div class="tracker-master-split-container">
-                
                 <div class="tracker-card-panel">
                     <div>
-                        <h3 id="trackerDynamicModuleHeaderTitle" style="font-size:1.1rem; font-weight:700;">Session Dashboard</h3>
+                        <h3 style="font-size:1.1rem; font-weight:700;">Session Dashboard</h3>
                         <div id="trackerTodayLabel" style="font-size: 0.72rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; margin-top:2px; letter-spacing:0.5px;">Total Logged Today: 00:00:00</div>
                     </div>
                     
@@ -653,52 +559,37 @@
                     <div class="tracker-clock" id="trackerClockDisplay">00:00:00</div>
 
                     <div class="config-row" id="pomoConfigRowContainer" style="display:none;">
-                        <div class="config-group">
-                            <span>Study</span>
-                            <div class="adjust-box">
-                                <button class="adjust-btn" onclick="adjustPomoDuration('work', -1)">-</button>
-                                <div class="time-val" id="workVal">25</div>
-                                <button class="adjust-btn" onclick="adjustPomoDuration('work', 1)">+</button>
-                            </div>
-                        </div>
-                        <div class="config-group">
-                            <span>Break</span>
-                            <div class="adjust-box">
-                                <button class="adjust-btn" onclick="adjustPomoDuration('break', -1)">-</button>
-                                <div class="time-val" id="breakVal">5</div>
-                                <button class="adjust-btn" onclick="adjustPomoDuration('break', 1)">+</button>
-                            </div>
-                        </div>
+                        <div class="config-group"><span>Study</span><div class="adjust-box"><button class="adjust-btn" onclick="adjustPomoDuration('work', -1)">-</button><div class="time-val" id="workVal">25</div><button class="adjust-btn" onclick="adjustPomoDuration('work', 1)">+</button></div></div>
+                        <div class="config-group"><span>Break</span><div class="adjust-box"><button class="adjust-btn" onclick="adjustPomoDuration('break', -1)">-</button><div class="time-val" id="breakVal">5</div><button class="adjust-btn" onclick="adjustPomoDuration('break', 1)">+</button></div></div>
                     </div>
 
                     <div class="tracker-select-wrapper">
-                        <label for="trackerSubjectSelect">Focus Stream</label>
+                        <label>Focus Stream</label>
                         <select id="trackerSubjectSelect" class="tracker-select" onchange="synchronizeYptLocalUserSubjectTrack()">
-                            <option value="Physics">Physics</option>
-                            <option value="Chemistry">Chemistry</option>
-                            <option value="Maths">Mathematics</option>
+                            <option value="Physics">Physics</option><option value="Chemistry">Chemistry</option><option value="Maths">Mathematics</option>
                         </select>
                     </div>
 
                     <button class="action-btn" id="trackerActionBtn" onclick="toggleMainCoreTrackingEngineAction()">Start Session</button>
                     
                     <div class="ypt-live-room-frame">
-                        <div class="ypt-live-room-header">
-                            <span class="ypt-live-room-pulse-dot"></span>
-                            YPT Shared Room: Study Together Live
-                        </div>
-                        <div class="ypt-users-list-box" id="yptSharedVirtualRoomListContainer">
-                            </div>
+                        <div class="ypt-live-room-header"><span class="ypt-live-room-pulse-dot"></span> YPT Shared Room: Study Together Live</div>
+                        <div class="ypt-users-list-box" id="yptSharedVirtualRoomListContainer"></div>
                     </div>
                 </div>
 
                 <div class="tracker-card-panel">
-                    <div class="chart-container-box" style="position: relative; height: 220px; width: 100%;">
+                    <div class="chart-container-box" style="position: relative; height: 180px; width: 100%;">
                         <canvas id="yptTrackerChart"></canvas>
                     </div>
 
-                    <div class="audio-selector-wrapper">
-                        <label for="audioWaveEngine">Option A: Cloud Audio Relays</label>
+                    <div class="ypt-live-room-frame" style="margin-bottom: 15px;">
+                        <div class="ypt-live-room-header">🏆 Global Leaderboard <span class="coming-soon-block-tag">Coming Soon</span></div>
+                        <div class="ypt-live-room-header">👥 Mutual Friends Tab <span class="coming-soon-block-tag">Coming Soon</span></div>
+                    </div>
+
+                    <div class="tracker-select-wrapper">
+                        <label>Option A: Cloud Audio Relays</label>
                         <select id="audioWaveEngine" class="tracker-select" onchange="handleAudioEngineChange()">
                             <option value="none">Disabled</option>
                             <option value="lofi">Global Chillhop Live Radio</option>
@@ -708,20 +599,18 @@
                         </select>
                     </div>
 
-                    <div class="audio-selector-wrapper" style="margin-top:10px; padding-top:10px;">
-                        <label for="youtubeTrackEngine">Option B: YouTube Live Streams</label>
+                    <div class="tracker-select-wrapper" style="margin-top:10px;">
+                        <label>Option B: YouTube Live Streams</label>
                         <select id="youtubeTrackEngine" class="tracker-select" onchange="handleYoutubeStreamMatrixChange()">
                             <option value="none">Disabled</option>
                             <option value="jfKfPfyJRdk">Official Lo-Fi Girl Feed</option>
                             <option value="4xDzrJKXOOY">Coffee Shop Jazz Hip-Hop</option>
-                            <option value="S_MOd40zl9k">Cyberpunk Coding Playlist</option>
                         </select>
-                        <div class="yt-frame-container" id="ytAudioPlayerFrameWrapper" style="display:none;">
+                        <div class="yt-frame-container" id="ytAudioPlayerFrameWrapper" style="display:none; margin-top: 10px;">
                             <div id="ytPlayerInternalPlaceholder"></div>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
 
@@ -732,13 +621,11 @@
                     <div class="calendar-nav-title" id="calendarMonthTitleDisplay">June 2026</div>
                     <button class="adjust-btn" onclick="shiftCalendarMonth(1)">→</button>
                 </div>
-
                 <div class="calendar-grid-wrapper" id="calendarGridCoreContainer"></div>
-
                 <div class="calendar-task-entry-box" id="calendarTaskWorkspace">
                     <div class="calendar-entry-title" id="selectedDateWorkspaceLabel">Manage Tasks</div>
                     <div class="calendar-input-row">
-                        <input type="text" class="search-bar" id="newCalendarTaskTextInput" placeholder="Enter custom item context...">
+                        <input type="text" class="calendar-text-field" id="newCalendarTaskTextInput" placeholder="Enter custom item context...">
                         <button class="action-btn" onclick="commitTaskToSelectedDay()" style="width:auto; padding:0 20px;">Add</button>
                     </div>
                     <div class="calendar-tasks-listing" id="selectedDayTasksLayoutBucket"></div>
@@ -749,8 +636,8 @@
         <div class="page-section" id="flashcardHub">
             <div class="flashcard-view">
                 <div class="card-icon">⚡</div>
-                <h3 style="margin-bottom:4px;">Recall Core Matrix</h3>
-                <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom:15px;">Verify memory retention maps instantly.</p>
+                <h3>Recall Core Matrix</h3>
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom:15px;">Click card frame array to trigger flipping reveal cycle properties.</p>
                 <div class="flash-container" id="flashContainer" onclick="this.classList.toggle('flipped')">
                     <div class="flash-card">
                         <div class="face front" id="flashQuestion">Initializing verification loop...</div>
@@ -766,12 +653,8 @@
 
         <div class="page-section" id="adminHub">
             <div class="admin-view">
-                <div class="card-icon">📊</div>
-                <h3>Telemetry Insights</h3>
-                <p style="color: var(--text-muted); font-size: 0.85rem;">Local validation loops recorded on this engine tier.</p>
+                <div class="card-icon">📊</div><h3>Telemetry Insights</h3>
                 <div class="visit-counter" id="visitDisplayNum">1</div>
-                
-                <p style="font-size:0.75rem; color:var(--accent-secondary); font-weight:700; text-transform:uppercase; letter-spacing:0.5px; margin-top:20px;">Verification Log Registry</p>
                 <div class="admin-log-list-frame" id="adminAccessLogContainerBox"></div>
             </div>
         </div>
@@ -781,786 +664,120 @@
     <script src="https://www.youtube.com/iframe_api"></script>
 
     <script>
-        let audioCtx = null, noiseNode = null, gainNode = null;
-        let nativeAudioStreamElement = null; 
-        let ytPlayerObj = null; 
-        let calendarBgNoiseNode = null, calendarBgGainNode = null;
+        // --- Core System Global Variables ---
+        let audioCtx = null, noiseNode = null, gainNode = null, nativeAudioStreamElement = null, ytPlayerObj = null, calendarBgNoiseNode = null, calendarBgGainNode = null;
         let globalAudioSystemActive = JSON.parse(localStorage.getItem('punnyMasterAudioState')) !== false;
-
-        function toggleGlobalAudioSystem() {
-            globalAudioSystemActive = !globalAudioSystemActive;
-            localStorage.setItem('punnyMasterAudioState', JSON.stringify(globalAudioSystemActive));
-            document.getElementById('audioMasterIcon').innerText = globalAudioSystemActive ? "🔊" : "🔇";
-            document.getElementById('audioMasterText').innerText = globalAudioSystemActive ? "Audio ON" : "Audio OFF";
-            
-            if(!globalAudioSystemActive) {
-                stopAllAudioEngines();
-                stopCalendarBackgroundAtmosphere();
-                if(ytPlayerObj && typeof ytPlayerObj.mute === 'function') ytPlayerObj.mute();
-            } else {
-                const currentActiveSection = document.querySelector('.page-section.active');
-                if(currentActiveSection && currentActiveSection.id === "calendarHub") {
-                    startCalendarBackgroundAtmosphere();
-                }
-                if(ytPlayerObj && typeof ytPlayerObj.unMute === 'function') ytPlayerObj.unMute();
-            }
-        }
-
-        function triggerUiSound(soundType) {
-            if (!globalAudioSystemActive) return;
-            try {
-                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                let osc = audioCtx.createOscillator();
-                let volumeNode = audioCtx.createGain();
-                osc.connect(volumeNode);
-                volumeNode.connect(audioCtx.destination);
-
-                if (soundType === 'hover') {
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(1200, audioCtx.currentTime);
-                    volumeNode.gain.setValueAtTime(0.012, audioCtx.currentTime);
-                    volumeNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.03);
-                    osc.start(); osc.stop(audioCtx.currentTime + 0.04);
-                } else if (soundType === 'transition') {
-                    osc.type = 'triangle';
-                    osc.frequency.setValueAtTime(340, audioCtx.currentTime);
-                    osc.frequency.exponentialRampToValueAtTime(580, audioCtx.currentTime + 0.18);
-                    volumeNode.gain.setValueAtTime(0.035, audioCtx.currentTime);
-                    volumeNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.22);
-                    osc.start(); osc.stop(audioCtx.currentTime + 0.23);
-                }
-            } catch(error) {}
-        }
-
-        function startCalendarBackgroundAtmosphere() {
-            if (!globalAudioSystemActive) return;
-            try {
-                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                const bufferSize = 3 * audioCtx.sampleRate;
-                const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-                const output = noiseBuffer.getChannelData(0);
-                
-                let lastOut = 0.0;
-                for (let i = 0; i < bufferSize; i++) {
-                    const whiteNoise = Math.random() * 2 - 1;
-                    output[i] = (lastOut + (0.07 * whiteNoise)) / 1.07;
-                    lastOut = output[i];
-                    output[i] *= 1.5; 
-                }
-
-                calendarBgNoiseNode = audioCtx.createBufferSource();
-                calendarBgNoiseNode.buffer = noiseBuffer;
-                calendarBgNoiseNode.loop = true;
-
-                let filter = audioCtx.createBiquadFilter();
-                filter.type = 'lowpass';
-                filter.frequency.value = 420;
-
-                calendarBgGainNode = audioCtx.createGain();
-                calendarBgGainNode.gain.setValueAtTime(0, audioCtx.currentTime);
-                calendarBgGainNode.gain.linearRampToValueAtTime(0.06, audioCtx.currentTime + 1.5);
-
-                calendarBgNoiseNode.connect(filter);
-                filter.connect(calendarBgGainNode);
-                calendarBgGainNode.connect(audioCtx.destination);
-                
-                calendarBgNoiseNode.start();
-            } catch(e) {}
-        }
-
-        function stopCalendarBackgroundAtmosphere() {
-            if (calendarBgGainNode) {
-                try {
-                    calendarBgGainNode.gain.setValueAtTime(calendarBgGainNode.gain.value, audioCtx.currentTime);
-                    calendarBgGainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.4);
-                } catch(e){}
-            }
-            setTimeout(() => {
-                if (calendarBgNoiseNode) {
-                    try { calendarBgNoiseNode.stop(); } catch(e){}
-                    calendarBgNoiseNode.disconnect(); calendarBgNoiseNode = null;
-                }
-                if (calendarBgGainNode) { calendarBgGainNode.disconnect(); calendarBgGainNode = null; }
-            }, 450);
-        }
-
-        function handleAudioEngineChange() {
-            const selectValue = document.getElementById("audioWaveEngine").value;
-            
-            if(nativeAudioStreamElement) { nativeAudioStreamElement.pause(); nativeAudioStreamElement = null; }
-            if (noiseNode) { try { noiseNode.stop(); } catch(e){} noiseNode = null; }
-
-            if (selectValue === "none" || !globalAudioSystemActive) return;
-            
-            document.getElementById("youtubeTrackEngine").value = "none";
-            handleYoutubeStreamMatrixChange();
-
-            let targetStreamUrl = "";
-            if(selectValue === "lofi") targetStreamUrl = "https://icecast.unitedradio.it/Chillhop.mp3"; 
-            if(selectValue === "piano") targetStreamUrl = "http://stream.klassikradio.de/dreams/mp3-128/www.klassikradio.de/";
-            if(selectValue === "synth") targetStreamUrl = "http://icecast.radiobob.de/bob-synthiepop/mp3-128/streams.radiobob.de/";
-
-            if (targetStreamUrl !== "") {
-                nativeAudioStreamElement = new Audio(targetStreamUrl);
-                nativeAudioStreamElement.volume = 0.4;
-                nativeAudioStreamElement.play().catch(e=>{});
-                showToastNotification("Streaming live network audio broadcast...");
-            } else if (selectValue === "brown") {
-                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                gainNode = audioCtx.createGain();
-                noiseNode = createBrownNoiseNode();
-                gainNode.gain.setValueAtTime(0.025, audioCtx.currentTime);
-                noiseNode.connect(gainNode);
-                gainNode.connect(audioCtx.destination);
-                noiseNode.start();
-                showToastNotification("WebAudio synthesis: Brown noise spectrum running.");
-            }
-        }
-
-        function createBrownNoiseNode() {
-            const bufferSize = 2 * audioCtx.sampleRate, noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate), output = noiseBuffer.getChannelData(0);
-            let lastOut = 0.0;
-            for (let i = 0; i < bufferSize; i++) {
-                const white = Math.random() * 2 - 1;
-                output[i] = (lastOut + (0.02 * white)) / 1.02; lastOut = output[i]; output[i] *= 3.5; 
-            }
-            const src = audioCtx.createBufferSource(); src.buffer = noiseBuffer; src.loop = true; return src;
-        }
-
-        function onYouTubeIframeAPIReady() {
-            ytPlayerObj = new YT.Player('ytPlayerInternalPlaceholder', {
-                height: '0', width: '0',
-                playerVars: { 'autoplay': 0, 'controls': 0, 'disablekb': 1, 'fs': 0, 'rel': 0, 'showinfo': 0 },
-                events: { 'onReady': () => { if(!globalAudioSystemActive) ytPlayerObj.mute(); } }
-            });
-        }
-
-        function handleYoutubeStreamMatrixChange() {
-            const videoId = document.getElementById("youtubeTrackEngine").value;
-            const containerFrame = document.getElementById("ytAudioPlayerFrameWrapper");
-
-            if (videoId === "none" || !globalAudioSystemActive) {
-                containerFrame.style.display = "none";
-                if(ytPlayerObj && typeof ytPlayerObj.stopVideo === 'function') ytPlayerObj.stopVideo();
-                return;
-            }
-
-            document.getElementById("audioWaveEngine").value = "none";
-            handleAudioEngineChange();
-
-            containerFrame.style.display = "block";
-            if (ytPlayerObj && typeof ytPlayerObj.loadVideoById === 'function') {
-                ytPlayerObj.loadVideoById(videoId);
-                ytPlayerObj.setVolume(25);
-                if(!globalAudioSystemActive) ytPlayerObj.mute(); else ytPlayerObj.unMute();
-                showToastNotification("Sourcing live YouTube streaming audio feed...");
-            }
-        }
-
-        function stopAllAudioEngines() {
-            if(nativeAudioStreamElement) { nativeAudioStreamElement.pause(); nativeAudioStreamElement = null; }
-            if (noiseNode) { try { noiseNode.stop(); } catch(e){} noiseNode = null; }
-            if (ytPlayerObj && typeof ytPlayerObj.stopVideo === 'function') ytPlayerObj.stopVideo();
-            document.getElementById("audioWaveEngine").value = "none";
-            document.getElementById("youtubeTrackEngine").value = "none";
-            document.getElementById("ytAudioPlayerFrameWrapper").style.display = "none";
-        }
-    </script>
-
-    <script>
-        // --- Core Study Tracker Script Engines ---
-        let mainTimerEngineInterval = null;
-        let yptVirtualRoomSimulationInterval = null;
-        let trackerSecondsElapsedCounter = 0;
-        let trackingEngineStateActive = false;
-        let yptChartInstance = null;
+        let mainTimerEngineInterval = null, yptVirtualRoomSimulationInterval = null, trackerSecondsElapsedCounter = 0, trackingEngineStateActive = false, yptChartInstance = null;
         let studyStorage = JSON.parse(localStorage.getItem('yptDataMetrics')) || { Physics: 0, Chemistry: 0, Maths: 0 };
-
-        let currentSelectedTrackerViewMode = "stopwatch"; 
-        let pomodoroWorkBlockDurationMinutes = 25;
-        let pomodoroBreakBlockDurationMinutes = 5;
-        let pomodoroCurrentCycleCountdownSeconds = 25 * 60;
-        let pomodoroActivePeriodRunningStateMode = "work"; 
-
-        // --- EXCLUSIVE YPT MULTIPLAYER WORKSPACE MOCK DATA STATE ARRAY ---
-        let yptSharedVirtualRoomMocksArray = [
-            { name: "Rahul_JEE", subject: "Maths", elapsed: 14240, active: true },
-            { name: "Anjali_CBSE", subject: "Physics", elapsed: 8315, active: true },
-            { name: "GrindBot_99", subject: "Chemistry", elapsed: 21040, active: true },
-            { name: "Aman_IIT", subject: "Maths", elapsed: 3400, active: false }
-        ];
-
-        // --- TO-DO CALENDAR LOGIC ARCHITECTURE ---
-        let calendarDatabase = JSON.parse(localStorage.getItem('punnyCalendarTaskDB')) || {};
-        let currentTargetDateObj = new Date(2026, 5, 1); 
-        let currentlySelectedDateStringKey = "";
-
+        let currentSelectedTrackerViewMode = "stopwatch", pomodoroWorkBlockDurationMinutes = 25, pomodoroBreakBlockDurationMinutes = 5, pomodoroCurrentCycleCountdownSeconds = 25 * 60, pomodoroActivePeriodRunningStateMode = "work"; 
+        let yptSharedVirtualRoomMocksArray = [{ name: "Rahul_JEE", subject: "Maths", elapsed: 14240, active: true }, { name: "Anjali_CBSE", subject: "Physics", elapsed: 8315, active: true }, { name: "GrindBot_99", subject: "Chemistry", elapsed: 21040, active: true }];
+        let calendarDatabase = JSON.parse(localStorage.getItem('punnyCalendarTaskDB')) || {}, currentTargetDateObj = new Date(2026, 5, 1), currentlySelectedDateStringKey = "";
         const monthNameStringArray = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         const standardDayLabelsArray = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+        const flash = [{q: "Derivative of sin(x)?", a: "cos(x)"}, {q: "Ohm's Law structural formula?", a: "V = IR"}, {q: "Functional group representing an Alcohol?", a: "-OH linkage"}];
+        let fIdx = 0;
 
-        function commitOnboardingUserIdentityProfile() {
-            const nameInput = document.getElementById('onboardingIdentityInputField');
-            const sanitizedName = nameInput.value.trim();
-            if(!sanitizedName) {
-                showToastNotification("Identity input string cannot stay blank.");
-                return;
-            }
-            localStorage.setItem('punnyProfileNameStr', sanitizedName);
-            triggerUiSound('transition');
-            const overlayModal = document.getElementById('identityCaptureModalWrapper');
-            overlayModal.style.opacity = '0';
-            setTimeout(() => {
-                overlayModal.style.display = 'none';
-                applyPersonalizedDashboardGreeting();
-                switchSection('homeHub');
-            }, 500);
-        }
-
-        function applyPersonalizedDashboardGreeting() {
-            const userName = localStorage.getItem('punnyProfileNameStr');
-            if(userName) {
-                document.getElementById('personalizedDashboardTitleGreeting').innerText = `Welcome back, ${userName}`;
-            }
-        }
-
-        // --- YPT DYNAMIC ROOM RENDER HOOK CODES ---
-        function recompileYptSharedRoomLayoutDisplay() {
-            const container = document.getElementById('yptSharedVirtualRoomListContainer');
-            if(!container) return;
-            container.innerHTML = "";
-
-            // Construct local user profile node if logged into profile matrix memory cache
-            const localUserIdentityString = localStorage.getItem('punnyProfileNameStr') || "You";
-            const liveSelectedSubjectStr = document.getElementById('trackerSubjectSelect').value;
-
-            // Render active user channel row entry state block first
-            const userRow = document.createElement('div');
-            userRow.className = 'ypt-user-row-card';
-            userRow.style.borderColor = trackingEngineStateActive ? "rgba(34,197,94,0.3)" : "rgba(255,255,255,0.02)";
-            userRow.innerHTML = `
-                <div class="ypt-user-meta-name">👤 ${localUserIdentityString} <span style="font-size:0.65rem; color:var(--accent-secondary);">(You)</span></div>
-                <div class="ypt-user-meta-subject">${liveSelectedSubjectStr}</div>
-                <div class="ypt-user-live-timer" style="color: ${trackingEngineStateActive ? '#22c55e' : 'var(--text-muted)'}">
-                    ${currentSelectedTrackerViewMode === 'stopwatch' ? formatTrackerTime(trackerSecondsElapsedCounter) : formatTrackerTime(pomodoroCurrentCycleCountdownSeconds)}
-                </div>
-            `;
-            container.appendChild(userRow);
-
-            // Print peer bots rows array tracks
-            yptSharedVirtualRoomMocksArray.forEach(peerUser => {
-                const peerRow = document.createElement('div');
-                peerRow.className = 'ypt-user-row-card';
-                peerRow.innerHTML = `
-                    <div class="ypt-user-meta-name">⚡ ${peerUser.name}</div>
-                    <div class="ypt-user-meta-subject">${peerUser.subject}</div>
-                    <div class="ypt-user-live-timer" style="color: ${peerUser.active ? '#22c55e' : 'var(--text-muted)'}">
-                        ${formatTrackerTime(peerUser.elapsed)}
-                    </div>
-                `;
-                container.appendChild(peerRow);
-            });
-        }
-
-        function synchronizeYptLocalUserSubjectTrack() {
-            recompileYptSharedRoomLayoutDisplay();
-        }
-
-        function selectTrackerEngineMode(targetMode) {
-            if(trackingEngineStateActive) {
-                showToastNotification("Please suspend active clock cycles before switching view modes.");
-                return;
-            }
-            triggerUiSound('hover');
-            currentSelectedTrackerViewMode = targetMode;
-
-            const btnStopwatch = document.getElementById('tabModeStopwatch');
-            const btnPomodoro = document.getElementById('tabModePomodoro');
-            const configRow = document.getElementById('pomoConfigRowContainer');
-
-            if (targetMode === 'stopwatch') {
-                btnStopwatch.classList.add('selected');
-                btnPomodoro.classList.remove('selected');
-                configRow.style.display = "none";
-                document.getElementById('trackerClockDisplay').innerText = "00:00:00";
-                document.getElementById('trackerActionBtn').innerText = "Start Session";
-            } else {
-                btnStopwatch.classList.remove('selected');
-                btnPomodoro.classList.add('selected');
-                configRow.style.display = "flex";
-                pomodoroActivePeriodRunningStateMode = "work";
-                pomodoroCurrentCycleCountdownSeconds = pomodoroWorkBlockDurationMinutes * 60;
-                updatePomodoroClockDisplayUI();
-                document.getElementById('trackerActionBtn').innerText = "Start Focus Sprint";
-            }
-            recompileYptSharedRoomLayoutDisplay();
-        }
-
-        function adjustPomoDuration(type, delta) {
-            if (trackingEngineStateActive) return;
-            triggerUiSound('hover');
-            if (type === 'work') {
-                pomodoroWorkBlockDurationMinutes = Math.max(1, pomodoroWorkBlockDurationMinutes + delta);
-                document.getElementById("workVal").textContent = pomodoroWorkBlockDurationMinutes;
-                if (pomodoroActivePeriodRunningStateMode === 'work') {
-                    pomodoroCurrentCycleCountdownSeconds = pomodoroWorkBlockDurationMinutes * 60;
-                }
-            } else {
-                pomodoroBreakBlockDurationMinutes = Math.max(1, pomodoroBreakBlockDurationMinutes + delta);
-                document.getElementById("breakVal").textContent = pomodoroBreakBlockDurationMinutes;
-                if (pomodoroActivePeriodRunningStateMode === 'break') {
-                    pomodoroCurrentCycleCountdownSeconds = pomodoroBreakBlockDurationMinutes * 60;
-                }
-            }
-            updatePomodoroClockDisplayUI();
-            recompileYptSharedRoomLayoutDisplay();
-        }
-
-        function updatePomodoroClockDisplayUI() {
-            let m = Math.floor(pomodoroCurrentCycleCountdownSeconds / 60).toString().padStart(2, '0');
-            let s = (pomodoroCurrentCycleCountdownSeconds % 60).toString().padStart(2, '0');
-            document.getElementById('trackerClockDisplay').innerText = `00:${m}:${s}`;
-        }
-
-        function toggleMainCoreTrackingEngineAction() {
-            const actionBtn = document.getElementById('trackerActionBtn');
-            const streamSelect = document.getElementById('trackerSubjectSelect');
-
-            if (!trackingEngineStateActive) {
-                trackingEngineStateActive = true;
-                actionBtn.style.background = "#ef4444";
-                actionBtn.style.boxShadow = "0 4px 12px rgba(239, 68, 68, 0.2)";
-                streamSelect.disabled = true;
-
-                if (currentSelectedTrackerViewMode === "stopwatch") {
-                    actionBtn.innerText = "Stop Session";
-                    showToastNotification(`Stopwatch engine active: tracking ${streamSelect.value}.`);
-                    mainTimerEngineInterval = setInterval(() => {
-                        trackerSecondsElapsedCounter++;
-                        let displayOutput = formatTrackerTime(trackerSecondsElapsedCounter);
-                        document.getElementById('trackerClockDisplay').innerText = displayOutput;
-                        document.title = `⏱️ [${displayOutput}] ${streamSelect.value}`;
-                    }, 1000);
-                } else {
-                    actionBtn.innerText = "Pause Sprint";
-                    showToastNotification(`Pomodoro target engaged: focus locked on ${streamSelect.value}.`);
-                    mainTimerEngineInterval = setInterval(() => {
-                        if (pomodoroCurrentCycleCountdownSeconds <= 0) {
-                            clearInterval(mainTimerEngineInterval);
-                            trackingEngineStateActive = false;
-
-                            if (pomodoroActivePeriodRunningStateMode === "work") {
-                                studyStorage[streamSelect.value] += pomodoroWorkBlockDurationMinutes * 60;
-                                localStorage.setItem('yptDataMetrics', JSON.stringify(studyStorage));
-                                refreshTrackerUI();
-
-                                showToastNotification("Sprint block logged successfully to database profile.");
-                                pomodoroActivePeriodRunningStateMode = "break";
-                                pomodoroCurrentCycleCountdownSeconds = pomodoroBreakBlockDurationMinutes * 60;
-                            } else {
-                                showToastNotification("Break block complete. Preparing work cycle alignment.");
-                                pomodoroActivePeriodRunningStateMode = "work";
-                                pomodoroCurrentCycleCountdownSeconds = pomodoroWorkBlockDurationMinutes * 60;
-                            }
-                            
-                            document.title = "Study Hub";
-                            actionBtn.style.background = "var(--accent-primary)";
-                            actionBtn.style.boxShadow = "0 4px 12px rgba(255, 123, 0, 0.15)";
-                            actionBtn.innerText = "Start Focus Sprint";
-                            streamSelect.disabled = false;
-                            updatePomodoroClockDisplayUI();
-                        } else {
-                            pomodoroCurrentCycleCountdownSeconds--;
-                            updatePomodoroClockDisplayUI();
-                            let titleMinutes = Math.floor(pomodoroCurrentCycleCountdownSeconds / 60).toString().padStart(2, '0');
-                            let titleSeconds = (pomodoroCurrentCycleCountdownSeconds % 60).toString().padStart(2, '0');
-                            document.title = `🎯 [${titleMinutes}:${titleSeconds}] ${streamSelect.value}`;
-                        }
-                    }, 1000);
-                }
-            } else {
-                trackingEngineStateActive = false;
-                clearInterval(mainTimerEngineInterval);
-                document.title = "Study Hub";
-                streamSelect.disabled = false;
-
-                actionBtn.style.background = "var(--accent-primary)";
-                actionBtn.style.boxShadow = "0 4px 12px rgba(255, 123, 0, 0.15)";
-
-                if (currentSelectedTrackerViewMode === "stopwatch") {
-                    actionBtn.innerText = "Start Session";
-                    studyStorage[streamSelect.value] += trackerSecondsElapsedCounter;
-                    localStorage.setItem('yptDataMetrics', JSON.stringify(studyStorage));
-                    
-                    showToastNotification(`Session committed: Added ${formatTrackerTime(trackerSecondsElapsedCounter)} to logs.`);
-                    trackerSecondsElapsedCounter = 0;
-                    document.getElementById('trackerClockDisplay').innerText = "00:00:00";
-                    refreshTrackerUI();
-                } else {
-                    actionBtn.innerText = "Start Focus Sprint";
-                    showToastNotification("Pomodoro cycle countdown suspended.");
-                }
-            }
-            recompileYptSharedRoomLayoutDisplay();
-        }
-
-        function formatTrackerTime(totalSecs) {
-            let h = Math.floor(totalSecs / 3600).toString().padStart(2, '0');
-            let m = Math.floor((totalSecs % 3600) / 60).toString().padStart(2, '0');
-            let s = (totalSecs % 60).toString().padStart(2, '0');
-            return `${h}:${m}:${s}`;
-        }
-
-        function initTrackerChart() {
-            const canvasElement = document.getElementById('yptTrackerChart');
-            if(!canvasElement) return;
-            const ctx = canvasElement.getContext('2d');
-            
-            yptChartInstance = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: Object.keys(studyStorage),
-                    datasets: [{
-                        data: Object.values(studyStorage),
-                        backgroundColor: ['#38bdf8', '#34d399', '#fb923c'],
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                color: document.documentElement.getAttribute("data-theme") === "light" ? "#0f172a" : "#64748b",
-                                font: { size: 10, weight: 'bold' },
-                                padding: 12
-                            }
-                        }
-                    },
-                    maintainAspectRatio: false,
-                    cutout: '75%'
-                }
-            });
-        }
-
-        function refreshTrackerUI() {
-            if (yptChartInstance) {
-                yptChartInstance.data.datasets[0].data = Object.values(studyStorage);
-                yptChartInstance.options.plugins.legend.labels.color = document.documentElement.getAttribute("data-theme") === "light" ? "#0f172a" : "#64748b";
-                yptChartInstance.update();
-            }
-            let accumulativeTime = Object.values(studyStorage).reduce((x, y) => x + y, 0);
-            document.getElementById('trackerTodayLabel').innerText = `Total Logged Today: ${formatTrackerTime(accumulativeTime)}`;
-        }
-
-        function compileCalendarGridStructure() {
-            const gridContainer = document.getElementById('calendarGridCoreContainer');
-            if(!gridContainer) return;
-            gridContainer.innerHTML = "";
-
-            document.getElementById('calendarMonthTitleDisplay').innerText = `${monthNameStringArray[currentTargetDateObj.getMonth()]} ${currentTargetDateObj.getFullYear()}`;
-
-            standardDayLabelsArray.forEach(dayName => {
-                const dayLabelElement = document.createElement('div');
-                dayLabelElement.className = 'calendar-day-label';
-                dayLabelElement.innerText = dayName;
-                gridContainer.appendChild(dayLabelElement);
-            });
-
-            const iterationYear = currentTargetDateObj.getFullYear();
-            const iterationMonth = currentTargetDateObj.getMonth();
-            const firstDayOfMonthIndex = new Date(iterationYear, iterationMonth, 1).getDay();
-            const totalDaysInTargetMonth = new Date(iterationYear, iterationMonth + 1, 0).getDate();
-
-            for (let i = 0; i < firstDayOfMonthIndex; i++) {
-                const paddingCell = document.createElement('div');
-                paddingCell.className = 'calendar-date-cell outside-month';
-                gridContainer.appendChild(paddingCell);
-            }
-
-            const realTimeToday = new Date();
-            for (let dayNumCounter = 1; dayNumCounter <= totalDaysInTargetMonth; dayNumCounter++) {
-                const dateIterationCell = document.createElement('div');
-                dateIterationCell.className = 'calendar-date-cell';
-                
-                const computedKeyString = `${iterationYear}-${(iterationMonth+1).toString().padStart(2,'0')}-${dayNumCounter.toString().padStart(2,'0')}`;
-                
-                if (realTimeToday.getFullYear() === iterationYear && realTimeToday.getMonth() === iterationMonth && realTimeToday.getDate() === dayNumCounter) {
-                    dateIterationCell.classList.add('current-today');
-                }
-
-                const dayIndicatorLabel = document.createElement('span');
-                dayIndicatorLabel.className = 'calendar-cell-num';
-                dayIndicatorLabel.innerText = dayNumCounter;
-                dateIterationCell.appendChild(dayIndicatorLabel);
-
-                const indicatorHolderBlock = document.createElement('div');
-                indicatorHolderBlock.className = 'calendar-cell-tasks-indicator';
-                if (calendarDatabase[computedKeyString] && calendarDatabase[computedKeyString].length > 0) {
-                    calendarDatabase[computedKeyString].forEach(() => {
-                        const microTaskMarkerDot = document.createElement('div');
-                        microTaskMarkerDot.className = 'calendar-mini-task-dot';
-                        indicatorHolderBlock.appendChild(microTaskMarkerDot);
-                    });
-                }
-                dateIterationCell.appendChild(indicatorHolderBlock);
-
-                dateIterationCell.onclick = () => launchTaskWorkspaceForDay(computedKeyString, dayNumCounter);
-                gridContainer.appendChild(dateIterationCell);
-            }
-        }
-
-        function shiftCalendarMonth(directionDelta) {
-            triggerUiSound('hover');
-            currentTargetDateObj.setMonth(currentTargetDateObj.getMonth() + directionDelta);
-            document.getElementById('calendarTaskWorkspace').style.display = 'none';
-            compileCalendarGridStructure();
-        }
-
-        function launchTaskWorkspaceForDay(dateKeyString, clearDayNumber) {
-            triggerUiSound('hover');
-            currentlySelectedDateStringKey = dateKeyString;
-            const workspaceBox = document.getElementById('calendarTaskWorkspace');
-            workspaceBox.style.display = 'block';
-            
-            document.getElementById('selectedDateWorkspaceLabel').innerText = `Tasks: ${clearDayNumber} ${monthNameStringArray[currentTargetDateObj.getMonth()]}`;
-            document.getElementById('newCalendarTaskTextInput').value = "";
-            renderTaskListWorkspaceBucket();
-        }
-
-        function renderTaskListWorkspaceBucket() {
-            const listBucket = document.getElementById('selectedDayTasksLayoutBucket');
-            listBucket.innerHTML = "";
-            const registeredDayTasksArray = calendarDatabase[currentlySelectedDateStringKey] || [];
-
-            if (registeredDayTasksArray.length === 0) {
-                listBucket.innerHTML = `<div style="font-size:0.8rem; color:var(--text-muted); font-style:italic; padding:5px 2px;">No tasks assigned.</div>`;
-                return;
-            }
-
-            registeredDayTasksArray.forEach((taskString, index) => {
-                const taskRow = document.createElement('div');
-                taskRow.className = 'calendar-task-row-item';
-                taskRow.innerHTML = `
-                    <span>${taskString}</span>
-                    <button class="calendar-task-del-btn" onclick="removeTaskFromSelectedDay(${index})">×</button>
-                `;
-                listBucket.appendChild(taskRow);
-            });
-        }
-
-        function commitTaskToSelectedDay() {
-            const textInput = document.getElementById('newCalendarTaskTextInput');
-            const taskContentString = textInput.value.trim();
-            if(!taskContentString) return;
-
-            if(!calendarDatabase[currentlySelectedDateStringKey]) {
-                calendarDatabase[currentlySelectedDateStringKey] = [];
-            }
-            calendarDatabase[currentlySelectedDateStringKey].push(taskContentString);
-            localStorage.setItem('punnyCalendarTaskDB', JSON.stringify(calendarDatabase));
-            
-            textInput.value = "";
-            triggerUiSound('hover');
-            showToastNotification("Task cataloged inside device ledger array.");
-            renderTaskListWorkspaceBucket();
-            compileCalendarGridStructure();
-        }
-
-        function removeTaskFromSelectedDay(targetTaskIndex) {
-            if(!calendarDatabase[currentlySelectedDateStringKey]) return;
-            calendarDatabase[currentlySelectedDateStringKey].splice(targetTaskIndex, 1);
-            
-            if(calendarDatabase[currentlySelectedDateStringKey].length === 0) {
-                delete calendarDatabase[currentlySelectedDateStringKey];
-            }
-            localStorage.setItem('punnyCalendarTaskDB', JSON.stringify(calendarDatabase));
-            triggerUiSound('hover');
-            showToastNotification("Item purged from localized matrix registry node.");
-            renderTaskListWorkspaceBucket();
-            compileCalendarGridStructure();
-        }
-
-        function toggleScratchpad() {
-            triggerUiSound('hover');
-            const pad = document.getElementById('scratchpadBox');
-            pad.classList.toggle('open');
-        }
-
-        function saveScratchpadNotes() {
-            const txt = document.getElementById('scratchpadContent').value;
-            localStorage.setItem('punnyScratchNotes', txt);
-        }
-
-        function loadScratchpadNotes() {
-            const savedTxt = localStorage.getItem('punnyScratchNotes');
-            if(savedTxt) document.getElementById('scratchpadContent').value = savedTxt;
-        }
-
+        // --- PLATFORM BOOT CONFIGURATION ---
         document.addEventListener("DOMContentLoaded", () => {
-            handleVisitIncrementation();
-            loadScratchpadNotes();
-            renderAdminAccessLogHistoryBucket();
-            recompileYptSharedRoomLayoutDisplay();
-
-            // Run continuous runtime loop loop simulation for multiplayer clock synchronizations
-            yptVirtualRoomSimulationInterval = setInterval(() => {
-                yptSharedVirtualRoomMocksArray.forEach(peer => {
-                    if(peer.active) peer.elapsed++;
-                });
-                recompileYptSharedRoomLayoutDisplay();
-            }, 1000);
-            
+            handleVisitIncrementation(); loadScratchpadNotes(); renderAdminAccessLogHistoryBucket(); recompileYptSharedRoomLayoutDisplay();
+            yptVirtualRoomSimulationInterval = setInterval(() => { yptSharedVirtualRoomMocksArray.forEach(p => { if(p.active) p.elapsed++; }); recompileYptSharedRoomLayoutDisplay(); }, 1000);
             document.getElementById('audioMasterIcon').innerText = globalAudioSystemActive ? "🔊" : "🔇";
             document.getElementById('audioMasterText').innerText = globalAudioSystemActive ? "Audio ON" : "Audio OFF";
 
             setTimeout(() => {
                 document.getElementById("welcomeScreen").classList.add("slide-up");
                 setTimeout(() => {
-                    const verifiedSavedName = localStorage.getItem('punnyProfileNameStr');
-                    if (!verifiedSavedName) {
-                        const setupModal = document.getElementById('identityCaptureModalWrapper');
-                        setupModal.style.display = "flex";
-                        setTimeout(() => setupModal.style.opacity = "1", 50);
+                    const savedName = localStorage.getItem('punnyProfileNameStr');
+                    if (!savedName) {
+                        const modal = document.getElementById('identityCaptureModalWrapper'); modal.style.display = "flex"; setTimeout(() => modal.style.opacity = "1", 50);
                     } else {
-                        applyPersonalizedDashboardGreeting();
-                        switchSection('homeHub');
+                        applyPersonalizedDashboardGreeting(); switchSection('homeHub');
                     }
-                    renderRandomPun();
-                    renderFlashcard();
-                    loadSavedProgress();
-                    initTrackerChart(); // Initializes the chart!
-                    refreshTrackerUI();
-                    compileCalendarGridStructure();
+                    renderRandomPun(); renderFlashcard(); loadSavedProgress(); initTrackerChart(); refreshTrackerUI(); compileCalendarGridStructure();
                 }, 400);
             }, 2400);
         });
 
-        function handleVisitIncrementation() {
-            let totalVisits = localStorage.getItem("siteVisitsTracker");
-            if (!totalVisits) { totalVisits = 1; } 
-            else { totalVisits = parseInt(totalVisits) + 1; }
-            localStorage.setItem("siteVisitsTracker", totalVisits);
-            document.getElementById("visitDisplayNum").textContent = totalVisits;
-        }
-
-        function verifyAdminPortal() {
-            const userInput = prompt("⚠️ Secure Access Protocol. Input authorization master key:");
-            if (userInput === "punny") {
-                const currentStamp = new Date().toLocaleString();
-                let historicalLogsArray = JSON.parse(localStorage.getItem('punnyAdminPasskeyAuditTrail')) || [];
-                historicalLogsArray.unshift(currentStamp); 
-                localStorage.setItem('punnyAdminPasskeyAuditTrail', JSON.stringify(historicalLogsArray));
-                
-                showToastNotification("Admin credential authorized successfully.");
-                renderAdminAccessLogHistoryBucket();
-                switchSection('adminHub');
-            } else if (userInput !== null) {
-                showToastNotification("Access denied: Signature validation mismatched.");
-            }
-        }
-
-        function renderAdminAccessLogHistoryBucket() {
-            const auditContainer = document.getElementById('adminAccessLogContainerBox');
-            if(!auditContainer) return;
-            auditContainer.innerHTML = "";
-            
-            let auditLogs = JSON.parse(localStorage.getItem('punnyAdminPasskeyAuditTrail')) || [];
-            if(auditLogs.length === 0) {
-                auditContainer.innerHTML = `<div class="admin-log-item-line" style="font-style:italic;">No internal access trail items verified.</div>`;
-                return;
-            }
-            auditLogs.forEach(timestampString => {
-                const logLine = document.createElement('div');
-                logLine.className = 'admin-log-item-line';
-                logLine.innerText = `🔑 Verification Auth Stamp: ${timestampString}`;
-                auditContainer.appendChild(logLine);
-            });
-        }
-
-        function toggleTheme() {
-            triggerUiSound('hover');
-            const currentTheme = document.documentElement.getAttribute("data-theme");
-            const newTheme = currentTheme === "light" ? "dark" : "light";
-            document.documentElement.setAttribute("data-theme", newTheme);
-            document.getElementById("themeIcon").textContent = newTheme === "light" ? "🌙" : "☀️";
-            document.getElementById("themeText").textContent = newTheme === "light" ? "Dark Mode" : "Light Mode";
-            refreshTrackerUI();
-        }
-
-        function switchSection(targetId) {
-            triggerUiSound('transition');
-            const active = document.querySelector('.page-section.active');
-            const target = document.getElementById(targetId);
-
-            const mobileDock = document.getElementById('globalMobileStickyDock');
-            if (targetId === 'homeHub') {
-                mobileDock.style.display = "none";
-            } else {
-                mobileDock.style.display = "flex";
-            }
-
-            if(targetId === "calendarHub") {
-                startCalendarBackgroundAtmosphere();
-            } else {
-                stopCalendarBackgroundAtmosphere();
-            }
-
-            if (active) {
-                active.style.opacity = '0'; active.style.transform = 'translateY(10px) scale(0.99)';
-                setTimeout(() => { active.classList.remove('active'); reveal(target); }, 350);
-            } else { reveal(target); }
-        }
-        function reveal(el) { el.classList.add('active'); setTimeout(() => { el.style.opacity = '1'; el.style.transform = 'translateY(0) scale(1)'; }, 40); }
-
-        function executeSearch(inputId, sectionId) {
-            const q = document.getElementById(inputId).value.toLowerCase();
-            const parentSection = document.getElementById(sectionId);
-            parentSection.querySelectorAll(".card").forEach(c => {
-                c.style.display = c.textContent.toLowerCase().includes(q) ? "flex" : "none";
-            });
-        }
-
-        function calculateProgress() {
-            const boxes = document.querySelectorAll(".tracker-item input");
-            let checkedStates = []; let checkedCount = 0;
-
-            boxes.forEach((box) => { 
-                checkedStates.push(box.checked);
-                if(box.checked) checkedCount++; 
-            });
-
-            const calculatedPercentage = Math.round((checkedCount / boxes.length) * 100);
-            document.getElementById("progressFill").style.width = `${calculatedPercentage}%`;
-            document.getElementById("progressPercent").textContent = `${calculatedPercentage}% Completed`;
-            localStorage.setItem("punnyTrackerProgress", JSON.stringify(checkedStates));
-        }
-
-        function loadSavedProgress() {
-            const savedStates = JSON.parse(localStorage.getItem("punnyTrackerProgress"));
-            if (savedStates) {
-                const boxes = document.querySelectorAll(".tracker-item input");
-                boxes.forEach((box, index) => { if (savedStates[index] !== undefined) box.checked = savedStates[index]; });
-                
-                const checkedCount = savedStates.filter(Boolean).length;
-                const calculatedPercentage = Math.round((checkedCount / boxes.length) * 100);
-                document.getElementById("progressFill").style.width = `${calculatedPercentage}%`;
-                document.getElementById("progressPercent").textContent = `${calculatedPercentage}% Completed`;
-            }
-        }
-
-        const puns = ["Why did the triangle say to the circle? You're completely pointless!", "Parallel lines have so much in common. It's a shame they'll never meet.", "Organic chemistry is difficult. Those structures can be completely carbon-copied."];
-        function renderRandomPun() { document.getElementById("dailyPunSlot").textContent = puns[Math.floor(Math.random() * puns.length)]; }
-
-        const flash = [{q: "Derivative of sin(x)?", a: "cos(x)"}, {q: "Ohm's Law structural formula?", a: "V = IR"}, {q: "Functional group representing an Alcohol?", a: "-OH linkage"}];
-        let fIdx = 0;
+        // --- DYNAMIC TARGET FLASHCARD ROTATION SYSTEM (FIXED BUG) ---
         function renderFlashcard() {
-            document.getElementById("flashContainer").classList.remove('flipped');
+            const container = document.getElementById("flashContainer");
+            container.classList.remove('flipped'); // Reset rotateY angle mechanics
             setTimeout(() => {
                 document.getElementById("flashQuestion").textContent = flash[fIdx].q;
                 document.getElementById("flashAnswer").textContent = flash[fIdx].a;
-            }, 150);
+            }, 250); // Swaps content cleanly behind backface hiding frames
         }
-        function changeFlashcard(d) { fIdx = (fIdx + d + flash.length) % flash.length; renderFlashcard(); }
+        function changeFlashcard(d) { triggerUiSound('hover'); fIdx = (fIdx + d + flash.length) % flash.length; renderFlashcard(); }
+
+        // --- NOTEPAD DRIVER CORE ---
+        function toggleScratchpad() { triggerUiSound('hover'); const pad = document.getElementById('scratchpadBox'); pad.classList.toggle('open'); }
+        function saveScratchpadNotes() { localStorage.setItem('punnyScratchNotes', document.getElementById('scratchpadContent').value); }
+        function loadScratchpadNotes() { document.getElementById('scratchpadContent').value = localStorage.getItem('punnyScratchNotes') || ""; }
+
+        // --- ONBOARDING & PROFILE GRIDS ---
+        function commitOnboardingUserIdentityProfile() {
+            const name = document.getElementById('onboardingIdentityInputField').value.trim();
+            if(!name) return; localStorage.setItem('punnyProfileNameStr', name); triggerUiSound('transition');
+            document.getElementById('identityCaptureModalWrapper').style.opacity = '0';
+            setTimeout(() => { document.getElementById('identityCaptureModalWrapper').style.display = 'none'; applyPersonalizedDashboardGreeting(); switchSection('homeHub'); }, 500);
+        }
+        function applyPersonalizedDashboardGreeting() { document.getElementById('personalizedDashboardTitleGreeting').innerText = `Welcome back, ${localStorage.getItem('punnyProfileNameStr') || 'Scholar'}`; }
+
+        // --- TRACKER & TIMING CONTROL PANELS ---
+        function selectTrackerEngineMode(mode) {
+            if(trackingEngineStateActive) return; triggerUiSound('hover'); currentSelectedTrackerViewMode = mode;
+            document.getElementById('tabModeStopwatch').classList.toggle('selected', mode==='stopwatch');
+            document.getElementById('tabModePomodoro').classList.toggle('selected', mode==='pomodoro');
+            document.getElementById('pomoConfigRowContainer').style.display = mode==='stopwatch' ? "none" : "flex";
+            if(mode==='stopwatch') { document.getElementById('trackerClockDisplay').innerText = "00:00:00"; document.getElementById('trackerActionBtn').innerText = "Start Session"; }
+            else { pomodoroActivePeriodRunningStateMode = "work"; pomodoroCurrentCycleCountdownSeconds = pomodoroWorkBlockDurationMinutes * 60; updatePomodoroClockDisplayUI(); document.getElementById('trackerActionBtn').innerText = "Start Focus Sprint"; } recompileYptSharedRoomLayoutDisplay();
+        }
+        function adjustPomoDuration(t, d) { if (trackingEngineStateActive) return; triggerUiSound('hover'); if (t === 'work') { pomodoroWorkBlockDurationMinutes = Math.max(1, pomodoroWorkBlockDurationMinutes + d); document.getElementById("workVal").textContent = pomodoroWorkBlockDurationMinutes; if (pomodoroActivePeriodRunningStateMode === 'work') pomodoroCurrentCycleCountdownSeconds = pomodoroWorkBlockDurationMinutes * 60; } else { pomodoroBreakBlockDurationMinutes = Math.max(1, pomodoroBreakBlockDurationMinutes + d); document.getElementById("breakVal").textContent = pomodoroBreakBlockDurationMinutes; if (pomodoroActivePeriodRunningStateMode === 'break') pomodoroCurrentCycleCountdownSeconds = pomodoroBreakBlockDurationMinutes * 60; } updatePomodoroClockDisplayUI(); }
+        function toggleMainCoreTrackingEngineAction() {
+            const btn = document.getElementById('trackerActionBtn'), sel = document.getElementById('trackerSubjectSelect');
+            if (!trackingEngineStateActive) {
+                trackingEngineStateActive = true; btn.style.background = "#ef4444"; sel.disabled = true;
+                if (currentSelectedTrackerViewMode === "stopwatch") {
+                    btn.innerText = "Stop Session"; mainTimerEngineInterval = setInterval(() => { trackerSecondsElapsedCounter++; document.getElementById('trackerClockDisplay').innerText = formatTrackerTime(trackerSecondsElapsedCounter); }, 1000);
+                } else {
+                    btn.innerText = "Pause Sprint"; mainTimerEngineInterval = setInterval(() => {
+                        if (pomodoroCurrentCycleCountdownSeconds <= 0) {
+                            clearInterval(mainTimerEngineInterval); trackingEngineStateActive = false;
+                            if (pomodoroActivePeriodRunningStateMode === "work") { studyStorage[sel.value] += pomodoroWorkBlockDurationMinutes * 60; localStorage.setItem('yptDataMetrics', JSON.stringify(studyStorage)); refreshTrackerUI(); pomodoroActivePeriodRunningStateMode = "break"; pomodoroCurrentCycleCountdownSeconds = pomodoroBreakBlockDurationMinutes * 60; } else { pomodoroActivePeriodRunningStateMode = "work"; pomodoroCurrentCycleCountdownSeconds = pomodoroWorkBlockDurationMinutes * 60; }
+                            btn.style.background = "var(--accent-primary)"; btn.innerText = "Start Focus Sprint"; sel.disabled = false; updatePomodoroClockDisplayUI();
+                        } else { pomodoroCurrentCycleCountdownSeconds--; updatePomodoroClockDisplayUI(); }
+                    }, 1000);
+                }
+            } else {
+                trackingEngineStateActive = false; clearInterval(mainTimerEngineInterval); sel.disabled = false; btn.style.background = "var(--accent-primary)";
+                if (currentSelectedTrackerViewMode === "stopwatch") { btn.innerText = "Start Session"; studyStorage[sel.value] += trackerSecondsElapsedCounter; localStorage.setItem('yptDataMetrics', JSON.stringify(studyStorage)); trackerSecondsElapsedCounter = 0; document.getElementById('trackerClockDisplay').innerText = "00:00:00"; refreshTrackerUI(); } else { btn.innerText = "Start Focus Sprint"; }
+            } recompileYptSharedRoomLayoutDisplay();
+        }
+
+        // --- AUDIO SYNTH ENGINE LOOPS ---
+        function triggerUiSound(t) { if (!globalAudioSystemActive) return; try { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); let osc = audioCtx.createOscillator(), volume = audioCtx.createGain(); osc.connect(volume); volume.connect(audioCtx.destination); if (t === 'hover') { osc.type = 'sine'; osc.frequency.setValueAtTime(1200, audioCtx.currentTime); volume.gain.setValueAtTime(0.012, audioCtx.currentTime); volume.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.03); osc.start(); osc.stop(audioCtx.currentTime + 0.04); } else if (t === 'transition') { osc.type = 'triangle'; osc.frequency.setValueAtTime(340, audioCtx.currentTime); osc.frequency.exponentialRampToValueAtTime(580, audioCtx.currentTime + 0.18); volume.gain.setValueAtTime(0.035, audioCtx.currentTime); volume.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.22); osc.start(); osc.stop(audioCtx.currentTime + 0.23); } } catch(e) {} }
+        function handleAudioEngineChange() { const val = document.getElementById("audioWaveEngine").value; if(nativeAudioStreamElement) { nativeAudioStreamElement.pause(); nativeAudioStreamElement = null; } if (noiseNode) { try { noiseNode.stop(); } catch(e){} noiseNode = null; } if (val === "none" || !globalAudioSystemActive) return; if(val === "lofi") { nativeAudioStreamElement = new Audio("https://icecast.unitedradio.it/Chillhop.mp3"); nativeAudioStreamElement.volume = 0.4; nativeAudioStreamElement.play(); } else if (val === "brown") { if (!audioCtx) audioCtx = new AudioContext(); gainNode = audioCtx.createGain(); noiseNode = createBrownNoiseNode(); gainNode.gain.setValueAtTime(0.025, audioCtx.currentTime); noiseNode.connect(gainNode); gainNode.connect(audioCtx.destination); noiseNode.start(); } }
+        function createBrownNoiseNode() { const size = 2 * audioCtx.sampleRate, buffer = audioCtx.createBuffer(1, size, audioCtx.sampleRate), output = buffer.getChannelData(0); let last = 0.0; for (let i = 0; i < size; i++) { const white = Math.random() * 2 - 1; output[i] = (last + (0.02 * white)) / 1.02; last = output[i]; output[i] *= 3.5; } const src = audioCtx.createBufferSource(); src.buffer = buffer; src.loop = true; return src; }
+        function stopAllAudioEngines() { if(nativeAudioStreamElement) nativeAudioStreamElement.pause(); if(noiseNode) try{noiseNode.stop();}catch(e){} document.getElementById("audioWaveEngine").value = "none"; }
+
+        // --- NAVIGATION CORE & STICKY SWITCH CONTROLLER ---
+        function switchSection(targetId) { triggerUiSound('transition'); document.querySelectorAll('.page-section').forEach(s => { s.classList.remove('active'); s.style.opacity = 0; s.style.transform = 'translateY(15px) scale(0.99)'; }); const target = document.getElementById(targetId); target.classList.add('active'); setTimeout(() => { target.style.opacity = 1; target.style.transform = 'translateY(0) scale(1)'; }, 50); document.getElementById('globalMobileStickyDock').style.display = targetId === 'homeHub' ? "none" : "flex"; targetId === "calendarHub" ? startCalendarBackgroundAtmosphere() : stopCalendarBackgroundAtmosphere(); }
+
+        // --- RENDER BOOT ARCHITECT MATRIX LOGS ---
+        function initTrackerChart() { const ctx = document.getElementById('yptTrackerChart'); if(!ctx) return; yptChartInstance = new Chart(ctx.getContext('2d'), { type: 'doughnut', data: { labels: Object.keys(studyStorage), datasets: [{ data: Object.values(studyStorage), backgroundColor: ['#38bdf8', '#34d399', '#fb923c'], borderWidth: 0 }] }, options: { plugins: { legend: { position: 'bottom', labels: { color: '#64748b', font: { size: 10, weight: 'bold' } } } }, maintainAspectRatio: false, cutout: '75%' } }); }
+        function refreshTrackerUI() { if (yptChartInstance) { yptChartInstance.data.datasets[0].data = Object.values(studyStorage); yptChartInstance.update(); } document.getElementById('trackerTodayLabel').innerText = `Total Logged Today: ${formatTrackerTime(Object.values(studyStorage).reduce((x, y) => x + y, 0))}`; }
+        function compileCalendarGridStructure() { const grid = document.getElementById('calendarGridCoreContainer'); grid.innerHTML = ""; document.getElementById('calendarMonthTitleDisplay').innerText = `${monthNameStringArray[currentTargetDateObj.getMonth()]} ${currentTargetDateObj.getFullYear()}`; standardDayLabelsArray.forEach(day => grid.innerHTML += `<div class="calendar-day-label">${day}</div>`); const y = currentTargetDateObj.getFullYear(), m = currentTargetDateObj.getMonth(), startDay = new Date(y, m, 1).getDay(), totalDays = new Date(y, m + 1, 0).getDate(), today = new Date(); for (let i = 0; i < startDay; i++) grid.innerHTML += `<div class="calendar-date-cell outside-month"></div>`; for (let d = 1; d <= totalDays; d++) { const key = `${y}-${m+1}-${d}`, isToday = (today.getFullYear() === y && today.getMonth() === m && today.getDate() === d); let indicators = ""; if (calendarDatabase[key]) calendarDatabase[key].forEach(() => indicators += `<div class="calendar-mini-task-dot"></div>`); grid.innerHTML += `<div class="calendar-date-cell ${isToday?'current-today':''}" onclick="launchTaskWorkspaceForDay('${key}', ${d})"><span class="calendar-cell-num">${d}</span><div class="calendar-cell-tasks-indicator">${indicators}</div></div>`; } }
+        function shiftCalendarMonth(dir) { currentTargetDateObj.setMonth(currentTargetDateObj.getMonth() + dir); document.getElementById('calendarTaskWorkspace').style.display = 'none'; compileCalendarGridStructure(); }
+        function renderTaskListWorkspaceBucket() { const b = document.getElementById('selectedDayTasksLayoutBucket'); b.innerHTML = ""; const items = calendarDatabase[currentlySelectedDateStringKey] || []; if (!items.length) { b.innerHTML = `<div style="font-size:0.8rem; color:var(--text-muted); font-style:italic;">No tasks assigned.</div>`; return; } items.forEach((t, i) => b.innerHTML += `<div class="calendar-task-row-item"><span>${t}</span><button class="calendar-task-del-btn" onclick="removeTaskFromSelectedDay(${i})">×</button></div>`); }
+        function commitTaskToSelectedDay() { const input = document.getElementById('newCalendarTaskTextInput'), val = input.value.trim(); if (!val) return; if (!calendarDatabase[currentlySelectedDateStringKey]) calendarDatabase[currentlySelectedDateStringKey] = []; calendarDatabase[currentlySelectedDateStringKey].push(val); localStorage.setItem('punnyCalendarTaskDB', JSON.stringify(calendarDatabase)); input.value = ""; triggerUiSound('hover'); renderTaskListWorkspaceBucket(); compileCalendarGridStructure(); }
+        function removeTaskFromSelectedDay(idx) { calendarDatabase[currentlySelectedDateStringKey].splice(idx, 1); if (!calendarDatabase[currentlySelectedDateStringKey].length) delete calendarDatabase[currentlySelectedDateStringKey]; localStorage.setItem('punnyCalendarTaskDB', JSON.stringify(calendarDatabase)); triggerUiSound('hover'); renderTaskListWorkspaceBucket(); compileCalendarGridStructure(); }
+        function executeSearch(id, secId) { const q = document.getElementById(id).value.toLowerCase(); document.getElementById(secId).querySelectorAll(".card").forEach(c => c.style.display = c.textContent.toLowerCase().includes(q) ? "flex" : "none"); }
+        function calculateProgress() { const boxes = document.querySelectorAll(".tracker-item input"); let states = [], checked = 0; boxes.forEach(b => { states.push(b.checked); if(b.checked) checked++; }); const pct = Math.round((checked / boxes.length) * 100); document.getElementById("progressFill").style.width = `${pct}%`; document.getElementById("progressPercent").textContent = `${pct}% Completed`; localStorage.setItem("punnyTrackerProgress", JSON.stringify(states)); }
+        function loadSavedProgress() { const states = JSON.parse(localStorage.getItem("punnyTrackerProgress")); if (states) { const boxes = document.querySelectorAll(".tracker-item input"); boxes.forEach((b, i) => { if (states[i] !== undefined) b.checked = states[i]; }); const pct = Math.round((states.filter(Boolean).length / boxes.length) * 100); document.getElementById("progressFill").style.width = `${pct}%`; document.getElementById("progressPercent").textContent = `${pct}% Completed`; } }
+        function renderRandomPun() { document.getElementById("dailyPunSlot").textContent = puns[Math.floor(Math.random() * puns.length)]; }
+        function handleVisitIncrementation() { let visits = localStorage.getItem("siteVisitsTracker") || 0; visits++; localStorage.setItem("siteVisitsTracker", visits); document.getElementById("visitDisplayNum").textContent = visits; }
+        function verifyAdminPortal() { const input = prompt("⚠️ Secure Access Protocol. Input authorization master key:"); if (input === "punny") { let logs = JSON.parse(localStorage.getItem('punnyAdminPasskeyAuditTrail')) || []; logs.unshift(new Date().toLocaleString()); localStorage.setItem('punnyAdminPasskeyAuditTrail', JSON.stringify(logs)); renderAdminAccessLogHistoryBucket(); switchSection('adminHub'); } }
+        function renderAdminAccessLogHistoryBucket() { const b = document.getElementById('adminAccessLogContainerBox'); b.innerHTML = ""; let logs = JSON.parse(localStorage.getItem('punnyAdminPasskeyAuditTrail')) || []; logs.forEach(l => b.innerHTML += `<div class="admin-log-item-line">🔑 Verification Auth Stamp: ${l}</div>`); }
     </script>
 </body>
 </html>
