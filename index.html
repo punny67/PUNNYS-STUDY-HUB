@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Punny's Study Hub</title>
-    <!-- Chart.js for YPT Tracker Visual Distribution -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         /* --- Core System Variables & Themes --- */
@@ -281,16 +280,21 @@
         .cbse-view, .jee-view { max-width: 700px; }
         .visit-counter, .tracker-clock { font-size: 3.8rem; font-weight: 700; color: var(--accent-secondary); margin: 15px 0; font-variant-numeric: tabular-nums; text-shadow: 0 0 20px rgba(255,174,0,0.15); font-family: monospace; }
         
-        /* --- PREMIUM FIXED HOVER PREMIUM SEARCH BARS (RE-DESIGNED FROM BASE_BUG) --- */
+        /* --- PREMIUM FIXED HOVER PREMIUM SEARCH BARS AND DROPDOWNS --- */
         .search-container { margin: 20px auto 35px auto; max-width: 500px; position: relative; }
-        .search-bar {
-            width: 100%; padding: 14px 22px; background: rgba(15, 15, 22, 0.6); border: 1px solid var(--border-color);
-            border-radius: 14px; color: var(--text-main); font-size: 0.95rem; outline: none; backdrop-filter: blur(12px);
+        
+        /* Fixed both search bars AND the audio dropdown selects to have the dark theme and no white boxes! */
+        .search-bar, .tracker-select, .audio-select {
+            width: 100%; padding: 14px 22px; background: #16161e !important; border: 1px solid var(--border-color) !important;
+            border-radius: 12px; color: var(--text-main) !important; font-size: 0.95rem; outline: none; backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px); box-shadow: inset 0 2px 4px rgba(0,0,0,0.4), 0 4px 15px rgba(0,0,0,0.2);
-            font-weight: 500; letter-spacing: 0.2px;
+            font-weight: 500; letter-spacing: 0.2px; cursor: pointer;
         }
-        .search-bar::placeholder { color: #475569; font-weight: 400; }
-        .search-bar:focus { border-color: rgba(255, 123, 0, 0.4); background: rgba(10, 10, 15, 0.85); box-shadow: 0 0 15px rgba(255, 123, 0, 0.1); }
+        .search-bar::placeholder { color: #64748b; font-weight: 400; }
+        .search-bar:focus, .tracker-select:focus, .audio-select:focus { border-color: rgba(255, 123, 0, 0.4) !important; background: #111116 !important; box-shadow: 0 0 15px rgba(255, 123, 0, 0.1); }
+        
+        /* Forces the actual dropdown items to be dark instead of white */
+        select option { background: #16161e; color: #fff; }
 
         /* --- HORIZONTAL STUDY TRACKER LAYOUT GRID --- */
         .tracker-master-split-container {
@@ -349,9 +353,7 @@
         /* Premium Form Elements */
         .tracker-select-wrapper { text-align: left; margin-bottom: 16px; }
         .tracker-select-wrapper label { display: block; font-size: 0.75rem; text-transform: uppercase; margin-bottom: 6px; color: var(--text-muted); font-weight: 700; letter-spacing: 0.5px; }
-        .tracker-select { width: 100%; padding: 11px 14px; background: rgba(0,0,0,0.15); border: 1px solid var(--border-color); border-radius: 8px; color: #fff; outline: none; cursor: pointer; font-size: 0.9rem; }
-        .tracker-select:focus { border-color: var(--accent-primary); }
-
+        
         .action-btn {
             background: var(--accent-primary); color: #fff; border: none;
             padding: 12px 24px; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 0.92rem;
@@ -445,25 +447,21 @@
 
     <div class="brand-watermark">Punnys Study Hub</div>
 
-    <!-- UI Notification Engine -->
     <div id="toastContainer"></div>
 
-    <!-- STICKY MOBILE DOCK CONTAINER -->
     <div class="sticky-bottom-navigation-dock" id="globalMobileStickyDock">
         <button class="dock-home-btn" onclick="switchSection('homeHub')">Return to Dashboard</button>
     </div>
 
-    <!-- IDENTITY CAPTURE OVERLAY -->
     <div class="identity-modal-overlay" id="identityCaptureModalWrapper">
         <div class="identity-modal-box">
             <h3>Welcome to Punnys Study Hub</h3>
             <p>Enter your profile name to initialize your local tracker storage.</p>
-            <input type="text" class="calendar-text-field" id="onboardingIdentityInputField" placeholder="Your name..." style="margin-bottom: 20px; text-align: center; padding: 12px;">
+            <input type="text" class="search-bar" id="onboardingIdentityInputField" placeholder="Your name..." style="margin-bottom: 20px; text-align: center; padding: 12px;">
             <button class="action-btn" onclick="commitOnboardingUserIdentityProfile()">Initialize Workspace</button>
         </div>
     </div>
 
-    <!-- Floating Scratchpad Menu -->
     <button class="scratchpad-toggle" onclick="toggleScratchpad()">📝</button>
     <div class="scratchpad-window" id="scratchpadBox">
         <div class="scratchpad-header">
@@ -473,7 +471,6 @@
         <textarea class="scratchpad-textarea" id="scratchpadContent" placeholder="Jot notes or variables here..." oninput="saveScratchpadNotes()"></textarea>
     </div>
 
-    <!-- Global Rigs Controls Panel -->
     <div class="global-controls">
         <button class="control-btn" id="masterAudioToggleBtn" onclick="toggleGlobalAudioSystem()">
             <span id="audioMasterIcon">🔊</span> <span id="audioMasterText">Audio ON</span>
@@ -490,7 +487,6 @@
 
     <div class="page-container">
 
-        <!-- --- HOME MAIN HUB --- -->
         <div class="page-section" id="homeHub">
             <div class="main-header">
                 <h2 id="personalizedDashboardTitleGreeting">Select Your Target</h2>
@@ -571,7 +567,6 @@
             </div>
         </div>
 
-        <!-- --- CBSE --- -->
         <div class="page-section" id="cbseHub">
             <div class="cbse-view">
                 <div class="main-header">
@@ -606,7 +601,6 @@
             </div>
         </div>
 
-        <!-- --- JEE --- -->
         <div class="page-section" id="jeeHub">
             <div class="jee-view">
                 <div class="main-header">
@@ -642,11 +636,9 @@
             </div>
         </div>
 
-        <!-- --- CONSOLIDATED HORIZONTAL STUDY TRACKER + YPT LIVE ROOM --- -->
         <div class="page-section" id="trackerHub">
             <div class="tracker-master-split-container">
                 
-                <!-- Left Panel Configuration Module -->
                 <div class="tracker-card-panel">
                     <div>
                         <h3 id="trackerDynamicModuleHeaderTitle" style="font-size:1.1rem; font-weight:700;">Session Dashboard</h3>
@@ -690,27 +682,24 @@
 
                     <button class="action-btn" id="trackerActionBtn" onclick="toggleMainCoreTrackingEngineAction()">Start Session</button>
                     
-                    <!-- YPT STUDY TOGETHER LIVE ROOM SUB-PANEL -->
                     <div class="ypt-live-room-frame">
                         <div class="ypt-live-room-header">
                             <span class="ypt-live-room-pulse-dot"></span>
                             YPT Shared Room: Study Together Live
                         </div>
                         <div class="ypt-users-list-box" id="yptSharedVirtualRoomListContainer">
-                            <!-- Populated dynamically via structural loop execution -->
-                        </div>
+                            </div>
                     </div>
                 </div>
 
-                <!-- Right Panel Audio & Chart Module -->
                 <div class="tracker-card-panel">
-                    <div class="chart-container-box">
+                    <div class="chart-container-box" style="position: relative; height: 220px; width: 100%;">
                         <canvas id="yptTrackerChart"></canvas>
                     </div>
 
                     <div class="audio-selector-wrapper">
                         <label for="audioWaveEngine">Option A: Cloud Audio Relays</label>
-                        <select id="audioWaveEngine" class="audio-select" onchange="handleAudioEngineChange()">
+                        <select id="audioWaveEngine" class="tracker-select" onchange="handleAudioEngineChange()">
                             <option value="none">Disabled</option>
                             <option value="lofi">Global Chillhop Live Radio</option>
                             <option value="piano">Instrumental Classical Piano</option>
@@ -721,7 +710,7 @@
 
                     <div class="audio-selector-wrapper" style="margin-top:10px; padding-top:10px;">
                         <label for="youtubeTrackEngine">Option B: YouTube Live Streams</label>
-                        <select id="youtubeTrackEngine" class="audio-select" onchange="handleYoutubeStreamMatrixChange()">
+                        <select id="youtubeTrackEngine" class="tracker-select" onchange="handleYoutubeStreamMatrixChange()">
                             <option value="none">Disabled</option>
                             <option value="jfKfPfyJRdk">Official Lo-Fi Girl Feed</option>
                             <option value="4xDzrJKXOOY">Coffee Shop Jazz Hip-Hop</option>
@@ -736,7 +725,6 @@
             </div>
         </div>
 
-        <!-- --- CALENDAR --- -->
         <div class="page-section" id="calendarHub">
             <div class="calendar-panel-view">
                 <div class="calendar-nav-header">
@@ -750,7 +738,7 @@
                 <div class="calendar-task-entry-box" id="calendarTaskWorkspace">
                     <div class="calendar-entry-title" id="selectedDateWorkspaceLabel">Manage Tasks</div>
                     <div class="calendar-input-row">
-                        <input type="text" class="calendar-text-field" id="newCalendarTaskTextInput" placeholder="Enter custom item context...">
+                        <input type="text" class="search-bar" id="newCalendarTaskTextInput" placeholder="Enter custom item context...">
                         <button class="action-btn" onclick="commitTaskToSelectedDay()" style="width:auto; padding:0 20px;">Add</button>
                     </div>
                     <div class="calendar-tasks-listing" id="selectedDayTasksLayoutBucket"></div>
@@ -758,7 +746,6 @@
             </div>
         </div>
 
-        <!-- --- FLASHCARDS --- -->
         <div class="page-section" id="flashcardHub">
             <div class="flashcard-view">
                 <div class="card-icon">⚡</div>
@@ -777,7 +764,6 @@
             </div>
         </div>
 
-        <!-- --- AUDIT LOOPS --- -->
         <div class="page-section" id="adminHub">
             <div class="admin-view">
                 <div class="card-icon">📊</div>
@@ -792,7 +778,6 @@
 
     </div>
 
-    <!-- YouTube IFrame Player Script API -->
     <script src="https://www.youtube.com/iframe_api"></script>
 
     <script>
@@ -1395,20 +1380,6 @@
             compileCalendarGridStructure();
         }
 
-        function showToastNotification(textMessage) {
-            const container = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            toast.className = 'toast-popup';
-            toast.innerText = textMessage;
-            container.appendChild(toast);
-            
-            setTimeout(() => toast.classList.add('show'), 50);
-            setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => toast.remove(), 300);
-            }, 3200);
-        }
-
         function toggleScratchpad() {
             triggerUiSound('hover');
             const pad = document.getElementById('scratchpadBox');
@@ -1457,7 +1428,7 @@
                     renderRandomPun();
                     renderFlashcard();
                     loadSavedProgress();
-                    initTrackerChart();
+                    initTrackerChart(); // Initializes the chart!
                     refreshTrackerUI();
                     compileCalendarGridStructure();
                 }, 400);
