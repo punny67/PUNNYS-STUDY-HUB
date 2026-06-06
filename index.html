@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Punny's Study Hub</title>
+    <!-- Chart.js for YPT Tracker Visual Distribution -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         /* --- Core System Variables & Themes --- */
         :root {
             --bg-dark: #09090d;
-            --panel-bg: rgba(18, 18, 24, 0.45);
-            --border-color: rgba(255, 255, 255, 0.05);
+            --panel-bg: rgba(18, 18, 24, 0.65);
+            --border-color: rgba(255, 255, 255, 0.08);
             --text-main: #f8fafc;
             --text-muted: #64748b;
             --accent-primary: #ff7b00;
@@ -21,8 +22,8 @@
 
         [data-theme="light"] {
             --bg-dark: #f8fafc;
-            --panel-bg: rgba(255, 255, 255, 0.7);
-            --border-color: rgba(15, 23, 42, 0.06);
+            --panel-bg: rgba(255, 255, 255, 0.8);
+            --border-color: rgba(15, 23, 42, 0.08);
             --text-main: #0f172a;
             --text-muted: #64748b;
             --shadow: rgba(15, 23, 42, 0.04);
@@ -276,12 +277,23 @@
         .cbse-view, .jee-view { max-width: 700px; }
         .visit-counter, .tracker-clock { font-size: 3.8rem; font-weight: 700; color: var(--accent-secondary); margin: 15px 0; font-variant-numeric: tabular-nums; text-shadow: 0 0 20px rgba(255,174,0,0.15); font-family: monospace; }
         
+        /* --- PREMIUM FIXED HOVER PREMIUM SEARCH BARS (RE-DESIGNED FROM BASE_BUG) --- */
+        .search-container { margin: 20px auto 35px auto; max-width: 500px; position: relative; }
+        .search-bar {
+            width: 100%; padding: 14px 22px; background: rgba(15, 15, 22, 0.6); border: 1px solid var(--border-color);
+            border-radius: 14px; color: var(--text-main); font-size: 0.95rem; outline: none; backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px); box-shadow: inset 0 2px 4px rgba(0,0,0,0.4), 0 4px 15px rgba(0,0,0,0.2);
+            font-weight: 500; letter-spacing: 0.2px;
+        }
+        .search-bar::placeholder { color: #475569; font-weight: 400; }
+        .search-bar:focus { border-color: rgba(255, 123, 0, 0.4); background: rgba(10, 10, 15, 0.85); box-shadow: 0 0 15px rgba(255, 123, 0, 0.1); }
+
         /* --- HORIZONTAL STUDY TRACKER LAYOUT GRID --- */
         .tracker-master-split-container {
             display: grid;
-            grid-template-columns: 1.1fr 0.9fr; 
+            grid-template-columns: 1.05fr 0.95fr; 
             gap: 24px;
-            max-width: 950px;
+            max-width: 1000px;
             margin: 10px auto;
             text-align: left;
         }
@@ -298,6 +310,16 @@
             font-size: 3.8rem; font-weight: 700; color: #fff; margin: 15px 0; text-align: center;
             letter-spacing: -1px; font-variant-numeric: tabular-nums;
         }
+
+        /* YPT LIVE VIRTUAL STUDY ROOM GRID PANEL */
+        .ypt-live-room-frame { margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.05); }
+        .ypt-live-room-header { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; color: var(--accent-secondary); letter-spacing: 0.5px; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+        .ypt-live-room-pulse-dot { width: 6px; height: 6px; background: #22c55e; border-radius: 50%; display: inline-block; animation: pulse-glow-green 2s infinite; }
+        .ypt-users-list-box { display: flex; flex-direction: column; gap: 8px; max-height: 145px; overflow-y: auto; padding-right: 2px; }
+        .ypt-user-row-card { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.15); padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.01); }
+        .ypt-user-meta-name { font-size: 0.85rem; font-weight: 600; color: #fff; display: flex; align-items: center; gap: 6px; }
+        .ypt-user-meta-subject { font-size: 0.7rem; padding: 2px 6px; background: rgba(255,255,255,0.04); color: var(--text-muted); border-radius: 4px; text-transform: uppercase; font-weight: 700; }
+        .ypt-user-live-timer { font-family: monospace; font-size: 0.82rem; font-weight: 700; color: #22c55e; }
 
         @media (max-width: 868px) {
             .tracker-master-split-container { grid-template-columns: 1fr; gap: 16px; }
@@ -325,8 +347,6 @@
         .tracker-select-wrapper label { display: block; font-size: 0.75rem; text-transform: uppercase; margin-bottom: 6px; color: var(--text-muted); font-weight: 700; letter-spacing: 0.5px; }
         .tracker-select { width: 100%; padding: 11px 14px; background: rgba(0,0,0,0.15); border: 1px solid var(--border-color); border-radius: 8px; color: #fff; outline: none; cursor: pointer; font-size: 0.9rem; }
         .tracker-select:focus { border-color: var(--accent-primary); }
-
-        .search-container { margin: 15px auto 30px auto; max-width: 450px; }
 
         .action-btn {
             background: var(--accent-primary); color: #fff; border: none;
@@ -373,26 +393,27 @@
         .calendar-task-row-item { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.01); padding: 6px 10px; border-radius: 6px; font-size: 0.85rem; border: 1px solid rgba(255,255,255,0.01); }
         .calendar-task-del-btn { color: #f43f5e; cursor: pointer; background: transparent; border: none; padding: 0 4px; font-size: 1rem; }
 
-        /* --- FLOATING SCRATCHPAD --- */
+        /* --- FLOATING HIGH-VISIBILITY SCRATCHPAD TOGGLE KEY --- */
         .scratchpad-toggle {
-            position: fixed; bottom: 25px; right: 25px; z-index: 99;
-            background: var(--panel-bg); color: var(--text-main); border: 1px solid var(--border-color);
-            width: 48px; height: 48px; border-radius: 50%; cursor: pointer;
-            font-size: 1.2rem; display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.3); backdrop-filter: blur(10px);
+            position: fixed; bottom: 25px; right: 25px; z-index: 999;
+            background: linear-gradient(135deg, #1e1e2c 0%, #111118 100%); 
+            color: #fff; border: 2px solid var(--accent-primary);
+            width: 56px; height: 56px; border-radius: 50%; cursor: pointer;
+            font-size: 1.4rem; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 8px 24px rgba(255, 123, 0, 0.25), inset 0 2px 4px rgba(255,255,255,0.1);
         }
-        .scratchpad-toggle:hover { border-color: var(--accent-primary); }
+        .scratchpad-toggle:hover { transform: scale(1.05); border-color: var(--accent-secondary); box-shadow: 0 8px 28px rgba(255, 174, 0, 0.4); }
         
         .scratchpad-window {
-            position: fixed; bottom: 85px; right: 25px; z-index: 99;
-            width: 300px; height: 350px; background: var(--panel-bg);
+            position: fixed; bottom: 95px; right: 25px; z-index: 999;
+            width: 310px; height: 360px; background: rgba(18, 18, 24, 0.85);
             border: 1px solid var(--border-color); border-radius: 16px;
-            box-shadow: 0 15px 35px var(--shadow); backdrop-filter: blur(25px);
+            box-shadow: 0 20px 50px var(--shadow); backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px); display: none; flex-direction: column;
             overflow: hidden; opacity: 0; transform: translateY(10px); transition: opacity 0.3s, transform 0.3s;
         }
         .scratchpad-window.open { display: flex; opacity: 1; transform: translateY(0); }
-        .scratchpad-header { padding: 12px 16px; border-bottom: 1px solid var(--border-color); font-weight: 600; font-size: 0.85rem; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.1); color: var(--text-muted); }
+        .scratchpad-header { padding: 12px 16px; border-bottom: 1px solid var(--border-color); font-weight: 600; font-size: 0.85rem; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.2); color: var(--text-muted); }
         .scratchpad-textarea { flex: 1; background: transparent; border: none; padding: 14px; color: var(--text-main); font-size: 0.88rem; outline: none; resize: none; line-height: 1.5; }
 
         /* --- TOAST NOTIFICATIONS --- */
@@ -403,9 +424,16 @@
         .admin-log-list-frame { margin-top: 12px; background: rgba(0,0,0,0.15); padding: 12px; border-radius: 10px; border: 1px solid var(--border-color); max-height: 130px; overflow-y: auto; text-align: left; }
         .admin-log-item-line { font-family: monospace; font-size: 0.78rem; color: var(--text-muted); padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.01); }
 
-        /* Chart Canvas Constraints */
-        .chart-container-box { position: relative; height: 220px; width: 100%; }
-
+        @keyframes pulse-glow-green {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+            70% { transform: scale(1); box-shadow: 0 0 0 5px rgba(34, 197, 94, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+        }
+        @keyframes pulse-glow {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 123, 0, 0.4); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(255, 123, 0, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 123, 0, 0); }
+        }
         .slide-up { transform: translateY(-100vh); opacity: 0; }
     </style>
 </head>
@@ -413,12 +441,15 @@
 
     <div class="brand-watermark">Study Hub</div>
 
+    <!-- UI Notification Engine -->
     <div id="toastContainer"></div>
 
+    <!-- STICKY MOBILE DOCK CONTAINER -->
     <div class="sticky-bottom-navigation-dock" id="globalMobileStickyDock">
         <button class="dock-home-btn" onclick="switchSection('homeHub')">Return to Dashboard</button>
     </div>
 
+    <!-- IDENTITY CAPTURE OVERLAY -->
     <div class="identity-modal-overlay" id="identityCaptureModalWrapper">
         <div class="identity-modal-box">
             <h3>Welcome to Study Hub</h3>
@@ -428,6 +459,7 @@
         </div>
     </div>
 
+    <!-- Floating Scratchpad Menu -->
     <button class="scratchpad-toggle" onclick="toggleScratchpad()">📝</button>
     <div class="scratchpad-window" id="scratchpadBox">
         <div class="scratchpad-header">
@@ -437,6 +469,7 @@
         <textarea class="scratchpad-textarea" id="scratchpadContent" placeholder="Jot notes or variables here..." oninput="saveScratchpadNotes()"></textarea>
     </div>
 
+    <!-- Global Rigs Controls Panel -->
     <div class="global-controls">
         <button class="control-btn" id="masterAudioToggleBtn" onclick="toggleGlobalAudioSystem()">
             <span id="audioMasterIcon">🔊</span> <span id="audioMasterText">Audio ON</span>
@@ -453,6 +486,7 @@
 
     <div class="page-container">
 
+        <!-- --- HOME MAIN HUB --- -->
         <div class="page-section" id="homeHub">
             <div class="main-header">
                 <h2 id="personalizedDashboardTitleGreeting">Select Your Target</h2>
@@ -533,6 +567,7 @@
             </div>
         </div>
 
+        <!-- --- CBSE --- -->
         <div class="page-section" id="cbseHub">
             <div class="cbse-view">
                 <div class="main-header">
@@ -567,6 +602,7 @@
             </div>
         </div>
 
+        <!-- --- JEE --- -->
         <div class="page-section" id="jeeHub">
             <div class="jee-view">
                 <div class="main-header">
@@ -602,9 +638,11 @@
             </div>
         </div>
 
+        <!-- --- CONSOLIDATED HORIZONTAL STUDY TRACKER + YPT LIVE ROOM --- -->
         <div class="page-section" id="trackerHub">
             <div class="tracker-master-split-container">
                 
+                <!-- Left Panel Configuration Module -->
                 <div class="tracker-card-panel">
                     <div>
                         <h3 id="trackerDynamicModuleHeaderTitle" style="font-size:1.1rem; font-weight:700;">Session Dashboard</h3>
@@ -639,7 +677,7 @@
 
                     <div class="tracker-select-wrapper">
                         <label for="trackerSubjectSelect">Focus Stream</label>
-                        <select id="trackerSubjectSelect" class="tracker-select">
+                        <select id="trackerSubjectSelect" class="tracker-select" onchange="synchronizeYptLocalUserSubjectTrack()">
                             <option value="Physics">Physics</option>
                             <option value="Chemistry">Chemistry</option>
                             <option value="Maths">Mathematics</option>
@@ -647,8 +685,20 @@
                     </div>
 
                     <button class="action-btn" id="trackerActionBtn" onclick="toggleMainCoreTrackingEngineAction()">Start Session</button>
+                    
+                    <!-- YPT STUDY TOGETHER LIVE ROOM SUB-PANEL -->
+                    <div class="ypt-live-room-frame">
+                        <div class="ypt-live-room-header">
+                            <span class="ypt-live-room-pulse-dot"></span>
+                            YPT Shared Room: Study Together Live
+                        </div>
+                        <div class="ypt-users-list-box" id="yptSharedVirtualRoomListContainer">
+                            <!-- Populated dynamically via structural loop execution -->
+                        </div>
+                    </div>
                 </div>
 
+                <!-- Right Panel Audio & Chart Module -->
                 <div class="tracker-card-panel">
                     <div class="chart-container-box">
                         <canvas id="yptTrackerChart"></canvas>
@@ -682,6 +732,7 @@
             </div>
         </div>
 
+        <!-- --- CALENDAR --- -->
         <div class="page-section" id="calendarHub">
             <div class="calendar-panel-view">
                 <div class="calendar-nav-header">
@@ -703,6 +754,7 @@
             </div>
         </div>
 
+        <!-- --- FLASHCARDS --- -->
         <div class="page-section" id="flashcardHub">
             <div class="flashcard-view">
                 <div class="card-icon">⚡</div>
@@ -721,6 +773,7 @@
             </div>
         </div>
 
+        <!-- --- AUDIT LOOPS --- -->
         <div class="page-section" id="adminHub">
             <div class="admin-view">
                 <div class="card-icon">📊</div>
@@ -735,6 +788,7 @@
 
     </div>
 
+    <!-- YouTube IFrame Player Script API -->
     <script src="https://www.youtube.com/iframe_api"></script>
 
     <script>
@@ -763,7 +817,6 @@
             }
         }
 
-        // RE-INSTANTIATED UI SYNTHESIZER SYSTEM CIRCUITS
         function triggerUiSound(soundType) {
             if (!globalAudioSystemActive) return;
             try {
@@ -816,7 +869,7 @@
 
                 calendarBgGainNode = audioCtx.createGain();
                 calendarBgGainNode.gain.setValueAtTime(0, audioCtx.currentTime);
-                calendarBgGainNode.linearRampToValueAtTime(0.06, audioCtx.currentTime + 1.5);
+                calendarBgGainNode.gain.linearRampToValueAtTime(0.06, audioCtx.currentTime + 1.5);
 
                 calendarBgNoiseNode.connect(filter);
                 filter.connect(calendarBgGainNode);
@@ -928,6 +981,7 @@
     <script>
         // --- Core Study Tracker Script Engines ---
         let mainTimerEngineInterval = null;
+        let yptVirtualRoomSimulationInterval = null;
         let trackerSecondsElapsedCounter = 0;
         let trackingEngineStateActive = false;
         let yptChartInstance = null;
@@ -938,6 +992,14 @@
         let pomodoroBreakBlockDurationMinutes = 5;
         let pomodoroCurrentCycleCountdownSeconds = 25 * 60;
         let pomodoroActivePeriodRunningStateMode = "work"; 
+
+        // --- EXCLUSIVE YPT MULTIPLAYER WORKSPACE MOCK DATA STATE ARRAY ---
+        let yptSharedVirtualRoomMocksArray = [
+            { name: "Rahul_JEE", subject: "Maths", elapsed: 14240, active: true },
+            { name: "Anjali_CBSE", subject: "Physics", elapsed: 8315, active: true },
+            { name: "GrindBot_99", subject: "Chemistry", elapsed: 21040, active: true },
+            { name: "Aman_IIT", subject: "Maths", elapsed: 3400, active: false }
+        ];
 
         // --- TO-DO CALENDAR LOGIC ARCHITECTURE ---
         let calendarDatabase = JSON.parse(localStorage.getItem('punnyCalendarTaskDB')) || {};
@@ -972,9 +1034,51 @@
             }
         }
 
+        // --- YPT DYNAMIC ROOM RENDER HOOK CODES ---
+        function recompileYptSharedRoomLayoutDisplay() {
+            const container = document.getElementById('yptSharedVirtualRoomListContainer');
+            if(!container) return;
+            container.innerHTML = "";
+
+            // Construct local user profile node if logged into profile matrix memory cache
+            const localUserIdentityString = localStorage.getItem('punnyProfileNameStr') || "You";
+            const liveSelectedSubjectStr = document.getElementById('trackerSubjectSelect').value;
+
+            // Render active user channel row entry state block first
+            const userRow = document.createElement('div');
+            userRow.className = 'ypt-user-row-card';
+            userRow.style.borderColor = trackingEngineStateActive ? "rgba(34,197,94,0.3)" : "rgba(255,255,255,0.02)";
+            userRow.innerHTML = `
+                <div class="ypt-user-meta-name">👤 ${localUserIdentityString} <span style="font-size:0.65rem; color:var(--accent-secondary);">(You)</span></div>
+                <div class="ypt-user-meta-subject">${liveSelectedSubjectStr}</div>
+                <div class="ypt-user-live-timer" style="color: ${trackingEngineStateActive ? '#22c55e' : 'var(--text-muted)'}">
+                    ${currentSelectedTrackerViewMode === 'stopwatch' ? formatTrackerTime(trackerSecondsElapsedCounter) : formatTrackerTime(pomodoroCurrentCycleCountdownSeconds)}
+                </div>
+            `;
+            container.appendChild(userRow);
+
+            // Print peer bots rows array tracks
+            yptSharedVirtualRoomMocksArray.forEach(peerUser => {
+                const peerRow = document.createElement('div');
+                peerRow.className = 'ypt-user-row-card';
+                peerRow.innerHTML = `
+                    <div class="ypt-user-meta-name">⚡ ${peerUser.name}</div>
+                    <div class="ypt-user-meta-subject">${peerUser.subject}</div>
+                    <div class="ypt-user-live-timer" style="color: ${peerUser.active ? '#22c55e' : 'var(--text-muted)'}">
+                        ${formatTrackerTime(peerUser.elapsed)}
+                    </div>
+                `;
+                container.appendChild(peerRow);
+            });
+        }
+
+        function synchronizeYptLocalUserSubjectTrack() {
+            recompileYptSharedRoomLayoutDisplay();
+        }
+
         function selectTrackerEngineMode(targetMode) {
             if(trackingEngineStateActive) {
-                showToastNotification("Please suspend active clock cycles before switching modes.");
+                showToastNotification("Please suspend active clock cycles before switching view modes.");
                 return;
             }
             triggerUiSound('hover');
@@ -999,6 +1103,7 @@
                 updatePomodoroClockDisplayUI();
                 document.getElementById('trackerActionBtn').innerText = "Start Focus Sprint";
             }
+            recompileYptSharedRoomLayoutDisplay();
         }
 
         function adjustPomoDuration(type, delta) {
@@ -1018,6 +1123,7 @@
                 }
             }
             updatePomodoroClockDisplayUI();
+            recompileYptSharedRoomLayoutDisplay();
         }
 
         function updatePomodoroClockDisplayUI() {
@@ -1105,6 +1211,7 @@
                     showToastNotification("Pomodoro cycle countdown suspended.");
                 }
             }
+            recompileYptSharedRoomLayoutDisplay();
         }
 
         function formatTrackerTime(totalSecs) {
@@ -1318,6 +1425,15 @@
             handleVisitIncrementation();
             loadScratchpadNotes();
             renderAdminAccessLogHistoryBucket();
+            recompileYptSharedRoomLayoutDisplay();
+
+            // Run continuous runtime loop loop simulation for multiplayer clock synchronizations
+            yptVirtualRoomSimulationInterval = setInterval(() => {
+                yptSharedVirtualRoomMocksArray.forEach(peer => {
+                    if(peer.active) peer.elapsed++;
+                });
+                recompileYptSharedRoomLayoutDisplay();
+            }, 1000);
             
             document.getElementById('audioMasterIcon').innerText = globalAudioSystemActive ? "🔊" : "🔇";
             document.getElementById('audioMasterText').innerText = globalAudioSystemActive ? "Audio ON" : "Audio OFF";
