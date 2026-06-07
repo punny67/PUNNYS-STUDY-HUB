@@ -406,6 +406,10 @@
                 <div class="card" onclick="verifyAdminPortal()" onmouseenter="triggerUiSound('hover')">
                     <div><div class="card-icon">🔒</div><h3>Visit Insights</h3><p>Secure administrative telemetry data vault tracking global metrics.</p></div>
                 </div>
+                
+                <div class="card" onclick="switchSection('bugHub')" onmouseenter="triggerUiSound('hover')">
+                    <div><div class="card-icon">🐛</div><h3>Bug Report</h3><p>Report system bugs and earn bounties directly.</p></div>
+                </div>
             </div>
 
             <div class="footer-row">
@@ -428,16 +432,8 @@
                     <h4>Session Insight</h4>
                     <p id="dailyPunSlot" style="font-style: italic; color: var(--text-muted); font-size: 0.92rem;"></p>
                 </div>
-            <div class="footer-panel" style="grid-column: 1 / -1; margin-top: 20px; border: 1px solid var(--accent-primary);">
-    <h4 style="color: var(--accent-primary);">🐛 Bug Report</h4>
-    <p style="font-size: 0.9rem; color: var(--text-main);">
-        Anyone finds bugs, please report them to me privately. 
-        <strong>Every single bug caught and informed earns you 20 RS per bug!</strong>
-    </p>
-</div>
-    
-
-        <div class="page-section" id="cbseHub">
+            </div>
+        </div> <div class="page-section" id="cbseHub">
             <div class="cbse-view">
                 <div class="main-header">
                     <h2>CBSE Vault</h2>
@@ -590,6 +586,19 @@
                 <div class="visit-counter" id="visitDisplayNum">1</div>
                 <p style="font-size:0.75rem; color:var(--accent-secondary); font-weight:700; text-transform:uppercase; letter-spacing:0.5px; margin-top:20px;">Verification Log Registry</p>
                 <div class="admin-log-list-frame" id="adminAccessLogContainerBox"></div>
+            </div>
+        </div>
+
+        <div class="page-section" id="bugHub">
+            <div class="admin-view" style="text-align: center;">
+                <div class="card-icon">🐛</div>
+                <h3 style="color: var(--accent-primary); margin-bottom: 15px;">Bug Report Bounty</h3>
+                <p style="font-size: 1.05rem; color: var(--text-main); line-height: 1.6;">
+                    Anyone finds bugs, please report them to me privately.
+                </p>
+                <p style="font-size: 1.1rem; color: var(--accent-secondary); margin-top: 15px; padding: 15px; background: rgba(255, 123, 0, 0.1); border-radius: 10px; border: 1px solid rgba(255, 123, 0, 0.2);">
+                    <strong>Every single bug caught and informed earns you 20 RS per bug!</strong>
+                </p>
             </div>
         </div>
 
@@ -888,7 +897,7 @@
         // --- MEME GAUNTLET FUNCTIONS ---
         function updateMemeGauntletUI() {
             document.getElementById('memeImage').src = memeImages[quitAttemptCount];
-            document.getElementById('memeCounter').textContent = `LOOK AT THIS LOOSER QUITTING!  ARE YOU SURE BUDDY?? (${quitAttemptCount + 1}/${memeImages.length})`;
+            document.getElementById('memeCounter').textContent = `LOOK THIS LOOSER QUITING!  ARE YOU SURE BUDDY?? (${quitAttemptCount + 1}/${memeImages.length})`;
         }
 
         function processQuitGauntlet() {
