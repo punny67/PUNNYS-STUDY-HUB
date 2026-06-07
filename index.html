@@ -334,15 +334,15 @@
         <button class="action-btn" style="width: 250px; margin-top: 40px; background: #ef4444;" onclick="toggleMainCoreTrackingEngineAction()">Emergency Exit</button>
     </div>
 
-    <div id="memeOverlay" class="meme-popup">
-        <h2 id="memeTitle">DO NOT LEAVE YET!</h2>
-        <p>Your focus is building. Don't give up.</p>
-        <img id="memeImage" src="" alt="Motivation Meme">
-        <div style="margin-top: 30px; display: flex; flex-direction: column; gap: 15px; width: 80%; max-width: 300px;">
-            <button class="action-btn" style="background: #22c55e;" onclick="closeMeme()">I WILL KEEP STUDYING</button>
-            <button class="action-btn" style="background: transparent; border: 1px solid #ef4444; color: #ef4444;" onclick="forceExit()">I Give Up</button>
-        </div>
+   <div id="memeOverlay" class="meme-popup">
+    <h2 id="memeTitle">DO NOT LEAVE YET!</h2>
+    <p id="memeCounter">Meme 1 of 3</p>
+    <img id="memeImage" src="" alt="Motivation Meme">
+    <div style="margin-top: 30px; display: flex; flex-direction: column; gap: 15px; width: 80%; max-width: 300px;">
+        <button class="action-btn" id="nextMemeBtn" style="background: #22c55e;" onclick="showNextMeme()">STILL STUDYING - NEXT MEME</button>
+        <button class="action-btn" style="background: transparent; border: 1px solid #ef4444; color: #ef4444;" onclick="forceExit()">I Give Up</button>
     </div>
+</div>
 
     <div class="brand-watermark">Punny's Study Hub</div>
     <div id="toastContainer"></div>
