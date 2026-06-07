@@ -61,6 +61,17 @@
         .focus-lockdown-mode.active { display: flex; }
         .focus-timer-text { font-size: 7rem; font-weight: 800; color: var(--accent-primary); font-family: monospace; letter-spacing: -2px; }
 
+        /* --- MEME POPUP OVERLAY --- */
+        .meme-popup {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); z-index: 999999;
+            display: none; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+        }
+        .meme-popup.active { display: flex; }
+        .meme-popup img { max-width: 80%; max-height: 50vh; border-radius: 15px; border: 4px solid var(--accent-primary); margin-top: 20px;}
+        .meme-popup h2 { color: white; font-size: 2rem; }
+        .meme-popup p { color: var(--text-muted); font-size: 1rem; margin-top: 10px; }
+
         /* --- Brand Watermark --- */
         .brand-watermark {
             position: fixed; top: 20px; left: 40px; z-index: 90; font-size: 1.4rem;
@@ -187,14 +198,14 @@
         /* --- BUG FIX: PREMIUM RESPONSIVE SEARCH BARS & SELECTORS --- */
         .search-container { margin: 20px auto 35px auto; max-width: 500px; position: relative; }
         .search-bar, .tracker-select, .audio-select {
-            width: 100%; padding: 14px 22px; background: #16161e !important; border: 1px solid var(--border-color) !important;
-            border-radius: 12px; color: var(--text-main) !important; font-size: 0.95rem; outline: none; backdrop-filter: blur(12px);
+            width: 100% !important; padding: 14px 22px !important; background: #16161e !important; border: 1px solid var(--border-color) !important;
+            border-radius: 12px !important; color: #f8fafc !important; font-size: 0.95rem !important; outline: none !important; backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px); box-shadow: inset 0 2px 4px rgba(0,0,0,0.4), 0 4px 15px rgba(0,0,0,0.2);
             font-weight: 500; letter-spacing: 0.2px; cursor: pointer;
         }
         .search-bar::placeholder { color: #64748b; font-weight: 400; }
         .search-bar:focus, .tracker-select:focus, .audio-select:focus { border-color: rgba(255, 123, 0, 0.4) !important; background: #111116 !important; box-shadow: 0 0 15px rgba(255, 123, 0, 0.1); }
-        select option { background: #16161e; color: #fff; }
+        select option { background: #16161e !important; color: #f8fafc !important; }
 
         /* --- HORIZONTAL STUDY TRACKER STRUCTURE MAP --- */
         .tracker-master-split-container { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 24px; max-width: 1000px; margin: 10px auto; text-align: left; }
@@ -238,14 +249,16 @@
 
         /* --- FIXED MOBILE BUG: HIGH VISIBILITY BOTTOM BUTTON --- */
         .sticky-bottom-navigation-dock {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); width: calc(100% - 40px); max-width: 480px;
-            background: linear-gradient(135deg, rgba(255, 123, 0, 0.95) 0%, rgba(255, 174, 0, 1) 100%);
-            padding: 16px 28px; z-index: 9999; display: none; justify-content: center; align-items: center;
-            border-radius: 50px; box-shadow: 0 15px 35px rgba(255, 123, 0, 0.4), inset 0 2px 4px rgba(255,255,255,0.3);
+            position: fixed; bottom: 0; left: 0; width: 100%; height: 70px;
+            background: linear-gradient(135deg, rgba(255, 123, 0, 0.95), rgba(255, 174, 0, 1));
+            z-index: 99999; display: none; justify-content: center; align-items: center;
+            box-shadow: 0 -5px 20px rgba(255, 123, 0, 0.3); cursor: pointer;
         }
         .dock-home-btn {
-            background: transparent; color: #000; border: none; font-size: 1.1rem; font-weight: 800;
-            cursor: pointer; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.5px;
+            background: transparent; color: #000; border: none; width: 100%; height: 100%;
+            font-size: 1.1rem; font-weight: 800; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            text-transform: uppercase; letter-spacing: 1px;
         }
 
         /* --- CALENDAR ARCHITECTURE --- */
@@ -315,22 +328,29 @@
 </head>
 <body>
 
-    <!-- DEEP WORK OVERLAY -->
     <div id="focusLockdownOverlay" class="focus-lockdown-mode">
         <h2 style="color: var(--text-muted); margin-bottom: 20px; letter-spacing: 4px;">DEEP WORK LOCKDOWN</h2>
         <div class="focus-timer-text" id="focusLockdownClock">00:00:00</div>
         <button class="action-btn" style="width: 250px; margin-top: 40px; background: #ef4444;" onclick="toggleMainCoreTrackingEngineAction()">Emergency Exit</button>
     </div>
 
+    <div id="memeOverlay" class="meme-popup">
+        <h2 id="memeTitle">DO NOT LEAVE YET!</h2>
+        <p>Your focus is building. Don't give up.</p>
+        <img id="memeImage" src="" alt="Motivation Meme">
+        <div style="margin-top: 30px; display: flex; flex-direction: column; gap: 15px; width: 80%; max-width: 300px;">
+            <button class="action-btn" style="background: #22c55e;" onclick="closeMeme()">I WILL KEEP STUDYING</button>
+            <button class="action-btn" style="background: transparent; border: 1px solid #ef4444; color: #ef4444;" onclick="forceExit()">I Give Up</button>
+        </div>
+    </div>
+
     <div class="brand-watermark">Punny's Study Hub</div>
     <div id="toastContainer"></div>
 
-    <!-- HIGH VISIBILITY DOCK NAV CAPSULE -->
-    <div class="sticky-bottom-navigation-dock" id="globalMobileStickyDock">
-        <button class="dock-home-btn" onclick="switchSection('homeHub')">↩ Return to Dashboard</button>
+    <div class="sticky-bottom-navigation-dock" id="globalMobileStickyDock" onclick="switchSection('homeHub')">
+        <button class="dock-home-btn">↩ Return to Dashboard</button>
     </div>
 
-    <!-- Onboarding Modal -->
     <div class="identity-modal-overlay" id="identityCaptureModalWrapper">
         <div class="identity-modal-box">
             <h3>Welcome to Punny's Study Hub</h3>
@@ -340,14 +360,12 @@
         </div>
     </div>
 
-    <!-- Notepad -->
     <button class="scratchpad-toggle" onclick="toggleScratchpad()">📝</button>
     <div class="scratchpad-window" id="scratchpadBox">
         <div class="scratchpad-header"><span>Scratchpad</span><span>Autosaved</span></div>
         <textarea class="scratchpad-textarea" id="scratchpadContent" placeholder="Jot notes here..." oninput="saveScratchpadNotes()"></textarea>
     </div>
 
-    <!-- Theme and Sound Controls -->
     <div class="global-controls">
         <button class="control-btn" id="masterAudioToggleBtn" onclick="toggleGlobalAudioSystem()">
             <span id="audioMasterIcon">🔊</span> <span id="audioMasterText">Audio ON</span>
@@ -364,8 +382,7 @@
 
     <div class="page-container">
 
-        <!-- --- DASHBOARD HOME --- -->
-        <div class="page-section" id="homeHub">
+        <div class="page-section active" id="homeHub">
             <div class="main-header">
                 <h2 id="personalizedDashboardTitleGreeting">Select Your Target</h2>
                 <p>Access high-quality study pipelines and focus toolsets custom built for your stream.</p>
@@ -406,13 +423,16 @@
                     <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
                 </div>
                 <div class="footer-panel" style="display: flex; flex-direction: column; justify-content: center;">
+                    <h4>Quit Count ⚠️</h4>
+                    <div class="visit-counter" id="quitCountDisplay" style="font-size: 2.5rem; color: #f43f5e;">0</div>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 20px;">Times you surrendered to the memes.</p>
+                    
                     <h4>Session Insight</h4>
                     <p id="dailyPunSlot" style="font-style: italic; color: var(--text-muted); font-size: 0.92rem;"></p>
                 </div>
             </div>
         </div>
 
-        <!-- --- CBSE --- -->
         <div class="page-section" id="cbseHub">
             <div class="cbse-view">
                 <div class="main-header">
@@ -427,7 +447,6 @@
             </div>
         </div>
 
-        <!-- --- JEE --- -->
         <div class="page-section" id="jeeHub">
             <div class="jee-view">
                 <div class="main-header">
@@ -443,7 +462,6 @@
             </div>
         </div>
 
-        <!-- --- STUDY TRACKER & YPT LIVE ROOM MULTIPLAYER MATRIX --- -->
         <div class="page-section" id="trackerHub">
             <div class="tracker-master-split-container">
                 <div class="tracker-card-panel">
@@ -484,7 +502,6 @@
                         <canvas id="yptTrackerChart"></canvas>
                     </div>
 
-                    <!-- RE-WIRED MULTIPLAYER FEATURE BLOCKS -->
                     <div class="ypt-live-room-frame" style="margin-bottom: 15px;">
                         <div class="ypt-live-room-header">🏆 Global Leaderboard <span class="coming-soon-block-tag">Coming Soon</span></div>
                         <div class="ypt-live-room-header">👥 Mutual Friends Tab <span class="coming-soon-block-tag">Coming Soon</span></div>
@@ -517,7 +534,6 @@
             </div>
         </div>
 
-        <!-- --- CALENDAR --- -->
         <div class="page-section" id="calendarHub">
             <div class="calendar-panel-view">
                 <div class="calendar-nav-header">
@@ -537,7 +553,6 @@
             </div>
         </div>
 
-        <!-- --- REPAIRED ACTIVE RECALL FLASHCARDS --- -->
         <div class="page-section" id="flashcardHub">
             <div class="flashcard-view">
                 <div class="card-icon">⚡</div>
@@ -556,7 +571,6 @@
             </div>
         </div>
 
-        <!-- --- TELEMETRY --- -->
         <div class="page-section" id="adminHub">
             <div class="admin-view">
                 <div class="card-icon">📊</div><h3>Telemetry Insights</h3>
@@ -569,7 +583,6 @@
 
     </div>
 
-    <!-- YouTube API Framework -->
     <script src="https://www.youtube.com/iframe_api"></script>
 
     <script>
@@ -618,12 +631,20 @@
         ];
         let fIdx = 0;
 
+        // ACTOR MEME URLS
+        const memeImages = [
+            "https://media.giphy.com/media/11tTNkNy1SdXGg/giphy.gif", // Disappointed
+            "https://media.giphy.com/media/VbYj3DTDjI1e1YIE0/giphy.gif", // Angry
+            "https://media.giphy.com/media/3o6wrvdHFbwBrUFenu/giphy.gif" // Crying
+        ];
+
         // --- PLATFORM BOOT CONFIGURATION ---
         document.addEventListener("DOMContentLoaded", () => {
             handleVisitIncrementation(); 
             loadScratchpadNotes(); 
             renderAdminAccessLogHistoryBucket(); 
             recompileYptSharedRoomLayoutDisplay();
+            updateQuitCountDisplay(); // Load Quit Count on Boot
             
             yptVirtualRoomSimulationInterval = setInterval(() => { 
                 yptSharedVirtualRoomMocksArray.forEach(p => { 
@@ -657,20 +678,35 @@
             }, 2400);
         });
 
-        // --- DYNAMIC TARGET FLASHCARD ROTATION SYSTEM (FIXED BUG) ---
+        // --- DYNAMIC TARGET FLASHCARD ROTATION SYSTEM ---
         function renderFlashcard() {
             const container = document.getElementById("flashContainer");
-            container.classList.remove('flipped'); // Reset rotateY angle mechanics
+            container.classList.remove('flipped');
             setTimeout(() => {
                 document.getElementById("flashQuestion").textContent = flash[fIdx].q;
                 document.getElementById("flashAnswer").textContent = flash[fIdx].a;
-            }, 300); // Swaps content cleanly behind backface hiding frames
+            }, 300);
         }
         
         function changeFlashcard(d) { 
             triggerUiSound('hover'); 
             fIdx = (fIdx + d + flash.length) % flash.length; 
             renderFlashcard(); 
+        }
+
+        // --- QUIT COUNTER SYSTEM ---
+        function incrementQuitCount() {
+            let count = parseInt(localStorage.getItem('punnyQuitCount')) || 0;
+            count++;
+            localStorage.setItem('punnyQuitCount', count);
+            updateQuitCountDisplay();
+        }
+
+        function updateQuitCountDisplay() {
+            const display = document.getElementById('quitCountDisplay');
+            if (display) {
+                display.textContent = localStorage.getItem('punnyQuitCount') || 0;
+            }
         }
 
         // --- NOTEPAD DRIVER CORE ---
@@ -686,35 +722,8 @@
             }
         }
         
-        function saveScratchpadNotes() { 
-            localStorage.setItem('punnyScratchNotes', document.getElementById('scratchpadContent').value); 
-        }
-        
-        function loadScratchpadNotes() { 
-            document.getElementById('scratchpadContent').value = localStorage.getItem('punnyScratchNotes') || ""; 
-        }
-
-        // --- MISSING FIX #1: TOGGLE GLOBAL AUDIO SYSTEM ---
-        function toggleGlobalAudioSystem() {
-            triggerUiSound('hover');
-            globalAudioSystemActive = !globalAudioSystemActive;
-            localStorage.setItem('punnyMasterAudioState', globalAudioSystemActive);
-            
-            document.getElementById('audioMasterIcon').innerText = globalAudioSystemActive ? "🔊" : "🔇";
-            document.getElementById('audioMasterText').innerText = globalAudioSystemActive ? "Audio ON" : "Audio OFF";
-            
-            if (!globalAudioSystemActive) {
-                stopAllAudioEngines();
-                if (ytPlayerObj && typeof ytPlayerObj.mute === 'function') {
-                    ytPlayerObj.mute();
-                }
-            } else {
-                if (ytPlayerObj && typeof ytPlayerObj.unMute === 'function') {
-                    ytPlayerObj.unMute();
-                }
-            }
-            showToastNotification(globalAudioSystemActive ? "🔊 Audio enabled" : "🔇 Audio disabled");
-        }
+        function saveScratchpadNotes() { localStorage.setItem('punnyScratchNotes', document.getElementById('scratchpadContent').value); }
+        function loadScratchpadNotes() { document.getElementById('scratchpadContent').value = localStorage.getItem('punnyScratchNotes') || ""; }
 
         // --- ONBOARDING & PROFILE GRIDS ---
         function commitOnboardingUserIdentityProfile() {
@@ -730,24 +739,9 @@
             }, 500);
         }
         
-        function applyPersonalizedDashboardGreeting() { 
-            document.getElementById('personalizedDashboardTitleGreeting').innerText = `Welcome back, ${localStorage.getItem('punnyProfileNameStr') || 'Scholar'}`; 
-        }
+        function applyPersonalizedDashboardGreeting() { document.getElementById('personalizedDashboardTitleGreeting').innerText = `Welcome back, ${localStorage.getItem('punnyProfileNameStr') || 'Scholar'}`; }
 
-        // --- MISSING FIX #2: LAUNCH TASK WORKSPACE FOR CALENDAR DAY ---
-        function launchTaskWorkspaceForDay(key, dayNum) {
-            triggerUiSound('hover');
-            currentlySelectedDateStringKey = key;
-            const workspace = document.getElementById('calendarTaskWorkspace');
-            const label = document.getElementById('selectedDateWorkspaceLabel');
-            const monthName = monthNameStringArray[currentTargetDateObj.getMonth()];
-            label.textContent = `${monthName} ${dayNum} - Manage Tasks`;
-            workspace.style.display = 'block';
-            document.getElementById('newCalendarTaskTextInput').focus();
-            renderTaskListWorkspaceBucket();
-        }
-
-        // --- TRACKER & TIMING CONTROL PANELS (WITH LOCKDOWN MODE) ---
+        // --- TRACKER & TIMING CONTROL PANELS (WITH LOCKDOWN & MEMES) ---
         function selectTrackerEngineMode(mode) {
             if(trackingEngineStateActive) return; 
             triggerUiSound('hover'); 
@@ -804,7 +798,6 @@
                 btn.style.background = "#ef4444"; 
                 sel.disabled = true;
                 
-                // Show Lockdown UI
                 lockdownOverlay.classList.add('active');
                 if (document.documentElement.requestFullscreen) {
                     document.documentElement.requestFullscreen().catch((e) => console.log(e));
@@ -836,7 +829,6 @@
                                 pomodoroCurrentCycleCountdownSeconds = pomodoroWorkBlockDurationMinutes * 60; 
                             }
                             
-                            // Exit Lockdown Automatically on Pomodoro completion
                             lockdownOverlay.classList.remove('active');
                             if (document.exitFullscreen && document.fullscreenElement) {
                                 document.exitFullscreen().catch(e => console.log(e));
@@ -857,30 +849,46 @@
                     }, 1000);
                 }
             } else {
-                // STOP SESSION -> EXIT LOCKDOWN
-                trackingEngineStateActive = false; 
-                clearInterval(mainTimerEngineInterval); 
-                sel.disabled = false; 
-                btn.style.background = "var(--accent-primary)";
-                
-                // Remove Lockdown UI
-                lockdownOverlay.classList.remove('active');
-                if (document.exitFullscreen && document.fullscreenElement) {
-                    document.exitFullscreen().catch(e => console.log(e));
-                }
-
-                if (currentSelectedTrackerViewMode === "stopwatch") { 
-                    btn.innerText = "Start Session"; 
-                    studyStorage[sel.value] += trackerSecondsElapsedCounter; 
-                    localStorage.setItem('yptDataMetrics', JSON.stringify(studyStorage)); 
-                    trackerSecondsElapsedCounter = 0; 
-                    document.getElementById('trackerClockDisplay').innerText = "00:00:00"; 
-                    refreshTrackerUI(); 
-                } else { 
-                    btn.innerText = "Start Focus Sprint"; 
-                }
-                document.title = "Study Hub";
+                // TRY TO EXIT -> TRIGGER MEME POPUP
+                document.getElementById('memeImage').src = memeImages[Math.floor(Math.random() * memeImages.length)];
+                document.getElementById('memeOverlay').classList.add('active');
             } 
+            recompileYptSharedRoomLayoutDisplay();
+        }
+
+        function closeMeme() {
+            document.getElementById('memeOverlay').classList.remove('active');
+        }
+
+        function forceExit() {
+            // ACTUAL EXIT LOGIC (User Gave Up)
+            incrementQuitCount();
+            
+            document.getElementById('memeOverlay').classList.remove('active');
+            document.getElementById('focusLockdownOverlay').classList.remove('active');
+            if (document.exitFullscreen && document.fullscreenElement) {
+                document.exitFullscreen().catch(e => console.log(e));
+            }
+            
+            trackingEngineStateActive = false; 
+            clearInterval(mainTimerEngineInterval); 
+            const sel = document.getElementById('trackerSubjectSelect');
+            sel.disabled = false; 
+            const btn = document.getElementById('trackerActionBtn');
+            btn.style.background = "var(--accent-primary)";
+
+            if (currentSelectedTrackerViewMode === "stopwatch") { 
+                btn.innerText = "Start Session"; 
+                studyStorage[sel.value] += trackerSecondsElapsedCounter; 
+                localStorage.setItem('yptDataMetrics', JSON.stringify(studyStorage)); 
+                trackerSecondsElapsedCounter = 0; 
+                document.getElementById('trackerClockDisplay').innerText = "00:00:00"; 
+                refreshTrackerUI(); 
+            } else { 
+                btn.innerText = "Start Focus Sprint"; 
+            }
+            document.title = "Study Hub";
+            showToastNotification("Session abandoned. Stay strong next time.");
             recompileYptSharedRoomLayoutDisplay();
         }
 
